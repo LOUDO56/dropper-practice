@@ -7,7 +7,15 @@ import:
 	org.bukkit.Location
 	org.bukkit.Material
 
-
+function dropper_stat_menu(p: player):
+	set {_pb} to {dropper::player::%{_p}'s uuid%::stats::pb::normal}
+	if {_pb} is not set:
+		set {_pb} to "&e00:00.000"
+	create gui with virtual chest inventory named "Statistics" with 1 rows:
+		make gui slot 3 with paper named yaml value "mainlobby.gui.stats.paper_name" from {dropper::player::%{_p}'s uuid%::language} with lore "","&7Games Played: &a%{dropper::player::%{_p}'s uuid%::stats::game_played}%","&7Games Finished: &a%{dropper::player::%{_p}'s uuid%::stats::game_finished}%","&7Maps completed: &a%{dropper::player::%{_p}'s uuid%::stats::maps_completed}%","","&7Fails: &c%{dropper::player::%{_p}'s uuid%::stats::fails}%", "&7Fastest Game: &e%{_pb}%", "", "&cWARNING: Personal Best may be" and "&creset at any time!"
+		make gui slot 5 with slime ball named yaml value "mainlobby.gui.stats.any_name" from {dropper::player::%{_p}'s uuid%::language} with lore "" and yaml value "mainlobby.gui.stats.any_lore" from {dropper::player::%{_p}'s uuid%::language}:
+			dropper_gui_npc({_p}, "map_pb", 1)
+	open last created gui to {_p}
 
 on right click with lime dye:
 	if name of player's tool is yaml value "mainlobby.item.player_visibility_on" from "%{dropper::player::%player's uuid%::language}%":
@@ -43,14 +51,7 @@ on right click with gray dye:
 
 on rightclick with book:
 	if name of player's tool is yaml value "mainlobby.item.stats" from {dropper::player::%player's uuid%::language}:
-		set {_pb} to {dropper::player::%player's uuid%::stats::pb::normal}
-		if {_pb} is not set:
-			set {_pb} to "&e00:00.000"
-		create gui with virtual chest inventory named "Statistics" with 1 rows:
-			make gui slot 3 with paper named yaml value "mainlobby.gui.stats.paper_name" from {dropper::player::%player's uuid%::language} with lore "","&7Games Played: &a%{dropper::player::%player's uuid%::stats::game_played}%","&7Games Finished: &a%{dropper::player::%player's uuid%::stats::game_finished}%","&7Maps completed: &a%{dropper::player::%player's uuid%::stats::maps_completed}%","","&7Fails: &c%{dropper::player::%player's uuid%::stats::fails}%", "&7Fastest Game: &e%{_pb}%", "", "&cWARNING: Personal Best may be" and "&creset at any time!"
-			make gui slot 5 with slime ball named yaml value "mainlobby.gui.stats.any_name" from {dropper::player::%player's uuid%::language} with lore "" and yaml value "mainlobby.gui.stats.any_lore" from {dropper::player::%player's uuid%::language}:
-				dropper_gui_npc(player, "map_pb", {_page})
-		open last created gui to player
+		dropper_stat_menu(player)
 
 on weather change to rain or thunder:
 	cancel event

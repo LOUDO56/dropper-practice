@@ -15,6 +15,6 @@ on rightclick with blaze rod:
 			send yaml value "mainlobby.command.dropper.cant_restart" from "%{dropper::player::%player's uuid%::language}%"
 		else:
 			if {dropper::in-game::player::%player%::mode_playing} is "skip_portal":
-				dropper_gui_npc(player, "skip_portal", 0)
+				dropper_gui_npc(player, "skip_portal", 1)
 			else:
-				dropper_gui_npc(player, "practice", 0)
+				dropper_gui_npc(player, "practice", 1)
