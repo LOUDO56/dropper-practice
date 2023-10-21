@@ -26,6 +26,11 @@ function dropper_gui_npc(p: player, type: string, page: number):
 				dropper_gui_npc({_p}, "skip_portal", 1)
 			make gui slot 49 to barrier named yaml value "mainlobby.gui.close" from {dropper::player::%uuid of {_p}%::language}:
 				close {_p}'s inventory
+			make gui slot 53 with book named "&a&lDROPPER LEGACY" with lore "", "&7Seperated world with legacy maps on it.", "&7Click to join":
+				set {dropper::player::%{_p}'s uuid%::legacy-state} to true
+				teleport {_p} to {dropper::mainlobby-legacy::spawn}
+				mainlobby_join({_p}, {dropper::player::%uuid of {_p}%::language})
+
 	else:
 		
 		# ------------------- Parameters before slots ------------------- #
@@ -173,7 +178,6 @@ function dropper_gui_npc(p: player, type: string, page: number):
 			make gui slot 28 with red dye  named "&cHard" with lore "&7Hard map from %{_mapset}%." and "&7Click to interact!"
 			
 			set {_slot} to 11
-			set {_index} to {dropper::player::%uuid of {_p}%::temp_map_order.index} + 1
 			loop {_easy::*}, {_med::*}, {_hard::*}:
 				
 				set {_map} to loop-value

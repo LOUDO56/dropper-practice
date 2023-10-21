@@ -20,7 +20,10 @@ function dropper_stop(p: player):
 	clear {dropper::in-game::player::%{_p}%::map_completed::*}
 	remove {_p} from {dropper::mainlobby::in-game::*}
 	if {_p} is online:
-		teleport {_p} to {dropper::mainlobby::spawn}
+		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+			teleport {_p} to {dropper::mainlobby-legacy::spawn}
+		else:
+			teleport {_p} to {dropper::mainlobby::spawn}
 		mainlobby_join({_p}, {dropper::player::%uuid of {_p}%::language})
 		loop all players in world "%{dropper::mainlobby::world}%":
 			if {dropper::player::%uuid of loop-value%::player-visibility} is "on":

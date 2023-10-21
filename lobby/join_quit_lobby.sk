@@ -7,6 +7,22 @@ import:
 	org.bukkit.Location
 	org.bukkit.Material
 
+on first join:
+	set {dropper::player::%player's uuid%::language} to "us"
+	set {dropper::player::%player's uuid%::player-visibility} to "on"
+	set {dropper::player::%player's uuid%::stats::game_played} to 0
+	set {dropper::player::%player's uuid%::stats::game_finished} to 0
+	set {dropper::player::%player's uuid%::stats::fails} to 0
+	set {dropper::player::%player's uuid%::stats::maps_completed} to 0
+	clear {dropper::player::%player's uuid%::level}
+	clear {dropper::player::%player's uuid%::rank}
+	add "Well", "Time", "Floating", "Sewer" and "Factory" to {dropper::player::%uuid of player%::maps_order::*}
+	make console execute command "/nte player %player% prefix &7"
+	make console execute command "/nte player %player% priority 12"
+	make console execute command "/nte reload"
+	wait 5 ticks
+	teleport player to {dropper::mainlobby::spawn}
+
 
 on join:
 	send ""
@@ -15,7 +31,10 @@ on join:
 	send ""
 	set tab header to "&a&lDROPPER PRACTICE\n" and footer to "\n&7Practice your skills!\n&7A server from the &9discord &e&nDropper Community!" for player
 	set join message to ""
-	teleport player to {dropper::mainlobby::spawn}
+	if {dropper::player::%player's uuid%::legacy-state} is true:
+		teleport player to {dropper::mainlobby-legacy::spawn}
+	else:
+		teleport player to {dropper::mainlobby::spawn}
 	mainlobby_join(player, {dropper::player::%player's uuid%::language})
 	set {_loc} to {dropper::mainlobby::npc-leaderboard-pb-legit}
 	wait 5 ticks

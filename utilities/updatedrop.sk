@@ -326,3 +326,44 @@ command /dellegacymap:
     trigger:
         loop {dropper::map-legacy::*}:
             make player execute command "/dropadm delete %loop-value%"
+
+
+command /givelegacyrank:
+    permission: op
+    trigger:
+        loop all offline players where [{dropper::player::%uuid of input%::stats::pb::legacy} is set]:
+            set {_time-finished-allmaps} to convert_pb_to_number({dropper::player::%uuid of loop-value%::stats::pb::legacy})
+            if {_time-finished-allmaps} is between 35999 and 35000:
+                if {dropper::player::%player's uuid%::level} is not "§1[Rookie]" or "§4[Starter]" or "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+                    make player execute command "/rank rookie-legacy %loop-value%"
+
+            else if {_time-finished-allmaps} is between 34999 and 34000:
+                if {dropper::player::%player's uuid%::level} is not "§4[Starter]" or "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+                    make player execute command "/rank starter-legacy %loop-value%"
+
+            else if {_time-finished-allmaps} is between 33999 and 33000:
+                if {dropper::player::%player's uuid%::level} is not "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+                    make player execute command "/rank experienced-legacy %loop-value%"
+
+            else if {_time-finished-allmaps} is between 32999 and 32000:
+                if {dropper::player::%player's uuid%::level} is not "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+                    make player execute command "/rank elite-legacy %loop-value%"
+
+            else if {_time-finished-allmaps} is between 31999 and 31000:
+                if {dropper::player::%player's uuid%::level} is not "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+                    make player execute command "/rank supernatural-legacy %loop-value%"
+
+            else if {_time-finished-allmaps} is between 30999 and 30000:
+                if {dropper::player::%player's uuid%::level} is not "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+                    make player execute command "/rank elemental-legacy %loop-value%"
+
+            else if {_time-finished-allmaps} is between 29999 and 29000:
+                if {dropper::player::%player's uuid%::level} is not "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+                    make player execute command "/rank god-legacy %loop-value%"
+
+            else if {_time-finished-allmaps} is between 28999 and 28000:
+                if {dropper::player::%player's uuid%::level} is not "§5[Mystic+]" or "§5[Mystic+]":
+                    make player execute command "/rank mystic-legacy %loop-value%"
+            else if {_time-finished-allmaps} < 27999:
+                if {dropper::player::%player's uuid%::level} is not "§5[Mystic+]":
+                    make player execute command "/rank mystic+-legacy %loop-value%"

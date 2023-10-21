@@ -51,7 +51,10 @@ on right click with gray dye:
 
 on rightclick with book:
 	if name of player's tool is yaml value "mainlobby.item.stats" from {dropper::player::%player's uuid%::language}:
-		dropper_stat_menu(player)
+		if {dropper::player::%player's uuid%::legacy-state} is true:
+			dropper_gui_npc_legacy(player, "map_pb", 0)
+		else:
+			dropper_stat_menu(player)
 
 on weather change to rain or thunder:
 	cancel event
@@ -79,7 +82,13 @@ on break:
 		
 
 on npc right click:
-	dropper_gui_npc(player, "main_menu", 0)
+	if {dropper::player::%player's uuid%::legacy-state} is true:
+		dropper_gui_npc_legacy(player, "main_menu", 0)
+	else:
+		dropper_gui_npc(player, "main_menu", 0)
 
 on npc left click:
-	dropper_gui_npc(player, "main_menu", 0)
+	if {dropper::player::%player's uuid%::legacy-state} is true:
+		dropper_gui_npc_legacy(player, "main_menu", 0)
+	else:
+		dropper_gui_npc(player, "main_menu", 0)

@@ -14,15 +14,26 @@ function mainlobby_join(p: player, lang: string):
 	set {_uuid} to {_p}'s uuid
 	set {_rank} to {dropper::player::%{_uuid}%::rank}
 	set {_level} to {dropper::player::%{_uuid}%::level}
+	if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+		if {dropper::player::%uuid of {_p}%::maps_order-legacy::*} is not set:
+			add "Space-Legacy", "Well-Legacy", "Floating-Legacy", "Sewer-Legacy" and "Iris-Legacy" to {dropper::player::%uuid of {_p}%::maps_order-legacy::*}
+		set {_maplist::*} to {dropper::player::%uuid of {_p}%::maps_order-legacy::*}
+		set {_pb} to {dropper::player::%{_uuid}%::stats::pb::legacy}
+		set {_title} to "&a&lDROPPER LEGACY"
+		set {_level} to {dropper::player::%{_uuid}%::level-legacy}
+	else:
+		set {_maplist::*} to {dropper::player::%uuid of {_p}%::maps_order::*}
+		set {_pb} to {dropper::player::%{_uuid}%::stats::pb::normal}
+		set {_title} to "&a&lDROPPER PRACTICE"
+		set {_level} to {dropper::player::%{_uuid}%::level}
 	clear {_p}'s inventory
 	replace all "[" and "]" with "" in {_rank}
 	replace all "[" and "]" with "" in {_level}
-
 	clear {_p}'s scoreboard
-	set title of {_p}'s scoreboard to "&a&lDROPPER PRACTICE"
+	set title of {_p}'s scoreboard to {_title}
 	set line 15 of {_p}'s scoreboard to ""
 	set line 14 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line7" from {_lang} 
-	if {dropper::player::%{_uuid}%::level} is set:
+	if {_level} is set:
 		set line 13 of {_p}'s scoreboard to "%{_level}%"
 	else:
 		set line 13 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line6.no_data" from {_lang}
@@ -31,7 +42,7 @@ function mainlobby_join(p: player, lang: string):
 	set line 11 of {_p}'s scoreboard to "&eMap List"
 
 	set {_line} to 10
-	loop {dropper::player::%uuid of {_p}%::maps_order::*}:
+	loop {_maplist::*}:
 		if {dropper::map::%loop-value%::difficulty} = "&aEasy":
 			set {_color} to "&a"
 		else if {dropper::map::%loop-value%::difficulty} = "&eMedium":
@@ -43,8 +54,8 @@ function mainlobby_join(p: player, lang: string):
 
 	set line 5 of {_p}'s scoreboard to ""
 	set line 4 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line4" from {_lang}
-	if {dropper::player::%{_uuid}%::stats::pb::normal} is set:
-		set line 3 of {_p}'s scoreboard to "&b%{dropper::player::%{_uuid}%::stats::pb::normal}%"
+	if {_pb} is set:
+		set line 3 of {_p}'s scoreboard to "&b%{_pb}%"
 	else:
 		set line 3 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line3.no_data" from {_lang}
 	set line 2 of {_p}'s scoreboard to ""

@@ -15,7 +15,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
     permission message: §cYou do not have permission to run this command!
     aliases: /dropadm, /dropperadm
     trigger:
-        if arg 1 is not "help" or "create" or "del" or "delete" or "rem" or "remove" or "list" or "setname" or "addmapset" or "delmapset" or "setspawn" or "setdifficulty" or "wand" or "tp" or "setmainlobby" or "setnpc" or "setcage" or "delnpc" or "setlead" or "setleaderboard" or "dellead" or "delleaderboard" or "uplead" or "upleaderboard" or "clearallpb" or "delplayerig":
+        if arg 1 is not "help" or "create" or "del" or "delete" or "rem" or "remove" or "list" or "setname" or "addmapset" or "delmapset" or "setspawn" or "setdifficulty" or "wand" or "tp" or "setmainlobby" or "setmainlobby-legacy" or "setnpc" or "setnpc-legacy" or "setcage" or "delnpc" or "delnpc-legacy" or "setlead" or "setleaderboard" or "dellead" or "delleaderboard" or "uplead" or "upleaderboard" or "clearallpb" or "delplayerig":
             make player execute command "/dropadm help"
             stop
         if arg 1 is "help":
@@ -30,8 +30,11 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             send "&a/dropperadmin setcage <map> &e- Set the cage dropper of the map"
             send "&a/dropperadmin tp <map> &e- Teleport to spawn point of the map"
             send "&a/dropperadmin setmainlobby &e- Set the main lobby spawn"
+            send "&a/dropperadmin setmainlobby-legacy &e- Set the legacy main lobby spawn"
             send "&a/dropperadmin setnpc &e- Place the NPC"
-            send "&a/dropperadmin delnpc &e- Delete the NPC"
+            send "&a/dropperadmin setnpc-legacy &e- Place the Legacy NPC"
+            send "&a/dropperadmin delnpc &e- Delete the Legacy NPC"
+            send "&a/dropperadmin delnpc-legacy &e- Delete the NPC"
             send "&a/dropperadmin setlead &e- Place the leaderboard"
             send "&a/dropperadmin dellead &e- Delete the leaderboard"
             send "&a/dropperadmin uplead &e- Update the leaderboard"
@@ -206,6 +209,10 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
         else if arg 1 is "setmainlobby":
             set {dropper::mainlobby::spawn} to player's location
             send "&aThe Mainlobby has been placed."
+        
+        else if arg 1 is "setmainlobby-legacy":
+            set {dropper::mainlobby-legacy::spawn} to player's location
+            send "&aThe Legacy Mainlobby has been placed."
 
         else if arg 1 is "setnpc":
             make player execute command "/dropadm delnpc" if {dropper::mainlobby::npc::spawn} is set
@@ -221,6 +228,21 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             make player execute command "/npc name"
             make player execute command "/npc skin --file dropperskin.png"
             make player execute command "/npc skinlayers --cape false"
+
+        else if arg 1 is "setnpc-legacy":
+            make player execute command "/dropadm delnpc-legacy" if {dropper::mainlobby-legacy::npc::spawn} is set
+            create a citizen named "Dropper Prac NPC" at location of player
+            set {_loc} to location of player
+            add 2 to y-coordinate of {_loc}
+            set {dropper::mainlobby-legacy::npc::spawn} to player's location
+            set {dropper::mainlobby-legacy::npc::holo} to {_loc}
+            createholo({_loc}, "&a&lDROPPER LEGACY;&7%size of {dropper::mainlobby-legacy::in-game::*}% currently playing", -1) 
+            send "&cNPC legacy has been placed"
+            wait 5 ticks
+            make player execute command "/npc select"
+            make player execute command "/npc name"
+            make player execute command "/npc skin --file dropperskin.png"
+            make player execute command "/npc skinlayers --cape false"
         
         else if arg 1 is "delnpc":
             if {dropper::mainlobby::npc::spawn} is not set:
@@ -231,6 +253,16 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
                 make player execute command "/npc select %citizen id of loop-entity%"
                 make player execute command "/npc remove"
             clear {dropper::mainlobby::npc::*}
+
+        else if arg 1 is "delnpc-legacy":
+            if {dropper::mainlobby-legacy::npc::spawn} is not set:
+                send "&cYou must set an Legacy NPC first"
+                stop
+            deleteholo({dropper::mainlobby-legacy::npc::holo}, 2) 
+            loop all entities in radius 0.1 of {dropper::mainlobby-legacy::npc::spawn}:
+                make player execute command "/npc select %citizen id of loop-entity%"
+                make player execute command "/npc remove"
+            clear {dropper::mainlobby-legacy::npc::*}
         
         else if arg 1 is "setlead" or "setleaderboard":
             make player execute command "/dropadm dellead" if {dropper::mainlobbby::leaderboard::no-meta} is set

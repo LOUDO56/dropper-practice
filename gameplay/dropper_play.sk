@@ -21,7 +21,10 @@ function dropper_play(p: player, mode: text):
 
 	if {_mode} = "classic":
 		set {_slot.restart} to 0
-		set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::maps_order::1}
+		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+			set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::maps_order-legacy::1}
+		else:
+			set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::maps_order::1}
 		set {dropper::in-game::player::%{_p}%::about_to_start} to true
 	else if {_mode} = "practice":
 		set slot 1 of {_p} to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of {_p}%::language}
@@ -30,7 +33,10 @@ function dropper_play(p: player, mode: text):
 			set {dropper::in-game::player::%{_p}%::about_to_start} to true
 	else if {_mode} = "skip_portal":
 		set slot 1 of {_p} to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of {_p}%::language}
-		set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::map-portal-skip::1}
+		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+			set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::map-portal-skip-legacy::1}
+		else:
+			set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::map-portal-skip::1}
 		set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::map-portal-skip::2}
 	
 	set {dropper::in-game::player::%{_p}%::mode_playing} to {_mode}

@@ -35,10 +35,10 @@ function dropper_scoreboard(p: player):
 		set line 10 of {_p}'s scoreboard to "%{_cur}% &7(&e%{dropper::in-game::player::%{_p}%::count}%&7/&a%size of {dropper::player::%uuid of {_p}%::maps_order::*}%&7)"
 		set line 9 of {_p}'s scoreboard to " "
 		set {_line} to 3
-		if {dropper::duel::player::%{_p}%::in-game} is not set:
-			set {_sorted::*} to {dropper::player::%uuid of {_p}%::maps_order::*}
+		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+			set {_sorted::*} to {dropper::player::%uuid of {_p}%::maps_order-legacy::*}
 		else:
-			set {_sorted::*} to {dropper::player::%uuid of {_p}%::maps_order-duel::*}
+			set {_sorted::*} to {dropper::player::%uuid of {_p}%::maps_order::*}
 		loop size of {_sorted::*} times:
 			add last element of {_sorted::*} to {_reversed::*}
 			remove last element of {_sorted::*} from {_sorted::*}

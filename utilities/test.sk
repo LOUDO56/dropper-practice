@@ -1,0 +1,3 @@
+command /d:
+    trigger:
+        clear {dropper::player::%uuid of player%::maps_order-legacy::*}
