@@ -115,6 +115,212 @@ command /createlegacymap:
         make player execute command "/dropadm setdifficulty Sandworm-Legacy Hard"
 
 
+command /autoaddmapset:
+    trigger:
+        # Fantasy Easy
+
+        make player execute command "/dropadm addmapset fantasy king"
+        make player execute command "/dropadm addmapset fantasy Kingdom"
+        make player execute command "/dropadm addmapset fantasy Raindrops"
+        make player execute command "/dropadm addmapset fantasy Tangle"
+        make player execute command "/dropadm addmapset fantasy Upside"
+        make player execute command "/dropadm addmapset fantasy Well"
+    
+        # Fantasy Medium
+
+        make player execute command "/dropadm addmapset fantasy Beanstalk"
+        make player execute command "/dropadm addmapset fantasy Castle"
+        make player execute command "/dropadm addmapset fantasy Floating"
+        make player execute command "/dropadm addmapset fantasy Maelstrom"
+        make player execute command "/dropadm addmapset fantasy Mineshaft"
+        make player execute command "/dropadm addmapset fantasy Warportal"
+
+        # Fantasy Hard
+
+        make player execute command "/dropadm addmapset fantasy Atlantis"
+        make player execute command "/dropadm addmapset fantasy Hell"
+        make player execute command "/dropadm addmapset fantasy Vortex"
+
+
+        # Anstract Easy
+
+        make player execute command "/dropadm addmapset abstract BBQ"
+        make player execute command "/dropadm addmapset abstract Board"
+        make player execute command "/dropadm addmapset abstract Distortion"
+        make player execute command "/dropadm addmapset abstract Revolve"
+        make player execute command "/dropadm addmapset abstract Time"
+        make player execute command "/dropadm addmapset abstract Vintage"
+    
+        # Anstract Medium
+
+        make player execute command "/dropadm addmapset abstract Butterflies"
+        make player execute command "/dropadm addmapset abstract Emoji"
+        make player execute command "/dropadm addmapset abstract Geometry"
+        make player execute command "/dropadm addmapset abstract Painted"
+        make player execute command "/dropadm addmapset abstract Retro"
+        make player execute command "/dropadm addmapset abstract Sweets"
+
+        # Anstract Hard
+
+        make player execute command "/dropadm addmapset abstract Bird"
+        make player execute command "/dropadm addmapset abstract Illusion"
+        make player execute command "/dropadm addmapset abstract Iris"
+
+
+        # Landscape Easy
+
+        make player execute command "/dropadm addmapset landscape Balloons"
+        make player execute command "/dropadm addmapset landscape Bridges"
+        make player execute command "/dropadm addmapset landscape Distance"
+        make player execute command "/dropadm addmapset landscape Kraken"
+        make player execute command "/dropadm addmapset landscape Lily"
+        make player execute command "/dropadm addmapset landscape Mushroom"
+    
+        # Landscape Medium
+
+        make player execute command "/dropadm addmapset landscape Cabin"
+        make player execute command "/dropadm addmapset landscape Glacier"
+        make player execute command "/dropadm addmapset landscape Lavafall"
+        make player execute command "/dropadm addmapset landscape Overgrown"
+        make player execute command "/dropadm addmapset landscape Ravine"
+        make player execute command "/dropadm addmapset landscape Western"
+
+        # Landscape Hard
+
+        make player execute command "/dropadm addmapset landscape Fly"
+        make player execute command "/dropadm addmapset landscape Frogspawn"
+        make player execute command "/dropadm addmapset landscape Ocean"
+
+
+        # Futuristic Easy
+
+        make player execute command "/dropadm addmapset futuristic Drainage"
+        make player execute command "/dropadm addmapset futuristic Mainframe"
+        make player execute command "/dropadm addmapset futuristic Microscope"
+        make player execute command "/dropadm addmapset futuristic Sewer"
+        make player execute command "/dropadm addmapset futuristic Space"
+        make player execute command "/dropadm addmapset futuristic Warp"
+    
+        # Futuristic Medium
+
+        make player execute command "/dropadm addmapset futuristic Stratocumulus"
+        make player execute command "/dropadm addmapset futuristic UFO"
+        make player execute command "/dropadm addmapset futuristic Nightlife"
+        make player execute command "/dropadm addmapset futuristic Launch"
+        make player execute command "/dropadm addmapset futuristic City"
+        make player execute command "/dropadm addmapset futuristic Paradigm"
+
+        # Futuristic Hard
+
+        make player execute command "/dropadm addmapset futuristic Factory"
+        make player execute command "/dropadm addmapset futuristic Gears"
+        make player execute command "/dropadm addmapset futuristic Sandworm"
+
+
+
+
+command /autodelmapset:
+    trigger:
+        # Fantasy Easy
+
+        make player execute command "/dropadm delmapset fantasy king"
+        make player execute command "/dropadm delmapset fantasy Kingdom"
+        make player execute command "/dropadm delmapset fantasy Raindrops"
+        make player execute command "/dropadm delmapset fantasy Tangle"
+        make player execute command "/dropadm delmapset fantasy Upside"
+        make player execute command "/dropadm delmapset fantasy Well"
+    
+        # Fantasy Medium
+
+        make player execute command "/dropadm delmapset fantasy Beanstalk"
+        make player execute command "/dropadm delmapset fantasy Castle"
+        make player execute command "/dropadm delmapset fantasy Floating"
+        make player execute command "/dropadm delmapset fantasy Maelstrom"
+        make player execute command "/dropadm delmapset fantasy Mineshaft"
+        make player execute command "/dropadm delmapset fantasy Warportal"
+
+        # Fantasy Hard
+
+        make player execute command "/dropadm delmapset fantasy Atlantis"
+        make player execute command "/dropadm delmapset fantasy Hell"
+        make player execute command "/dropadm delmapset fantasy Vortex"
+
+
+        # Anstract Easy
+
+        make player execute command "/dropadm delmapset abstract BBQ"
+        make player execute command "/dropadm delmapset abstract Board"
+        make player execute command "/dropadm delmapset abstract Distortion"
+        make player execute command "/dropadm delmapset abstract Revolve"
+        make player execute command "/dropadm delmapset abstract Time"
+        make player execute command "/dropadm delmapset abstract Vintage"
+    
+        # Anstract Medium
+
+        make player execute command "/dropadm delmapset abstract Butterflies"
+        make player execute command "/dropadm delmapset abstract Emoji"
+        make player execute command "/dropadm delmapset abstract Geometry"
+        make player execute command "/dropadm delmapset abstract Painted"
+        make player execute command "/dropadm delmapset abstract Retro"
+        make player execute command "/dropadm delmapset abstract Sweets"
+
+        # Anstract Hard
+
+        make player execute command "/dropadm delmapset abstract Bird"
+        make player execute command "/dropadm delmapset abstract Illusion"
+        make player execute command "/dropadm delmapset abstract Iris"
+
+
+        # Landscape Easy
+
+        make player execute command "/dropadm delmapset landscape Balloons"
+        make player execute command "/dropadm delmapset landscape Bridges"
+        make player execute command "/dropadm delmapset landscape Distance"
+        make player execute command "/dropadm delmapset landscape Kraken"
+        make player execute command "/dropadm delmapset landscape Lily"
+        make player execute command "/dropadm delmapset landscape Mushroom"
+    
+        # Landscape Medium
+
+        make player execute command "/dropadm delmapset landscape Cabin"
+        make player execute command "/dropadm delmapset landscape Glacier"
+        make player execute command "/dropadm delmapset landscape Lavafall"
+        make player execute command "/dropadm delmapset landscape Overgrown"
+        make player execute command "/dropadm delmapset landscape Ravine"
+        make player execute command "/dropadm delmapset landscape Western"
+
+        # Landscape Hard
+
+        make player execute command "/dropadm delmapset landscape Fly"
+        make player execute command "/dropadm delmapset landscape Frogspawn"
+        make player execute command "/dropadm delmapset landscape Ocean"
+
+
+        # Futuristic Easy
+
+        make player execute command "/dropadm delmapset futuristic Drainage"
+        make player execute command "/dropadm delmapset futuristic Mainframe"
+        make player execute command "/dropadm delmapset futuristic Microscope"
+        make player execute command "/dropadm delmapset futuristic Sewer"
+        make player execute command "/dropadm delmapset futuristic Space"
+        make player execute command "/dropadm delmapset futuristic Warp"
+    
+        # Futuristic Medium
+
+        make player execute command "/dropadm delmapset futuristic Stratocumulus"
+        make player execute command "/dropadm delmapset futuristic UFO"
+        make player execute command "/dropadm delmapset futuristic Nightlife"
+        make player execute command "/dropadm delmapset futuristic Launch"
+        make player execute command "/dropadm delmapset futuristic City"
+        make player execute command "/dropadm delmapset futuristic Paradigm"
+
+        # Futuristic Hard
+
+        make player execute command "/dropadm delmapset futuristic Factory"
+        make player execute command "/dropadm delmapset futuristic Gears"
+        make player execute command "/dropadm delmapset futuristic Sandworm"
+
+    
 command /dellegacymap:
     permission: op
     trigger:

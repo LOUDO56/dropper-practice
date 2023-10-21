@@ -93,7 +93,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             send "&aYou've changed the name of the map &6%arg-2% &ato &6%arg-3%&a."
         
         else if arg 1 is "addmapset":
-            if arg 2 is not "fantasy" or "abtract" or "landscape" or "futuristic":
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic":
                 send "&cYou need to choose only between &eFantasy&c, &eAbstract&c, &eLandscape &cand &eFuturistic"
                 stop
             if arg 3 is not set:
@@ -123,7 +123,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             send "&e%{dropper::map::%arg 3%::name}% &ahas been added to the mapset &a%{_mapset}%"
 
         else if arg 1 is "delmapset":
-            if arg 2 is not "fantasy" or "abtract" or "landscape" or "futuristic":
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic":
                 send "&cYou need to choose only between &eFantasy&c, &eAbstract&c, &eLandscape &cand &eFuturistic"
                 stop
             if arg 3 is not set:
@@ -131,14 +131,12 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
                 stop
             
             loop "fantasy", "abstract", "landscape" and "futuristic":
-                if {dropper::mapset::%loop-value%::*} don't contain arg 3:
-                    send "&e%{dropper::map::%arg 3%::name}% &ais not added on any mapset."
-                    stop
-                else:
+                if {dropper::mapset::%loop-value%::*} contains arg 3:
                     set {_mapset} to loop-value
                     remove arg 3 from {dropper::mapset::%{_mapset}%::*}
-                    send "&e%{dropper::map::%arg 3%::name}% &chas been removed from the mapset &e%{_mapset}%"
+                    send "&e%{dropper::map::%arg 3%::name}% &ahas been removed from the mapset &e%{_mapset}%"
                     stop
+            send "&e%{dropper::map::%arg 3%::name}% &cis not added on any mapset."
             
 
 
@@ -161,20 +159,21 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             set {_z} to z-coords of {_spawn}
             set {_world} to player's world
             set {_yaw} to yaw of player
+            send {_yaw}
             if {_yaw} is between 175 and 185: # north
                 set {_yaw} to 180
             
-            if {_yaw} is between 260 and 280: # east
-                set {_yaw} to 90
+            else if {_yaw} is between 260 and 280: # east
+                set {_yaw} to -90
 
-            if {_yaw} is between 345 and 360: # south
+            else if {_yaw} is between 345 and 360: # south
                 set {_yaw} to 0
             
-            if {_yaw} is between 0 and 30: # south
+            else if {_yaw} is between 0 and 30: # south
                 set {_yaw} to 0 
             
-            if {_yaw} is between 70 and 100: # west
-                set {_yaw} to -90
+            else if {_yaw} is between 70 and 100: # west
+                set {_yaw} to 90
             set {dropper::map::%{_map}%::spawn} to location({_x}, {_y}, {_z}, {_world}, {_yaw}, 0)
             send "&aSuccessfully set the spawn of &e%{dropper::map::%{_map}%::name}% &ato &e%{dropper::map::%{_map}%::spawn}%"
 
@@ -220,7 +219,8 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             wait 5 ticks
             make player execute command "/npc select"
             make player execute command "/npc name"
-            make player execute command "/npc skin --url https://minesk.in/1071604227cd4d74bfd0ccc2b06f98b6"
+            make player execute command "/npc skin --file dropperskin.png"
+            make player execute command "/npc skinlayers --cape false"
         
         else if arg 1 is "delnpc":
             if {dropper::mainlobby::npc::spawn} is not set:
