@@ -367,3 +367,9 @@ command /givelegacyrank:
             else if {_time-finished-allmaps} < 27999:
                 if {dropper::player::%player's uuid%::level} is not "§5[Mystic+]":
                     make player execute command "/rank mystic+-legacy %loop-value%"
+
+
+command /transferpb:
+    trigger:
+        loop all offline players where [{dropper::player::%uuid of input%::stats::pb::normal} is set]:
+            set {dropper::player::%uuid of loop-value%::stats::pb::nometa} to {dropper::player::%uuid of loop-value%::stats::pb::normal}

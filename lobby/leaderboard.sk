@@ -10,8 +10,8 @@ import:
 
 
 function leaderboard(loc: location, type: string) :: string:
-	loop all offline players where [{dropper::player::%uuid of input%::stats::pb::normal} is set]:
-		add convert_pb_to_number({dropper::player::%uuid of loop-value%::stats::pb::normal}) to {_results::*}
+	loop all offline players where [{dropper::player::%uuid of input%::stats::pb::%{_type}%} is set]:
+		add convert_pb_to_number({dropper::player::%uuid of loop-value%::stats::pb::%{_type}%}) to {_results::*}
 	if {_results::*} is not set:
 		loop 10 times:
 			add "00:00.000" to {_results::*}
@@ -24,16 +24,30 @@ function leaderboard(loc: location, type: string) :: string:
 				set {_results::%loop-value-2%} to {_nb_2}
 				set {_results::%loop-value-2 + 1%} to {_nb_1}
 	loop {_results::*}:
+		set {_main-title} to "&a&lDROPPER PRACTICE LEADERBOARD"
 		if {_type} = "nometa":
-			set {_title} to "&a&lDROPPER PRACTICE LEADERBOARD;&c(NO META REQUIRED*)"
-		loop all offline players where [{dropper::player::%uuid of input%::stats::pb::normal} is set]:
-			if loop-value-1 is convert_pb_to_number({dropper::player::%uuid of loop-value-2%::stats::pb::normal}):
+			set {_title} to "%{_main-title}%;&c(NO META REQUIRED*)"
+		else if {_type} = "fantasy":
+			set {_title} to "%{_main-title}%;&aFantasy Mapset"
+		else if {_type} = "abstract":
+			set {_title} to "%{_main-title}%;&aAbstract Mapset"
+		else if {_type} = "landscape":
+			set {_title} to "%{_main-title}%;&aLandscape Mapset"
+		else if {_type} = "futuristic":
+			set {_title} to "%{_main-title}%;&aFuturistic Mapset"
+		else if {_type} = "legacy":
+			set {_title} to "&a&lDROPPER LEGACY LEADERBOARD"
+		loop all offline players where [{dropper::player::%uuid of input%::stats::pb::%{_type}%} is set]:
+			if loop-value-1 is convert_pb_to_number({dropper::player::%uuid of loop-value-2%::stats::pb::%{_type}%}):
 				if {_added::%uuid of loop-value-2%} is not set:
 					add loop-value-2 to {_players::*}
 					set {_added::%uuid of loop-value-2%} to true
-					set {_results::%loop-index%} to {dropper::player::%uuid of loop-value-2%::stats::pb::normal}
+					set {_results::%loop-index%} to {dropper::player::%uuid of loop-value-2%::stats::pb::%{_type}%}
 	createholo({_loc}, {_title}, -1)
-	remove 0.6 from y-coordinate of {_loc}
+	if {_type} != "legacy":
+		remove 0.6 from y-coordinate of {_loc}
+	else:
+		remove 0.3 from y-coordinate of {_loc}
 	loop 10 times:
 		set {_uuid} to uuid of {_players::%loop-value%}
 		if {_players::%loop-value%} is not set:

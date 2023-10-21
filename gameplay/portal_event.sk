@@ -13,6 +13,10 @@ on portal enter:
 	if {dropper::in-game::player::%player%::in-game} is true:
 		if {dropper::in-game::player::%player%::enter} is not set:
 			set {dropper::in-game::player::%player%::enter} to true
+			if {dropper::player::%player's uuid%::legacy-state} is true:
+				set {_maps_of_player::*} to {dropper::player::%player's uuid%::maps_order-legacy::*}
+			else:
+				set {_maps_of_player::*} to {dropper::player::%player's uuid%::maps_order::*}
 			if {dropper::in-game::player::%player%::mode_playing} is "skip_portal": # Check if player is practing portal skips
 				add 1 to {dropper::in-game::player::%player%::count}
 				set {_count} to {dropper::in-game::player::%player%::count}
@@ -38,27 +42,18 @@ on portal enter:
 			else:
 				set {_time-finished-map} to System.currentTimeMillis()
 				add 1 to {dropper::player::%player's uuid%::stats::maps_completed}
-				if {dropper::player::%player's uuid%::legacy-state} is true:
-					set {_map.completed} to {dropper::player::%player's uuid%::maps_order-legacy::%{dropper::in-game::player::%player%::count}%}
-				else:
-					set {_map.completed} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}%}
+				set {_map.completed} to {_maps_of_player::%{dropper::in-game::player::%player%::count}%}
 				set {_map.completed.name} to {dropper::map::%{_map.completed}%::name}
 				set {dropper::in-game::player::%player%::map_completed::%{_map.completed}%} to true
 				add 1 to {dropper::in-game::player::%player%::count}
-				if {dropper::player::%player's uuid%::legacy-state} is true:
-					set {_map} to {dropper::player::%player's uuid%::maps_order-legacy::%{dropper::in-game::player::%player%::count}%}
-				else:
-					set {_map} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}%} # To make the player to go on next map, i use a count system
+				set {_map} to {_maps_of_player::%{dropper::in-game::player::%player%::count}%} # To make the player to go on next map, i use a count system
 				if {dropper::map::%{_map.completed}%::difficulty} = "&aEasy":
 					set {_map.completed.name} to "&a%{_map.completed.name}%"
 				if {dropper::map::%{_map.completed}%::difficulty} = "&eMedium":
 					set {_map.completed.name} to "&e%{_map.completed.name}%"
 				if {dropper::map::%{_map.completed}%::difficulty} = "&cHard":
 					set {_map.completed.name} to "&c%{_map.completed.name}%"
-				if {dropper::player::%player's uuid%::legacy-state} is true:
-					set {_map.any} to {dropper::player::%player's uuid%::maps_order-legacy::%{dropper::in-game::player::%player%::count}-1%}
-				else:
-					set {_map.any} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}-1%}
+				set {_map.any} to {_maps_of_player::%{dropper::in-game::player::%player%::count}-1%}
 				heal player
 				set {_time} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-map})
 				send send_yaml("gameplay","finished-map","%%count%%|%%map%%|%%time%%","%({dropper::in-game::player::%player%::count}-1)%|%{_map.completed.name}%|%{_time}%", {dropper::player::%player's uuid%::language})
@@ -76,39 +71,61 @@ on portal enter:
 					send send_yaml("gameplay","finished-dropper","%%timer-ig%%","%{_time-finished-allmaps}%", {dropper::player::%player's uuid%::language})
 					set {_time-finished-allmaps} to convert_pb_to_number({_time-finished-allmaps})
 					if {dropper::player::%player's uuid%::legacy-state} is true:
+						set {_pb-accepted} to 26999
+					else:
+						set {_pb-accepted} to 23999
+						
+					if {dropper::mapset::fantasy::*} contains {_maps_of_player::*}:
+						set {_mapset} to "fantasy"
+					else if {dropper::mapset::abstract::*} contains {_maps_of_player::*}:
+						set {_mapset} to "abstract"
+					else if {dropper::mapset::landscape::*} contains {_maps_of_player::*}:
+						set {_mapset} to "landscape"
+					else if {dropper::mapset::futuristic::*} contains {_maps_of_player::*}:
+						set {_mapset} to "futuristic"
+					else:
+						set {_mapset} to "nometa"
+					if {dropper::player::%player's uuid%::legacy-state} is true:
 						set {_pb} to {dropper::player::%uuid of player%::stats::pb::legacy}
 					else:
-						set {_pb} to {dropper::player::%uuid of player%::stats::pb::normal}
+						set {_pb} to {dropper::player::%uuid of player%::stats::pb::%{_mapset}%}
 					set {_pb} to convert_pb_to_number({_pb})
-					if {dropper::player::%player's uuid%::legacy-state} is true:
-						if {_time-finished-allmaps} > 26999:
-							if {dropper::player::%player's uuid%::maps_order-legacy::1} = "Space-Legacy":
-								if {dropper::player::%player's uuid%::maps_order-legacy::1} = "Well-Legacy":
-									if {dropper::player::%player's uuid%::maps_order-legacy::1} = "Floating-Legacy":
-										if {dropper::player::%player's uuid%::maps_order-legacy::1} = "Sewer-Legacy":
-											if {dropper::player::%player's uuid%::maps_order-legacy::1} = "Iris-Legacy":
-												if {dropper::player::%uuid of player%::stats::pb::legacy} is not set:
-													set {_pb} to {_time-finished-allmaps}+1
-												if {_time-finished-allmaps} < {_pb}:
-													if {dropper::player::%player's uuid%::legacy-state} is true:
-														set {dropper::player::%uuid of player%::stats::pb::legacy} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
-													set {_legit_pb} to true
-						else:
-							send yaml value "gameplay.pb_not_legit" from "%{dropper::player::%player's uuid%::language}%"
-					else:
-						if {_time-finished-allmaps} > 23999:
-							if {dropper::map::%{dropper::player::%uuid of player%::maps_order::1}%::difficulty} = "&aEasy":
-								if {dropper::map::%{dropper::player::%uuid of player%::maps_order::2}%::difficulty} = "&aEasy":
-									if {dropper::map::%{dropper::player::%uuid of player%::maps_order::3}%::difficulty} = "&eMedium":
-										if {dropper::map::%{dropper::player::%uuid of player%::maps_order::4}%::difficulty} = "&eMedium":
-											if {dropper::map::%{dropper::player::%uuid of player%::maps_order::5}%::difficulty} = "&cHard":
-												if {dropper::player::%uuid of player%::stats::pb::normal} is not set:
-													set {_pb} to {_time-finished-allmaps}+1
-												if {_time-finished-allmaps} < {_pb}:
-													set {dropper::player::%uuid of player%::stats::pb::normal} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
+					# loop {_maps_of_player::*}:
+					# 	loop "fantasy", "abstract", "landscape" and "futuristic":
+					# 		if {dropper::mapset::%loop-value-2%::*} contains loop-value-1:
+					# 			add 1 to {_map-in-mapset-%loop-value-2%}
+					# loop "fantasy", "abstract", "landscape" and "futuristic":
+					# 	if {_map-in-mapset-%loop-value%} = 5:
+					# 		set {_mapset} to loop-value
+					send "Map provienne de %{_mapset}%"
+					if {_time-finished-allmaps} > {_pb-accepted}:
+						if {dropper::map::%{dropper::player::%uuid of player%::maps_order::1}%::difficulty} = "&aEasy":
+							if {dropper::map::%{dropper::player::%uuid of player%::maps_order::2}%::difficulty} = "&aEasy":
+								if {dropper::map::%{dropper::player::%uuid of player%::maps_order::3}%::difficulty} = "&eMedium":
+									if {dropper::map::%{dropper::player::%uuid of player%::maps_order::4}%::difficulty} = "&eMedium":
+										if {dropper::map::%{dropper::player::%uuid of player%::maps_order::5}%::difficulty} = "&cHard":
+											if {dropper::player::%uuid of player%::stats::pb::%{_mapset}%} is not set:
+												set {_pb} to {_time-finished-allmaps}+1
+											send "%{_time-finished-allmaps}%, %{_pb}%"
+											if {_time-finished-allmaps} < {_pb}:
+												if {dropper::player::%player's uuid%::legacy-state} is true:
+													set {dropper::player::%uuid of player%::stats::pb::legacy} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
+												else:
+													set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
 												set {_legit_pb} to true
+										else:
+											send "&cYou need to follow this pattern to have a personal best: &aEasy Easy &eMedium Medium &cHard"
+									else:
+										send "&cYou need to follow this pattern to have a personal best: &aEasy Easy &eMedium Medium &cHard"
+								else:
+									send "&cYou need to follow this pattern to have a personal best: &aEasy Easy &eMedium Medium &cHard"
+							else:
+								send "&cYou need to follow this pattern to have a personal best: &aEasy Easy &eMedium Medium &cHard"
 						else:
-							send yaml value "gameplay.pb_not_legit" from "%{dropper::player::%player's uuid%::language}%"
+							send "&cYou need to follow this pattern to have a personal best: &aEasy Easy &eMedium Medium &cHard"
+						# FUCK I HATE THIS
+					else:
+						send yaml value "gameplay.pb_not_legit" from "%{dropper::player::%player's uuid%::language}%"
 					if {_legit_pb} is true:
 						if {_time-finished-allmaps} is between 35999 and 35000:
 							if {dropper::player::%player's uuid%::level} is not "§1[Rookie]" or "§4[Starter]" or "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
@@ -187,20 +204,17 @@ on portal enter:
 					add 1 to {dropper::player::%uuid of player%::stats::game_finished}
 					if {_legit_pb} is true:
 						play sound "random.levelup" to player
-						send yaml value "gameplay.pb" from "%{dropper::player::%player's uuid%::language}%" to player
-						send title yaml value "gameplay.pb_title" from "%{dropper::player::%player's uuid%::language}%" with subtitle "&7%{dropper::player::%uuid of player%::stats::pb::normal}%" for 3 seconds
+						send send_yaml("gameplay", "pb", "%%meta%%", {_mapset}, {dropper::player::%player's uuid%::language}) to player
+						send title yaml value "gameplay.pb_title" from "%{dropper::player::%player's uuid%::language}%" with subtitle "&7%{dropper::player::%uuid of player%::stats::pb::%{_mapset}%}%" for 3 seconds
 						wait 10 ticks
-						leaderboard({dropper::mainlobby::leaderboard-pb-legit})
+						leaderboard({dropper::mainlobbby::leaderboard::%{_mapset}%}, {_mapset})
 
 
 				else:
 					play sound "fireworks.blast" to player
 					set {dropper::in-game::player::%player%::timer-map} to System.currentTimeMillis()
 					set {dropper::in-game::player::%player%::map} to {_map}
-					if {dropper::player::%player's uuid%::legacy-state} is true:
-						set {dropper::in-game::player::%player%::map-java} to {dropper::player::%player's uuid%::maps_order-legacy::%{dropper::in-game::player::%player%::count}+1%}
-					else:
-						set {dropper::in-game::player::%player%::map-java} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}+1%}
+					set {dropper::in-game::player::%player%::map-java} to {_maps_of_player::%{dropper::in-game::player::%player%::count}+1%}
 					dropper_scoreboard(player)
 					wait 1.5 second
 					clear {dropper::in-game::player::%player%::enter}

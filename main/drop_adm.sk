@@ -44,7 +44,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
         # Check if map exist or not
         if arg 2 is set:
             set {_map} to arg 2
-            if arg 1 is not "create" or "setname" or "setdifficulty" or "list" or "addmapset" or "delmapset":
+            if arg 1 is not "create" or "setname" or "setdifficulty" or "list" or "addmapset" or "delmapset" or "setlead" or "dellead" or "uplead" or "setleaderboard" or "delleaderboard" or "upleaderboard":
                 if {dropper::map::%{_map}%::name} is not set:
                     send "&6%{_map}% &cdoes not exists."
                     stop
@@ -265,25 +265,35 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             clear {dropper::mainlobby-legacy::npc::*}
         
         else if arg 1 is "setlead" or "setleaderboard":
-            make player execute command "/dropadm dellead" if {dropper::mainlobbby::leaderboard::no-meta} is set
-            set {dropper::mainlobbby::leaderboard::no-meta} to player's location
-            add 3 to y-coords of {dropper::mainlobbby::leaderboard::no-meta}
-            leaderboard({dropper::mainlobbby::leaderboard::no-meta}, "nometa")
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa":
+                send "&cYou need to specify the type of the leaderboard. &eNometa&c, &efantasy&c, &eabstract&c, &elandscape&c, &efuturistic&c and &elegacy"
+                stop
+            make player execute command "/dropadm dellead %arg 2%" if {dropper::mainlobby::leaderboard::%arg 2%} is set
+            set {dropper::mainlobby::leaderboard::%arg 2%} to player's location
+            add 3 to y-coords of {dropper::mainlobby::leaderboard::%arg 2%}
+            leaderboard({dropper::mainlobby::leaderboard::%arg 2%}, arg 2)
+            send "&aLeaderboard for &e%arg 2% &aadded with success!"
         
         else if arg 1 is "dellead" or "delleaderboard":
-            if {dropper::mainlobbby::leaderboard::no-meta} is not set:
-                send "&cYou need to put the leaderboard first."
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa":
+                send "&cYou need to specify the type of the leaderboard. &eNometa&c, &efantasy&c, &eabstract&c, &elandscape&c, &efuturistic&c and &elegacy"
                 stop
-            deleteholo({dropper::mainlobbby::leaderboard::no-meta}, 12)
-            clear {dropper::mainlobbby::leaderboard::no-meta}
-            send "&aLeaderboard for no meta deleted with success!"
+            if {dropper::mainlobby::leaderboard::%arg 2%} is not set:
+                send "&cYou need to put the leaderboard of &e%arg 2% &cfirst."
+                stop
+            deleteholo({dropper::mainlobby::leaderboard::%arg 2%}, 12)
+            clear {dropper::mainlobby::leaderboard::%arg 2%}
+            send "&aLeaderboard for &e%arg 2% &adeleted with success!"
         
         else if arg 1 is "uplead" or "upleaderboard":
-            if {dropper::mainlobbby::leaderboard::no-meta} is set:
-                leaderboard({dropper::mainlobbby::leaderboard::no-meta}, "nometa")
-                send "&aThe meta leaderboard has been updated."
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa":
+                send "&cYou need to specify the type of the leaderboard. &eNometa&c, &efantasy&c, &eabstract&c, &elandscape&c, &efuturistic&c and &elegacy"
+                stop
+            if {dropper::mainlobby::leaderboard::%arg 2%} is set:
+                leaderboard({dropper::mainlobby::leaderboard::%arg 2%}, arg 2)
+                send "&aThe &e%arg 2% &aleaderboard has been updated."
             else:
-                send "&cYou need to put the leaderboard first."
+                send "&cYou need to put the leaderboard of &e%arg 2% &cfirst."
         
         else if arg 1 is "clearallpb":
             if {dropper::player::%player's uuid%::confirm-pb-clear::admin} is not set:
@@ -304,7 +314,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
                     make console execute command "/nte reload"
                 send "&aYou removed personal best of everyone, including map pb."
                 clear {dropper::player::%player's uuid%::confirm-pb-clear::admin}
-                leaderboard({dropper::mainlobbby::leaderboard::no-meta}, "nometa")
+                leaderboard({dropper::mainlobby::leaderboard::no-meta}, "nometa")
 
         else if arg 1 is "delplayerig":
             clear {dropper::mainlobby::in-game::*}
