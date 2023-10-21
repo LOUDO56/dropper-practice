@@ -51,6 +51,17 @@ function dropper_gui_npc(p: player, type: string, page: number):
 		loop {_map::*} where [{dropper::map::%input%::difficulty} = "&cHard"]:
 			add loop-value to {_hard::*}
 		loop {_easy::*}, {_med::*} and {_hard::*}:
+			if {_type} = "map_pb":
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb} is "completed":
+					if {dropper::player::%uuid of {_p}%::stats::pb::%loop-value%} is not set:
+						remove loop-value from {_easy::*}
+						remove loop-value from {_med::*}
+						remove loop-value from {_hard::*}
+				else if {dropper::player::%{_p}'s uuid%::filter_map_pb} is "uncompleted":
+					if {dropper::player::%uuid of {_p}%::stats::pb::%loop-value%} is set:
+						remove loop-value from {_easy::*}
+						remove loop-value from {_med::*}
+						remove loop-value from {_hard::*}
 			set {_name.%loop-value%} to {dropper::map::%loop-value%::name}
 			if {dropper::map::%loop-value%::difficulty} = "&aEasy":
 				set {_item.%loop-value%} to lime stained clay
@@ -134,6 +145,28 @@ function dropper_gui_npc(p: player, type: string, page: number):
 					set {_lore_2::*} to split yaml value "mainlobby.gui.skip_portal.save_list_lore_2" from {dropper::player::%uuid of {_p}%::language} at "||"
 					make gui slot 4 with feather named yaml value "mainlobby.gui.skip_portal.portal_name" from {dropper::player::%uuid of {_p}%::language} with lore {_lore_1::*}, {_map_p::*} and {_lore_2::*}:
 						dropper_play({_p}, "skip_portal")
+			else if {_type} = "map_pb":
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb} is not set:
+					set {dropper::player::%{_p}'s uuid%::filter_map_pb} to "both"
+				
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb} is "both":
+					set {_item-filter} to lime dye
+					set {_lore-filter::*} to "&8=> &aBoth", "&6Uncompleted", "&eCompleted"
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb} is "uncompleted":
+					set {_item-filter} to orange dye
+					set {_lore-filter::*} to "&aBoth", "&8=> &6Uncompleted", "&eCompleted"
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb} is "completed":
+					set {_item-filter} to yellow dye
+					set {_lore-filter::*} to "&aBoth", "&6Uncompleted", "&8=> &eCompleted"
+				
+				make gui slot 8 with {_item-filter} named "&6Filter" with lore "", {_lore-filter::*}, "" and "&7Click to change":
+					if {_item-filter} = lime dye:
+						set {dropper::player::%{_p}'s uuid%::filter_map_pb} to "uncompleted"
+					else if {_item-filter} = orange dye:
+						set {dropper::player::%{_p}'s uuid%::filter_map_pb} to "completed"
+					else if {_item-filter} = yellow dye:
+						set {dropper::player::%{_p}'s uuid%::filter_map_pb} to "both"
+					dropper_gui_npc({_p}, {_type}, {_page})
 
 			make gui slot 10 with lime dye block named "&aEasy" with lore "&7Easy map from %{_mapset}%." and "&7Click to interact!"
 			make gui slot 19 with yellow dye named "&eMedium" with lore "&7Medium map from %{_mapset}%." and "&7Click to interact!"
@@ -142,9 +175,15 @@ function dropper_gui_npc(p: player, type: string, page: number):
 			set {_slot} to 11
 			set {_index} to {dropper::player::%uuid of {_p}%::temp_map_order.index} + 1
 			loop {_easy::*}, {_med::*}, {_hard::*}:
+				
 				set {_map} to loop-value
 
-
+				if {_slot} < 17:
+					if {dropper::map::%loop-value%::difficulty} = "&eMedium":
+						set {_slot} to 20
+				if {_slot} < 26:
+					if {dropper::map::%loop-value%::difficulty} = "&cHard":
+						set {_slot} to 29
 
 				if {_type} = "change_map":
 					set {_lore} to yaml value "mainlobby.gui.main_menu.change_map_add" from {dropper::player::%uuid of {_p}%::language}
