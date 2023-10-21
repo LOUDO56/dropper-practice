@@ -1,0 +1,66 @@
+
+
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+function mainlobby_join(p: player, lang: string):
+	set {_uuid} to {_p}'s uuid
+	set {_rank} to {dropper::player::%{_uuid}%::rank}
+	set {_level} to {dropper::player::%{_uuid}%::level}
+	clear {_p}'s inventory
+	replace all "[" and "]" with "" in {_rank}
+	replace all "[" and "]" with "" in {_level}
+
+	clear {_p}'s scoreboard
+	set title of {_p}'s scoreboard to "&a&lDROPPER PRACTICE"
+	set line 15 of {_p}'s scoreboard to ""
+	set line 14 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line7" from {_lang} 
+	if {dropper::player::%{_uuid}%::level} is set:
+		set line 13 of {_p}'s scoreboard to "%{_level}%"
+	else:
+		set line 13 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line6.no_data" from {_lang}
+	set line 12 of {_p}'s scoreboard to ""
+
+	set line 11 of {_p}'s scoreboard to "&eMap List"
+
+	set {_line} to 10
+	loop {dropper::player::%uuid of {_p}%::maps_order::*}:
+		if {dropper::map::%loop-value%::difficulty} = "&aEasy":
+			set {_color} to "&a"
+		else if {dropper::map::%loop-value%::difficulty} = "&eMedium":
+			set {_color} to "&e"
+		else if {dropper::map::%loop-value%::difficulty} = "&cHard":
+			set {_color} to "&c"
+		set line {_line} of {_p}'s scoreboard to "&e- %{_color}%%{dropper::map::%loop-value%::name}%"
+		set {_line} to {_line} - 1
+
+	set line 5 of {_p}'s scoreboard to ""
+	set line 4 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line4" from {_lang}
+	if {dropper::player::%{_uuid}%::stats::pb::normal} is set:
+		set line 3 of {_p}'s scoreboard to "&b%{dropper::player::%{_uuid}%::stats::pb::normal}%"
+	else:
+		set line 3 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line3.no_data" from {_lang}
+	set line 2 of {_p}'s scoreboard to ""
+	set line 1 of {_p}'s scoreboard to "&bdiscord.gg/X8vGRVuv"
+
+	if {dropper::player::%{_uuid}%::player-visibility} is "on":
+		set slot 8 of {_p} to lime dye named yaml value "mainlobby.item.player_visibility_on" from {_lang}
+		loop all players where [{dropper::in-game::player::%input%::in-game} is not set]:
+			reveal loop-value from {_p}
+	if {dropper::player::%{_uuid}%::chat-in-game} is true:
+		set slot 7 of {_p} to lime dye named yaml value "mainlobby.item.chat_in_game_on" from {_lang}
+	else:
+		set slot 7 of {_p} to gray dye named yaml value "mainlobby.item.chat_in_game_off" from {_lang}
+	if {dropper::player::%{_uuid}%::player-visibility} is "off":
+		set slot 8 of {_p} to gray dye named yaml value "mainlobby.item.player_visibility_off" from {_lang}
+		hide all players from {_p}
+	set slot 4 of {_p} to book named yaml value "mainlobby.item.stats" from {_lang}
+	wait 5 ticks
+	set {_p}'s gamemode to adventure

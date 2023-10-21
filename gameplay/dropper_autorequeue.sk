@@ -1,0 +1,19 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+function dropper_autorequeue(p: player):
+	set {_uuid} to uuid of {_p}
+	while {dropper::in-game::player::%{_p}%::in-game} is true:
+		if difference between {dropper::in-game::player::%{_p}%::timer-in-game} and now is greater than {dropper::player::%{_uuid}%::autorequeue}:
+			make {_p} execute command "/dropper restart"
+			send yaml value "gameplay.autorequeued" from "%{dropper::player::%{_uuid}%::language}%" to {_p}
+			stop
+		wait 1 second

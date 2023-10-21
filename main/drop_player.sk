@@ -1,0 +1,134 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+# Dropper players command
+    
+command /dropper [<text=help>] [<text>]:
+    aliases: /drop
+    trigger:
+        if arg 1 is "help":
+            loop 8 times:
+                send yaml value "mainlobby.message.help.%loop-value%" from "%{dropper::player::%player's uuid%::language}%"
+        else if arg 1 is "play":
+            if {dropper::in-game::player::%player%::about_to_start} is set:
+                send yaml value "mainlobby.command.dropper.cant_restart" from "%{dropper::player::%player's uuid%::language}%"
+                stop
+
+            if {dropper::player::%player's uuid%::maps_order::*} is not set:
+                send yaml value "mainlobby.command.dropper.cannot_play" from "%{dropper::player::%player's uuid%::language}%"
+                stop
+
+            if {dropper::in-game::player::%player%::too-fast} is set:
+                send yaml value "mainlobby.command.dropper.too-fast" from "%{dropper::player::%player's uuid%::language}%"
+                stop
+
+            dropper_play(player, "classic")
+        
+        else if arg 1 is "practice":
+            if arg 2 is not set:
+                send yaml value "mainlobby.message.help.practice" from "%{dropper::player::%player's uuid%::language}%"
+                stop
+
+            if {dropper::map::%arg 2%::name} is not set:
+                send_yaml("mainlobby.message.help","wrong_maps","%%map%%",arg 2,{dropper::player::%player's uuid%::language})
+                stop
+
+            if {dropper::in-game::player::%player%::in-game} is true:
+                dropper_stop(player)
+            set {dropper::in-game::player::%player%::practice-map} to arg 2
+            dropper_play(player, "practice")
+
+        
+        else if arg 1 is "stop":
+            if {dropper::in-game::player::%player%::in-game} is true:
+                dropper_stop(player)
+            else:
+                send yaml value "mainlobby.command.dropper.not-ig" from "%{dropper::player::%player's uuid%::language}%"
+        
+        else if arg 1 is "restart":
+            if {dropper::in-game::player::%player%::in-game} is not set:
+                send yaml value "mainlobby.command.dropper.not-ig" from "%{dropper::player::%player's uuid%::language}%"
+                stop
+
+            if {dropper::in-game::player::%player%::about_to_start} is true:
+                send yaml value "mainlobby.command.dropper.cant_restart" from "%{dropper::player::%player's uuid%::language}%"
+                stop
+
+            set {dropper::in-game::player::%player%::no-damage} to true
+            dropper_play(player, {dropper::in-game::player::%player%::mode_playing})
+            wait 10 ticks
+            clear {dropper::in-game::player::%player%::no-damage}
+
+            # TODO: Opponnent implementation messanges
+
+        else if arg 1 is "setmaps":
+            if arg 2 is set:
+                if {dropper::in-game::player::%player%::in-game} is not set:
+                    set {_maps::*} to arg 2 split at ","
+                    loop {_maps::*}:
+                        add 1 to {_twice.%loop-value%}
+                        if {_twice.%loop-value%} < 2:
+                            if {dropper::map::%loop-value%::name} is set:
+                                set {dropper::player::%player's uuid%::maps_order::%loop-index%} to loop-value
+                                add 1 to {_twice.%loop-value%}
+                            else:
+                                send_yaml("mainlobby.message.help","wrong_maps","%%map%%","%loop-value%",{dropper::player::%player's uuid%::language})
+                                stop
+                        else:
+                            send_yaml("mainlobby.message.help","twice-maps","%%map%%","%loop-value%",{dropper::player::%player's uuid%::language})
+                            stop
+                    if size of {dropper::player::%player's uuid%::maps_order::*} = 5:
+                        loop {dropper::player::%player's uuid%::maps_order::*}:
+                            send "&e%loop-index%. &a%{dropper::map::%loop-value%::name}%"
+                        send yaml value "mainlobby.message.help.your_maps_order" from "%{dropper::player::%player's uuid%::language}%"
+                    else:
+                        send yaml value "mainlobby.message.help.more_than_5" from "%{dropper::player::%player's uuid%::language}%"
+                else:
+                    send yaml value "mainlobby.command.dropper.cannot_setmaps" from "%{dropper::player::%player's uuid%::language}%"
+                
+            else:
+                send yaml value "mainlobby.message.help.syntax" from "%{dropper::player::%player's uuid%::language}%"
+
+        else if arg 1 is "maplist":
+            loop {dropper::map::*}:
+                if {dropper::map::%loop-value%::difficulty} = "&aEasy":
+                    add loop-value to {_easy::*}
+                if {dropper::map::%loop-value%::difficulty} = "&eMedium":
+                    add loop-value to {_med::*}
+                if {dropper::map::%loop-value%::difficulty} = "&cHard":
+                    add loop-value to {_hard::*}
+            send "&a&lEASY:"
+            loop {_easy::*}:
+                send "&e- &a%{dropper::map::%loop-value%::name}%"
+            send "&e&lMEDIUM:"
+            loop {_med::*}:
+                send "&e- &a%{dropper::map::%loop-value%::name}%"
+            send "&c&lHARD:"
+            loop {_hard::*}:
+                send "&e- &a%{dropper::map::%loop-value%::name}%"
+		
+        
+        else if arg 1 is "resetpb":
+            if {dropper::in-game::player::%player%::in-game} is not set:
+                if {dropper::player::%player's uuid%::stats::pb::normal} is set:
+                    send yaml value "mainlobby.command.dropper.pbreset" from "%{dropper::player::%player's uuid%::language}%"
+                    clear {dropper::player::%player's uuid%::stats::pb::normal}
+                    clear {dropper::player::%player's uuid%::level}
+                    make console execute command "/nte player %arg 2% prefix &7"
+                    make console execute command "/nte player %arg 2% priority 12"
+                    leaderboard({dropper::mainlobby::leaderboard-pb-legit})
+                    mainlobby_join(player, "%{dropper::player::%player's uuid%::language}%")
+                else:
+                    send yaml value "mainlobby.command.dropper.no_pbreset" from "%{dropper::player::%player's uuid%::language}%"
+            else:
+                send yaml value "mainlobby.command.autorequeue_cant_ig" from "%{dropper::player::%player's uuid%::language}%"
+
+        
+
+        # TODO: accept and refuse duel args

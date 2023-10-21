@@ -1,0 +1,34 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+function createholo(loc: location, name: string, distance: number):
+	if {_distance} is -1:
+		set {_distance} to 0.3
+	set {_name::*} to {_name} split at ";"
+	loop {_name::*}:
+		delete {_stand}
+		set {_msg} to loop-value
+		loop armor stands in radius 0.1 of {_loc}:
+			set {_stand} to loop-entity
+		if {_stand} is not set:			
+			spawn an armor stand at {_loc}
+			set {_stand} to spawned armor stand
+		add "{Invisible:1b,NoGravity:1b,Marker:1b}" to nbt of {_stand}
+		if {_msg} is not "" or " ":
+			add "{CustomName:""%colored {_msg}%"",CustomNameVisible:1b}" to nbt of {_stand}
+		remove {_distance} from y-coords of {_loc}
+
+
+function deleteholo(loc: location, amount: integer):
+    loop {_amount} times:
+        loop armor stands in radius 0.1 of {_loc}:
+            kill loop-entity
+            remove 0.3 from y-coords of {_loc}

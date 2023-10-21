@@ -1,0 +1,45 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+on chat:
+	cancel event
+	set {_rank} to {dropper::player::%player's uuid%::rank}
+	set {_level} to {dropper::player::%player's uuid%::level}
+	send "%player% » %message%" to console
+	if {dropper::player::%player's uuid%::rank} and {dropper::player::%player's uuid%::level} is set:
+		set {_message} to "%{dropper::player::%player's uuid%::level}% %{dropper::player::%player's uuid%::rank}% %player% &8» &f%message%"
+	else if {dropper::player::%player's uuid%::level} is set:
+		set {_message} to "%{dropper::player::%player's uuid%::level}% %player% &8» &f%message%"
+	else if {dropper::player::%player's uuid%::rank} is set:
+		set {_message} to "%{dropper::player::%player's uuid%::rank}% %player% &8» &f%message%"
+	else:
+		set {_message} to "&7%player% &8» &f%message%"
+	loop "&4", "&c", "&6", "&e", "&2", "&a", "&b", "&3", "&1", "&9", "&d", "&5", "&f", "&7", "&8" and "&0":
+		replace all loop-value with "" in {_rank}
+		replace all loop-value with "" in {_level}
+	if {dropper::duel::player::%player%::in-game} is true:
+		send {_message} to player
+		if {dropper::duel::player::%{dropper::duel::player::%player%::opponent}%::in-game} is true:
+			send "&a[OPPONENT] %{_message}%" to {dropper::duel::player::%player%::opponent}
+	else:
+		if {dropper::in-game::player::%player%::in-game} is true:
+			if {dropper::player::%uuid of player%::chat-in-game} is not set:
+				stop
+		loop all players:
+			clear {_receive}
+			if {dropper::in-game::player::%loop-player%::in-game} is true:
+				if {dropper::player::%uuid of loop-player%::chat-in-game} is true:
+					set {_receive} to true
+			else:
+				set {_receive} to true
+			if {_receive} is true:
+				{dropper::duel::player::%loop-value%::in-game} is not set
+				send {_message} to loop-value

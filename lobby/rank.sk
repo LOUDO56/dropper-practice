@@ -1,0 +1,126 @@
+
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+command /rank [<text=help>] [<offline player>]:
+	permission: admin
+	permission message: §cYou do not have permission to run this command!
+	trigger:
+		if arg 1 is "help":
+			send "/rank clear <player>"
+			send "/rank <rank> <player>"
+			send "/rank list"
+		if arg 1 is "list":
+			send "owner, dadmin, dmod, creator, rookie, stater, experienced, elite, supernatural, elemental, god, mystic, mystic+"
+		if arg 1 is "clear":
+			clear {dropper::player::%arg 2's uuid%::level}
+			clear {dropper::player::%arg 2's uuid%::rank}
+			make console execute command "/nte player %arg 2% prefix &7"
+			mainlobby_join(arg 2, {dropper::player::%arg 2's uuid%::language})
+			make console execute command "/nte player %arg 2% priority 12"
+
+		if arg 1 is "owner":
+			set {dropper::player::%arg 2's uuid%::rank} to "§c[Owner]"
+			make console execute command "/nte player %arg 2% suffix ' §c[Owner]'"
+			make console execute command "/nte player %arg 2% priority 0"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::rank}
+		if arg 1 is "dadmin":
+			set {dropper::player::%arg 2's uuid%::rank} to "§b[Discord Admin]"
+			make console execute command "/nte player %arg 2% suffix ' §b[Discord Adm]'"
+			make console execute command "/nte player %arg 2% priority 1"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::rank}
+		if arg 1 is "dmod":
+			set {dropper::player::%arg 2's uuid%::rank} to "§2[Discord Mod]"
+			make console execute command "/nte player %arg 2% prefix '§2[Discord Mod] '"
+			make console execute command "/nte player %arg 2% priority 2"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::rank}
+		if arg 1 is "Creator":
+			set {dropper::player::%arg 2's uuid%::rank} to "§4[Creator]"
+			make console execute command "/nte player %arg 2% suffix ' §4[Creator]'"
+			make console execute command "/nte player %arg 2% priority 2"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::rank}
+		if arg 1 is "rookie":
+			set {dropper::player::%arg 2's uuid%::level} to "§1[Rookie]"
+			make console execute command "/nte player %arg 2% prefix '§1[Rookie] '"
+			make console execute command "/nte player %arg 2% priority 11"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+		if arg 1 is "starter":
+			set {dropper::player::%arg 2's uuid%::level} to "§4[Starter]"
+			make console execute command "/nte player %arg 2% prefix '§4[Starter] '"
+			make console execute command "/nte player %arg 2% priority 10"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+		if arg 1 is "experienced":
+			set {dropper::player::%arg 2's uuid%::level} to "§b[Experienced]"
+			make console execute command "/nte player %arg 2% prefix '§b[Experienced] '"
+			make console execute command "/nte player %arg 2% priority 9"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+
+		if arg 1 is "elite":
+			set {dropper::player::%arg 2's uuid%::level} to "§a[Elite]"
+			make console execute command "/nte player %arg 2% prefix '§a[Elite] '"
+			make console execute command "/nte player %arg 2% priority 8"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+
+		if arg 1 is "supernatural":
+			set {dropper::player::%arg 2's uuid%::level} to "§3[Supernatural]"
+			make console execute command "/nte player %arg 2% prefix '§3[Supernatural] '"
+			make console execute command "/nte player %arg 2% priority 7"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+		
+		if arg 1 is "elemental":
+			set {dropper::player::%arg 2's uuid%::level} to "§2[Elemental]"
+			make console execute command "/nte player %arg 2% prefix '§2[Elemental] '"
+			make console execute command "/nte player %arg 2% priority 6"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+
+		if arg 1 is "god":
+			set {dropper::player::%arg 2's uuid%::level} to "§c[God]"
+			make console execute command "/nte player %arg 2% prefix '§c[God] '"
+			make console execute command "/nte player %arg 2% priority 5"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+
+		if arg 1 is "mystic":
+			set {dropper::player::%arg 2's uuid%::level} to "§5[Mystic]"
+			make console execute command "/nte player %arg 2% prefix '§5[Mystic] '"
+			make console execute command "/nte player %arg 2% priority 4"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+		
+		
+		if arg 1 is "mystic+":
+			set {dropper::player::%arg 2's uuid%::level} to "§5[Mystic+]"
+			make console execute command "/nte player %arg 2% prefix '§5[Mystic+] '"
+			make console execute command "/nte player %arg 2% priority 3"
+			if sender is not console:
+				set {_send} to {dropper::player::%arg 2's uuid%::level}
+
+		if {_send} is set:
+			make console execute command "/nte reload"
+			set {_rank} to {_send}
+			replace all "[" and "]" with "" in {_rank}
+			if sender is not console:
+				send send_yaml("mainlobby.message","rank_give","%%level%%|%%player%%","%{_rank}%|%arg 2%",{dropper::player::%player's uuid%::language}) to player
+				if arg 2 is online:
+					send send_yaml("mainlobby.message","rank_gived","%%sender%%|%%level%%","%player%|%{_rank}%",{dropper::player::%arg 2's uuid%::language}) to arg 2
+					if {dropper::in-game::player::%arg 2's uuid%::in-game} is not set:
+						mainlobby_join(arg 2, {dropper::player::%arg 2's uuid%::language})
+					play sound "random.orb" to arg 2
+

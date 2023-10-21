@@ -1,0 +1,105 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+function dropper_play(p: player, mode: text):
+	{dropper::in-game::player::%{_p}%::about_to_start} is not set
+	add {_p} to {dropper::mainlobby::in-game::*} if {dropper::in-game::player::%{_p}%::in-game} is not set
+	createholo({dropper::mainlobby::npc::holo}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	clear {_p}'s scoreboard
+	clear {_p}'s inventory
+	set {dropper::in-game::player::%{_p}%::in-game} to true
+	set {dropper::in-game::player::%{_p}%::count} to 1
+
+	
+	add 1 to {dropper::player::%uuid of {_p}%::stats::game_played}
+
+	if {_mode} = "classic":
+		set {_slot.restart} to 0
+		set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::maps_order::1}
+		set {dropper::in-game::player::%{_p}%::about_to_start} to true
+	else if {_mode} = "practice":
+		set slot 1 of {_p} to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of {_p}%::language}
+		set {dropper::in-game::player::%{_p}%::map} to {dropper::in-game::player::%{_p}%::practice-map}
+		if {dropper::player::%uuid of {_p}%::timer-practice} is true:
+			set {dropper::in-game::player::%{_p}%::about_to_start} to true
+	else if {_mode} = "skip_portal":
+		set slot 1 of {_p} to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of {_p}%::language}
+		set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::map-portal-skip::1}
+		set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::map-portal-skip::2}
+	
+	set {dropper::in-game::player::%{_p}%::mode_playing} to {_mode}
+	set {_map} to {dropper::in-game::player::%{_p}%::map} 
+	teleport {_p} to {dropper::map::%{_map}%::spawn}
+	set {_p}'s health to 20
+	
+	# TODO: Impltement Oppononent system
+
+	set {_p}'s gamemode to adventure
+	set slot 0 of {_p} to rose red named yaml value "gameplay.rose-red" from "%{dropper::player::%uuid of {_p}%::language}%"
+	set slot 4 of {_p} to redstone item named yaml value "gameplay.redstone" from "%{dropper::player::%uuid of {_p}%::language}%"
+	set slot 8 of {_p} to dark oak door named yaml value "gameplay.door" from "%{dropper::player::%uuid of {_p}%::language}%"
+	set slot {_slot.restart} of {_p} to rose red named yaml value "gameplay.rose-red" from "%{dropper::player::%uuid of {_p}%::language}%"
+
+	dropper_scoreboard({_p})
+	set {dropper::in-game::player::%{_p}%::timer-countdown} to 5
+
+	hide {_p} from all players
+	hide all players from {_p}
+
+	set {_spawn} to {dropper::map::%{dropper::in-game::player::%{_p}%::map}%::spawn}
+	remove 0.5 from y-coords of {_spawn} 
+	set {_y} to y-coordinate of {_spawn}
+	if {dropper::in-game::player::%{_p}%::map} is "Well":
+		set {_y} to {_y} - 1
+	dropper_cage({_p})
+
+	wait 2 seconds
+	# TODO: Customize timer
+	# Timer system
+	if {dropper::in-game::player::%{_p}%::about_to_start} is true:
+		while {dropper::in-game::player::%{_p}%::in-game} is true:
+			if y-coordinate of {_p} > ({_y}-1.5):
+				if {dropper::in-game::player::%{_p}%::timer-countdown} != 0:
+					set {_msg} to send_yaml("gameplay","open-in","%%timer%%","%{dropper::in-game::player::%{_p}%::timer-countdown}%", {dropper::player::%uuid of {_p}%::language})
+					play sound "note.harp" with volume 1 to {_p}
+					if {dropper::in-game::player::%{_p}%::timer-countdown} = 1:
+						replace all "secondes" with "seconde" in {_msg}
+						replace all "seconds" with "second" in {_msg}
+					send "%{_msg}%" to {_p}
+				else:
+					if y-coordinate of {_p} > ({_y}-1.5):
+						if {dropper::in-game::player::%{_p}%::practice-map} is not set:
+							set {dropper::in-game::player::%{_p}%::timer-in-game} to System.currentTimeMillis()
+							set {dropper::in-game::player::%{_p}%::timer-map} to System.currentTimeMillis()
+							dropper_actionbar_time({_p})
+						loop {dropper::map::%{dropper::in-game::player::%{_p}%::map}%::block-location::*}:
+							{_p}.sendBlockChange(loop-value, Material.AIR, 0)
+						# TODO: Duel maps being set
+						set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::maps_order::2}
+						clear {dropper::in-game::player::%{_p}%::timer-countdown}
+						clear {dropper::in-game::player::%{_p}%::about_to_start}
+						play sound "note.harp" with volume 1 and pitch 15 to {_p}
+						send "&a&lDROP!" to {_p}
+						if {dropper::in-game::player::%{_p}%::practice-map} is not set:
+							if {dropper::player::%uuid of {_p}%::autorequeue} is set:
+								dropper_autorequeue({_p}) # Start the timer of autorequeue		
+						stop
+					else:
+						send yaml value "gameplay.fake-start" from "%{dropper::player::%uuid of {_p}%::language}%" to {_p}
+						clear {dropper::in-game::player::%{_p}%::about_to_start}
+						make {_p} execute command "/dropper restart"
+						stop
+
+				remove 1 from {dropper::in-game::player::%{_p}%::timer-countdown}
+				wait 1 second
+			else:
+				send yaml value "gameplay.fake-start" from "%{dropper::player::%uuid of {_p}%::language}%" to {_p}
+				clear {dropper::in-game::player::%{_p}%::about_to_start}
+				make {_p} execute command "/dropper restart"
+				stop

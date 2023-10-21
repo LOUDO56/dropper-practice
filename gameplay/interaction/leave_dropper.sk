@@ -1,0 +1,16 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+on rightclick with dark oak door:
+	if colored name of player's held item is yaml value "gameplay.door" from "%{dropper::player::%player's uuid%::language}%":
+		if {dropper::in-game::player::%player%::in-game} is true:
+			dropper_stop(player)
+

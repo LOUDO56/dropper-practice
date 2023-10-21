@@ -1,0 +1,57 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+function leaderboard(loc: location, type: string) :: string:
+	loop all offline players where [{dropper::player::%uuid of input%::stats::pb::normal} is set]:
+		add convert_pb_to_number({dropper::player::%uuid of loop-value%::stats::pb::normal}) to {_results::*}
+	if {_results::*} is not set:
+		loop 10 times:
+			add "00:00.000" to {_results::*}
+	set {_n} to size of {_results::*}
+	loop {_n} times:
+		loop {_n} - loop-value times:
+			set {_nb_1} to {_results::%loop-value-2%}
+			set {_nb_2} to {_results::%loop-value-2 + 1%}
+			if {_nb_1} > {_nb_2}:
+				set {_results::%loop-value-2%} to {_nb_2}
+				set {_results::%loop-value-2 + 1%} to {_nb_1}
+	loop {_results::*}:
+		if {_type} = "nometa":
+			set {_title} to "&a&lDROPPER PRACTICE LEADERBOARD;&c(NO META REQUIRED*)"
+		loop all offline players where [{dropper::player::%uuid of input%::stats::pb::normal} is set]:
+			if loop-value-1 is convert_pb_to_number({dropper::player::%uuid of loop-value-2%::stats::pb::normal}):
+				if {_added::%uuid of loop-value-2%} is not set:
+					add loop-value-2 to {_players::*}
+					set {_added::%uuid of loop-value-2%} to true
+					set {_results::%loop-index%} to {dropper::player::%uuid of loop-value-2%::stats::pb::normal}
+	createholo({_loc}, {_title}, -1)
+	remove 0.6 from y-coordinate of {_loc}
+	loop 10 times:
+		set {_uuid} to uuid of {_players::%loop-value%}
+		if {_players::%loop-value%} is not set:
+			set {_players::%loop-value%} to "&7..."
+		if {_results::%loop-value%} is not set:
+			set {_results::%loop-value%} to "&b00:00.000"
+		if {_players::%loop-value%} is not "&7...":
+			set {_uuid} to uuid of {_players::%loop-value%}
+			set {_color} to "&7"
+			if {dropper::player::%{_uuid}%::rank} is set:
+				if {dropper::player::%{_uuid}%::rank} = "§b[Discord Admin]":
+					set {_rank} to "§b[D.A]"
+				else:
+					set {_rank} to {dropper::player::%{_uuid}%::rank}
+				set {_players::%loop-value%} to "%{_rank}% %{_color}%%{_players::%loop-value%}%"
+			else:
+				set {_players::%loop-value%} to "%{_color}%%{_players::%loop-value%}%"
+		add "&e##%loop-value% &7%{_players::%loop-value%}% &7- &b%{_results::%loop-value%}%" to {_return::*}
+	loop {_return::*}:
+		createholo({_loc}, loop-value, -1)
+		remove 0.3 from y-coordinate of {_loc}

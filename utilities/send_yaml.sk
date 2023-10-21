@@ -1,0 +1,18 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+function send_yaml(category: string, type: string, to_replace: string, replaced: string, language: string) :: string:
+	set {_to_replace::*} to split {_to_replace} at "|"
+	set {_replaced::*} to split {_replaced} at "|"
+	set {_msg} to yaml value "%{_category}%.%{_type}%" from "%{_language}%"
+	loop {_to_replace::*}:
+		replace all "%loop-value%" with {_replaced::%loop-index%} in {_msg}
+	return {_msg}

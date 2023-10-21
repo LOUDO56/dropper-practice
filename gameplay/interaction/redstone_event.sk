@@ -1,0 +1,27 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+on rightclick with redstone item:
+	if colored name of player's held item is yaml value "gameplay.redstone" from "%{dropper::player::%player's uuid%::language}%":
+		if {dropper::in-game::player::%player%::in-game} is true:
+			if {dropper::in-game::player::%player%::timer-redstone} is not set:
+				set {dropper::in-game::player::%player%::timer-redstone} to 1
+				set {dropper::in-game::player::%player%::no-damage} to true # Prevents from damage
+				set player's health to 20
+				send yaml value "gameplay.reset-loc" from "%{dropper::player::%player's uuid%::language}%"
+				wait 20 ticks
+				clear {dropper::in-game::player::%player%::no-damage}
+				while {dropper::in-game::player::%player%::timer-redstone} > 0:
+					remove 1 from {dropper::in-game::player::%player%::timer-redstone}
+					wait 1 second
+				clear {dropper::in-game::player::%player%::timer-redstone}
+			else:
+				send yaml value "gameplay.wait_redstone" from {dropper::player::%player's uuid%::language}

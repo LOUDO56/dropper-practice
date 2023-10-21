@@ -1,0 +1,249 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+function dropper_gui_npc(p: player, type: string, page: number):
+	set {_pageStart} to 28*{_page}
+	set {_i} to 1
+	if {_type} = "main_menu":
+		set {_lore_1::*} to split yaml value "mainlobby.gui.main_menu.change_map_1" from {dropper::player::%uuid of {_p}%::language} at "||"
+		set {_lore_2::*} to split yaml value "mainlobby.gui.main_menu.change_map_2" from {dropper::player::%uuid of {_p}%::language} at "||"
+		loop {dropper::player::%uuid of {_p}%::maps_order::*}:
+			add "&a- &e%{dropper::map::%loop-value%::name}%" to {_map_p::*}
+		create gui with virtual chest inventory named "Dropper Practice" with 6 rows:
+			make gui slot 11 to book named yaml value "mainlobby.gui.main_menu.change_map_name" from {dropper::player::%uuid of {_p}%::language} with lore {_lore_1::*}, {_map_p::*} and {_lore_2::*}:
+				dropper_gui_npc({_p}, "change_map", 0)
+			make gui slot 31 to feather named yaml value "mainlobby.gui.main_menu.play_name" from {dropper::player::%uuid of {_p}%::language} with lore "" and yaml value "mainlobby.gui.main_menu.play_lore" from {dropper::player::%uuid of {_p}%::language}:
+				dropper_play({_p}, "classic")
+			make gui slot 13 to golden pickaxe with no nbt named yaml value "mainlobby.gui.main_menu.practice_name" from {dropper::player::%uuid of {_p}%::language} with lore "" and yaml value "mainlobby.gui.main_menu.practice_lore" from {dropper::player::%uuid of {_p}%::language}:
+				dropper_gui_npc({_p}, "practice", 0)
+
+			make gui slot 15 to golden axe with no nbt named yaml value "mainlobby.gui.main_menu.skip_portal_name" from {dropper::player::%uuid of {_p}%::language} with lore "" and yaml value "mainlobby.gui.main_menu.skip_portal_lore" from {dropper::player::%uuid of {_p}%::language}:
+				dropper_gui_npc({_p}, "skip_portal", 0)
+			make gui slot 49 to barrier named yaml value "mainlobby.gui.close" from {dropper::player::%uuid of {_p}%::language}:
+				close {_p}'s inventory
+	else:
+		set {_map::*} to {dropper::map::*}
+		loop {_map::*}:
+			set {_map::%loop-index%} to {_map::%loop-index%} in lowercase
+		set {_map::*} to alphabetically sorted {_map::*}
+		loop {_map::*} where [{dropper::map::%input%::difficulty} = "&aEasy"]:
+			add loop-value to {_easy::*}
+		loop {_map::*} where [{dropper::map::%input%::difficulty} = "&eMedium"]:
+			add loop-value to {_med::*}
+		loop {_map::*} where [{dropper::map::%input%::difficulty} = "&cHard"]:
+			add loop-value to {_hard::*}
+		loop {_easy::*}, {_med::*} and {_hard::*}:
+			set {_name.%loop-value%} to {dropper::map::%loop-value%::name}
+			if {dropper::map::%loop-value%::difficulty} = "&aEasy":
+				set {_item.%loop-value%} to lime stained clay
+				set {_color.%loop-value%} to "&a"
+			else if {dropper::map::%loop-value%::difficulty} = "&eMedium":
+				set {_item.%loop-value%} to yellow stained clay
+				set {_color.%loop-value%} to "&e"
+			else:
+				set {_item.%loop-value%} to red stained clay
+				set {_color.%loop-value%} to "&c"
+			add 1 to {_amount}
+	if {_type} = "change_map":
+		set {_slot_map} to 10
+		set {_slot_map_choosen} to 47
+		set {_map_choose} to 1
+		if {dropper::player::%uuid of {_p}%::editing_map_select} is not set:
+			set {dropper::player::%uuid of {_p}%::editing_map_select} to true
+		create gui with virtual chest inventory named "Change Map List" with 6 rows:
+			make gui slot 0, 2, 4, 6, 8, 26, 44, 46, 52, 36 and 18 with yellow stained glass pane named " "
+			make gui slot 1, 3, 5, 7, 17, 35, 45, 53, 27 and 9 with light green stained glass pane named " "
+			make gui slot 0 with barrier named yaml value "mainlobby.gui.change_map.cancel_name" from {dropper::player::%uuid of {_p}%::language}:
+				clear {dropper::player::%uuid of {_p}%::temp_map_order::*}
+				clear {dropper::player::%uuid of {_p}%::editing_map_select}
+				if {dropper::duel::player::%{_p}%::opponent} is not set:
+					dropper_gui_npc({_p}, "main_menu", 0)
+				else:
+					close {_p}'s inventory
+			loop {dropper::player::%uuid of {_p}%::temp_map_order::*}:
+				add "&a- &e%{dropper::map::%loop-value%::name}%" to {_map_p::*}
+				if {dropper::map::%loop-value%::difficulty} = "&aEasy":
+					set {_item} to lime stained clay
+					set {_color} to "&a"
+				else if {dropper::map::%loop-value%::difficulty} = "&eMedium":
+					set {_item} to yellow stained clay
+					set {_color} to "&e"
+				else:
+					set {_item} to red stained clay
+					set {_color} to "&c"
+				make gui slot {_slot_map_choosen} with {_item} named "&e%{_map_choose}%. %{_color}%%{dropper::map::%loop-value%::name}%"
+				add 1 to {_slot_map_choosen}
+				add 1 to {_map_choose}
+			if size of {dropper::player::%uuid of {_p}%::temp_map_order::*} = 5:
+				set {_lore_1::*} to split yaml value "mainlobby.gui.change_map.save_list_lore_1" from {dropper::player::%uuid of {_p}%::language} at "||"
+				set {_lore_2::*} to split yaml value "mainlobby.gui.change_map.save_list_lore_2" from {dropper::player::%uuid of {_p}%::language} at "||"
+				make gui slot 4 with book named yaml value "mainlobby.gui.change_map.save_list_name" from {dropper::player::%uuid of {_p}%::language} with lore {_lore_1::*}, {_map_p::*} and {_lore_2::*}:
+					if {dropper::duel::player::%{_p}%::setting-maps} is not set:
+						set {dropper::player::%uuid of {_p}%::maps_order::*} to {dropper::player::%uuid of {_p}%::temp_map_order::*}
+					else:
+						set {dropper::player::%uuid of {_p}%::maps_order-duel::*} to {dropper::player::%uuid of {_p}%::temp_map_order::*}
+						set {dropper::player::%uuid of {dropper::duel::player::%{_p}%::opponent}%::maps_order-duel::*} to {dropper::player::%uuid of {_p}%::temp_map_order::*}
+						make {_p} execute command "/dueldropper %{dropper::duel::player::%{_p}%::opponent}%"
+						clear {dropper::duel::player::%{_p}%::setting-maps}
+						close {_p}'s inventory
+						stop
+					clear {dropper::player::%uuid of {_p}%::temp_map_order::*}
+					send yaml value "mainlobby.gui.change_map.save_applied" from {dropper::player::%uuid of {_p}%::language} to {_p}
+					send {_map_p::*} to {_p}
+					play sound "random.levelup" with volume 0.7 to {_p}
+					mainlobby_join({_p}, {dropper::player::%uuid of {_p}%::language})
+					dropper_gui_npc({_p}, "main_menu", 0)
+			loop {_easy::*}, {_med::*} and {_hard::*}:
+				add 1 to {_lp}
+				{_lp} > {_pageStart}
+				set {_map} to loop-value
+				set {_lore} to yaml value "mainlobby.gui.main_menu.change_map_add" from {dropper::player::%uuid of {_p}%::language}
+				if {dropper::player::%uuid of {_p}%::temp_map_order::*} contains {_map}:
+					enchant {_item.%loop-value%} with sharpness 1
+					set {_lore} to yaml value "mainlobby.gui.main_menu.change_map_remove" from {dropper::player::%uuid of {_p}%::language}
+					add {_map} to {_map_chosen::*}
+				make gui slot {_slot_map} with {_item.%loop-value%} with no nbt named "%{_color.%loop-value%}%%{_name.%loop-value%}%" with lore "" and {_lore}:
+					if {dropper::player::%uuid of {_p}%::temp_map_order::*} don't contain {_map}:
+						if size of {dropper::player::%uuid of {_p}%::temp_map_order::*} < 5:
+							add {_map} to {dropper::player::%uuid of {_p}%::temp_map_order::*}
+					else:
+						remove {_map} from {dropper::player::%uuid of {_p}%::temp_map_order::*}
+					dropper_gui_npc({_p}, "change_map", {_page})
+				add 1 to {_slot_map}
+				if {_slot_map} = 17 or 26 or 35:
+					set {_slot_map} to {_slot_map}+2
+				if {_slot_map} = ((44*{_i})):
+					exit loop
+	
+			run on gui close:
+				wait 1 tick
+				if {_p} doesn't have a gui open:
+					clear {dropper::player::%uuid of {_p}%::temp_map_order::*}
+					clear {dropper::player::%uuid of {_p}%::editing_map_select}
+					clear {dropper::duel::player::%{_p}%::setting-maps}
+					if {dropper::duel::player::%{_p}%::opponent} is set:
+						if {dropper::player::%uuid of {_p}%::maps_order-duel::*} is not set:
+							send "&cYou cancelled your invitation to %{dropper::duel::player::%{_p}%::opponent}%" to {_p}
+							clear {dropper::duel::player::%{_p}%::asked::%{dropper::duel::player::%{_p}%::opponent}%}
+							clear {dropper::duel::player::%{_p}%::opponent}
+							clear {dropper::player::%uuid of {_p}%::maps_order-duel::*}
+			if {_amount} > {_pageStart} + 28:
+				make gui slot 53 with arrow named "&9Page %{_page}+1%":
+					dropper_gui_npc({_p}, {_type}, ({_page} + 1))
+			if {_page} > 0:
+				make gui slot 45 with arrow named "&9Page %{_page}-1%":
+					dropper_gui_npc({_p}, {_type}, ({_page} - 1))
+
+	if {_type} = "practice" or "map_pb":
+		set {_slot} to 10
+		if {_type} is "practice":
+			set {_name} to "Practice a map"
+		else:
+			set {_name} to "Map Personal Best"
+		create gui with virtual chest inventory named {_name} with 6 rows:
+			make gui slot 0, 2, 4, 6, 8, 26, 44, 46, 52, 48, 50, 52, 36 and 18 with yellow stained glass pane named " "
+			make gui slot 1, 3, 5, 7, 17, 35, 45, 53, 47, 49, 51, 27 and 9 with light green stained glass pane named " "
+			if {_type} = "practice":
+				if {dropper::player::%uuid of {_p}%::timer-practice} is not set:
+					set {_statue} to yaml value "mainlobby.gui.practice.statue_disabled" from {dropper::player::%uuid of {_p}%::language}
+					set {_item} to gray dye
+				else:
+					set {_statue} to yaml value "mainlobby.gui.practice.statue_enabled" from {dropper::player::%uuid of {_p}%::language}
+					set {_item} to lime dye
+				make gui slot 4 with {_item} named yaml value "mainlobby.gui.practice.timer_name" from {dropper::player::%uuid of {_p}%::language} with lore split send_yaml("mainlobby", "gui.practice.timer_lore", "%%statue%%", {_statue}, {dropper::player::%uuid of {_p}%::language}) at "||":
+					if {dropper::player::%uuid of {_p}%::timer-practice} is not set:
+						set {dropper::player::%uuid of {_p}%::timer-practice} to true
+					else:
+						clear {dropper::player::%uuid of {_p}%::timer-practice}
+					dropper_gui_npc({_p}, "practice", {_page})
+				if {dropper::in-game::player::%{_p}%::practice-map} is not set:
+					make gui slot 0 with barrier named yaml value "mainlobby.gui.practice.return" from {dropper::player::%uuid of {_p}%::language}:
+						dropper_gui_npc({_p}, "main_menu", 0)
+			if {dropper::in-game::player::%{_p}%::practice-map} is set:
+				make gui slot 49 to barrier named yaml value "mainlobby.gui.close" from {dropper::player::%uuid of {_p}%::language}:
+					close {_p}'s inventory
+			loop {_easy::*}, {_med::*} and {_hard::*}:
+				add 1 to {_lp}
+				{_lp} > {_pageStart}
+				set {_map} to loop-value
+				if {_type} = "practice":
+					set {_lore} to yaml value "mainlobby.gui.practice.map_lore_can" from {dropper::player::%uuid of {_p}%::language}
+					if {dropper::in-game::player::%{_p}%::practice-map} = {_map}:
+						enchant {_item.%loop-value%} with sharpness 1
+						set {_lore} to yaml value "mainlobby.gui.practice.map_lore_cant" from {dropper::player::%uuid of {_p}%::language}
+					make gui slot {_slot} with {_item.%loop-value%} with no nbt named "%{_color.%loop-value%}%%{_name.%loop-value%}%" with lore "" and {_lore}:
+						if {dropper::in-game::player::%{_p}%::practice-map} is not {_map}:
+							close {_p}'s inventory
+							make player execute command "/dropper practice %{_map}%"
+				else:
+					set {_pb} to {dropper::player::%uuid of {_p}%::stats::pb::%loop-value%}
+					if {_pb} is not set:
+						set {_pb} to "&cNone"
+					make gui slot {_slot} with {_item.%loop-value%} with no nbt named "%{_color.%loop-value%}%%{_name.%loop-value%}%" with lore "" and "&b- %{_pb}%"
+				add 1 to {_slot}
+				if {_slot} = 17 or 26 or 35:
+					set {_slot} to {_slot}+2
+				if {_slot} = ((44*{_i})):
+					exit loop
+				if {_amount} > {_pageStart} + 28:
+					make gui slot 53 with arrow named "&9Page %{_page}+1%":
+						dropper_gui_npc({_p}, {_type}, ({_page} + 1))
+				if {_page} > 0:
+					make gui slot 45 with arrow named "&9Page %{_page}-1%":
+						dropper_gui_npc({_p}, {_type}, ({_page} - 1))
+
+	if {_type} = "skip_portal":
+		set {_slot} to 10
+		create gui with virtual chest inventory named "Practice Portal Skip" with 6 rows:
+			make gui slot 0, 2, 4, 6, 8, 26, 44, 46, 52, 48, 50, 52, 36 and 18 with yellow stained glass pane named " "
+			make gui slot 1, 3, 5, 7, 17, 35, 45, 53, 47, 49, 51, 27 and 9 with light green stained glass pane named " "
+			if {dropper::in-game::player::%{_p}%::practice-skip} is not set:
+				make gui slot 0 with barrier named yaml value "mainlobby.gui.practice.return" from {dropper::player::%uuid of {_p}%::language}:
+					dropper_gui_npc({_p}, "main_menu", 0)
+			else:
+				make gui slot 49 to barrier named yaml value "mainlobby.gui.close" from {dropper::player::%uuid of {_p}%::language}:
+					close {_p}'s inventory
+			if size of {dropper::player::%uuid of {_p}%::map-portal-skip::*} = 2:
+				loop {dropper::player::%uuid of {_p}%::map-portal-skip::*}:
+					add "&a- &e%{dropper::map::%loop-value%::name}%" to {_map_p::*}
+				set {_lore_1::*} to split yaml value "mainlobby.gui.skip_portal.save_list_lore_1" from {dropper::player::%uuid of {_p}%::language} at "||"
+				set {_lore_2::*} to split yaml value "mainlobby.gui.skip_portal.save_list_lore_2" from {dropper::player::%uuid of {_p}%::language} at "||"
+				make gui slot 4 with feather named yaml value "mainlobby.gui.skip_portal.portal_name" from {dropper::player::%uuid of {_p}%::language} with lore {_lore_1::*}, {_map_p::*} and {_lore_2::*}:
+					dropper_play({_p}, "skip_portal")
+			loop {_easy::*}, {_med::*} and {_hard::*}:
+				add 1 to {_lp}
+				{_lp} > {_pageStart}
+				set {_map} to loop-value
+				set {_lore} to yaml value "mainlobby.gui.main_menu.change_map_add" from {dropper::player::%uuid of {_p}%::language}
+				if {dropper::player::%uuid of {_p}%::map-portal-skip::*} contains {_map}:
+					enchant {_item.%loop-value%} with sharpness 1
+					set {_lore} to yaml value "mainlobby.gui.main_menu.change_map_remove" from {dropper::player::%uuid of {_p}%::language}
+				make gui slot {_slot} with {_item.%loop-value%} with no nbt named "%{_color.%loop-value%}%%{_name.%loop-value%}%" with lore "" and {_lore}:
+					if {dropper::player::%uuid of {_p}%::map-portal-skip::*} don't contain {_map}:
+						if size of {dropper::player::%uuid of {_p}%::map-portal-skip::*} = 2:
+							remove first element of {dropper::player::%uuid of {_p}%::map-portal-skip::*} from {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+						add {_map} to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+					else:
+						remove {_map} from {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+					dropper_gui_npc({_p}, "skip_portal", {_page})
+				add 1 to {_slot}
+				if {_slot} = 17 or 26 or 35:
+					set {_slot} to {_slot}+2
+				if {_slot} = ((44*{_i})):
+					exit loop
+				
+			if {_amount} > {_pageStart} + 28:
+				make gui slot 53 with arrow named "&9Page %{_page}+1%":
+					dropper_gui_npc({_p}, {_type}, ({_page} + 1))
+			if {_page} > 0:
+				make gui slot 45 with arrow named "&9Page %{_page}-1%":
+					dropper_gui_npc({_p}, {_type}, ({_page} - 1))
+	open last created gui to {_p}

@@ -1,0 +1,20 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+on rightclick with blaze rod:
+	if name of player's tool is yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of player%::language}:
+		if {dropper::in-game::player::%player%::about_to_start} is true:
+			send yaml value "mainlobby.command.dropper.cant_restart" from "%{dropper::player::%player's uuid%::language}%"
+		else:
+			if {dropper::in-game::player::%player%::mode_playing} is "skip_portal":
+				dropper_gui_npc(player, "skip_portal", 0)
+			else:
+				dropper_gui_npc(player, "practice", 0)

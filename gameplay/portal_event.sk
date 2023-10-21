@@ -1,0 +1,166 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+on portal enter:
+	if {dropper::in-game::player::%player%::in-game} is true:
+		if {dropper::in-game::player::%player%::enter} is not set:
+			set {dropper::in-game::player::%player%::enter} to true
+			if {dropper::in-game::player::%player%::mode_playing} is "skip_portal": # Check if player is practing portal skips
+				add 1 to {dropper::in-game::player::%player%::count}
+				set {_count} to {dropper::in-game::player::%player%::count}
+				if {dropper::in-game::player::%player%::count} > 2:
+					set {dropper::in-game::player::%player%::count} to 1
+					play sound "note.pling" with volume 0.7 and pitch 15 to player
+				set {_map} to {dropper::player::%uuid of player%::map-portal-skip::%{dropper::in-game::player::%player%::count}%}
+				set {dropper::in-game::player::%player%::map} to {_map}
+				if {_count} >= 2:
+					set {_count} to 1
+				set {dropper::in-game::player::%player%::map-java} to {dropper::player::%uuid of player%::map-portal-skip::%{_count}%}
+				teleport player to {dropper::map::%{_map}%::spawn}
+				wait 1 second
+				clear {dropper::in-game::player::%player%::enter}
+			else if {dropper::in-game::player::%player%::mode_playing} is "practice":
+				set {dropper::in-game::player::%player%::no-damage} to true
+				set {_map} to {dropper::in-game::player::%player%::practice-map}
+				wait 1 tick
+				teleport player to {dropper::map::%{_map}%::spawn}
+				play sound "note.pling" with volume 0.7 and pitch 15 to player
+				clear {dropper::in-game::player::%player%::no-damage}
+				clear {dropper::in-game::player::%player%::enter}
+			else:
+				set {_time-finished-map} to System.currentTimeMillis()
+				add 1 to {dropper::player::%player's uuid%::stats::maps_completed}
+				if {dropper::duel::player::%player%::opponent} is not set:
+					set {_map.completed} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}%}
+				else:
+					set {_map.completed} to {dropper::player::%player's uuid%::maps_order-duel::%{dropper::in-game::player::%player%::count}%}
+				set {_map.completed.name} to {dropper::map::%{_map.completed}%::name}
+				set {dropper::in-game::player::%player%::map_completed::%{_map.completed}%} to true
+				add 1 to {dropper::in-game::player::%player%::count}
+				if {dropper::duel::player::%player%::opponent} is not set:
+					set {_map} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}%} # To make the player to go on next map, i use a count system
+				else:
+					set {_map} to {dropper::player::%player's uuid%::maps_order-duel::%{dropper::in-game::player::%player%::count}%}
+				if {dropper::map::%{_map.completed}%::difficulty} = "&aEasy":
+					set {_map.completed.name} to "&a%{_map.completed.name}%"
+				if {dropper::map::%{_map.completed}%::difficulty} = "&eMedium":
+					set {_map.completed.name} to "&e%{_map.completed.name}%"
+				if {dropper::map::%{_map.completed}%::difficulty} = "&cHard":
+					set {_map.completed.name} to "&c%{_map.completed.name}%"
+				set {_map.any} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}-1%}
+				heal player
+				set {_time} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-map})
+				send send_yaml("gameplay","finished-map","%%count%%|%%map%%|%%time%%","%({dropper::in-game::player::%player%::count}-1)%|%{_map.completed.name}%|%{_time}%", {dropper::player::%player's uuid%::language})
+				if {dropper::duel::player::%{dropper::duel::player::%player%::opponent}%::in-game} is true:
+					send "&a%player% &7finished Map %({dropper::in-game::player::%player%::count}-1)% (&b%{_map.completed.name}%&7) in &6%{_time}%&7!" to {dropper::duel::player::%player%::opponent}
+				set {_time} to convert_pb_to_number({_time})
+				set {_pb.any} to convert_pb_to_number({dropper::player::%player's uuid%::stats::pb::%{_map.any}%})
+				if {dropper::player::%player's uuid%::stats::pb::%{_map.any}%} is not set: # I check here if new PB any%
+					set {_pb.any} to {_time}+1
+				if {_time} < {_pb.any}:
+					set {dropper::player::%player's uuid%::stats::pb::%{_map.any}%} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-map})
+					send send_yaml("gameplay", "pb_any", "%%map%%", {_map.completed.name}, {dropper::player::%player's uuid%::language})
+				if {dropper::in-game::player::%player%::count} = 6:
+					set {_time-finished-allmaps} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
+					send send_yaml("gameplay","finished-dropper","%%timer-ig%%","%{_time-finished-allmaps}%", {dropper::player::%player's uuid%::language})
+					set {_time-finished-allmaps} to convert_pb_to_number({_time-finished-allmaps})
+					set {_pb} to convert_pb_to_number({dropper::player::%uuid of player%::stats::pb::normal})
+					if {_time-finished-allmaps} > 23999:
+						if {dropper::map::%{dropper::player::%uuid of player%::maps_order::1}%::difficulty} = "&aEasy":
+							if {dropper::map::%{dropper::player::%uuid of player%::maps_order::2}%::difficulty} = "&aEasy":
+								if {dropper::map::%{dropper::player::%uuid of player%::maps_order::3}%::difficulty} = "&eMedium":
+									if {dropper::map::%{dropper::player::%uuid of player%::maps_order::4}%::difficulty} = "&eMedium":
+										if {dropper::map::%{dropper::player::%uuid of player%::maps_order::5}%::difficulty} = "&cHard":
+											set {_pb} to convert_pb_to_number({dropper::player::%uuid of player%::stats::pb::normal})
+											if {dropper::player::%uuid of player%::stats::pb::normal} is not set:
+												set {_pb} to {_time-finished-allmaps}+1
+											if {_time-finished-allmaps} < {_pb}:
+												set {dropper::player::%uuid of player%::stats::pb::normal} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
+												set {_legit_pb} to true
+					else:
+						send yaml value "gameplay.pb_not_legit" from "%{dropper::player::%player's uuid%::language}%"
+					if {_legit_pb} is true:
+						if {_time-finished-allmaps} is between 35999 and 35000:
+							if {dropper::player::%player's uuid%::level} is not "§1[Rookie]" or "§4[Starter]" or "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+								make console execute command "/rank rookie %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+
+						else if {_time-finished-allmaps} is between 34999 and 34000:
+							if {dropper::player::%player's uuid%::level} is not "§4[Starter]" or "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+								make console execute command "/rank starter %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+
+						else if {_time-finished-allmaps} is between 33999 and 33000:
+							if {dropper::player::%player's uuid%::level} is not "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+								make console execute command "/rank experienced %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+
+						else if {_time-finished-allmaps} is between 32999 and 32000:
+							if {dropper::player::%player's uuid%::level} is not "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+								make console execute command "/rank elite %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+
+						else if {_time-finished-allmaps} is between 31999 and 31000:
+							if {dropper::player::%player's uuid%::level} is not "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+								make console execute command "/rank supernatural %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+
+						else if {_time-finished-allmaps} is between 30999 and 30000:
+							if {dropper::player::%player's uuid%::level} is not "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+								make console execute command "/rank elemental %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+
+						else if {_time-finished-allmaps} is between 29999 and 29000:
+							if {dropper::player::%player's uuid%::level} is not "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+								make console execute command "/rank god %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+
+						else if {_time-finished-allmaps} is between 28999 and 28000:
+							if {dropper::player::%player's uuid%::level} is not "§5[Mystic+]" or "§5[Mystic+]":
+								make console execute command "/rank mystic %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+						else if {_time-finished-allmaps} < 27999:
+							if {dropper::player::%player's uuid%::level} is not "§5[Mystic+]":
+								make console execute command "/rank mystic+ %player%"
+								send send_yaml("gameplay","rank","%%rank%%","%{dropper::player::%player's uuid%::level}%", "%{dropper::player::%player's uuid%::language}%")
+					set {_total-time} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
+					set {_timer-map} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-map})
+					# if {dropper::duel::player::%{dropper::duel::player::%player%::opponent}%::in-game} is true:
+					# 	send "&a%player% &7finished &afirst &7in &6%{_total-time}%&7!" to {dropper::duel::player::%player%::opponent}
+					# 	send "&7You finished &afirst&7!" to player
+					# 	clear {dropper::duel::player::%player%::asked::%{dropper::duel::player::%player%::opponent}%}
+					# 	clear {dropper::duel::player::%{dropper::duel::player::%player%::opponent}%::opponent}
+					# 	clear {dropper::duel::player::%player%::opponent}
+					# 	clear {dropper::player::%uuid of player%::maps_order-duel::*}
+					# clear {dropper::duel::player::%player%::in-game}
+                    # TODO: Opponent winner
+					dropper_stop(player)
+					send action bar "Total Time: &a%{_total-time}% &8-&f Map Time: &a%{_timer-map}%" to player
+					add 1 to {dropper::player::%uuid of player%::stats::game_finished}
+					if {_legit_pb} is true:
+						play sound "random.levelup" to player
+						send yaml value "gameplay.pb" from "%{dropper::player::%player's uuid%::language}%" to player
+						send title yaml value "gameplay.pb_title" from "%{dropper::player::%player's uuid%::language}%" with subtitle "&7%{dropper::player::%uuid of player%::stats::pb::normal}%" for 3 seconds
+						wait 10 ticks
+						leaderboard({dropper::mainlobby::leaderboard-pb-legit})
+
+
+				else:
+					play sound "fireworks.blast" to player
+					set {dropper::in-game::player::%player%::timer-map} to System.currentTimeMillis()
+					set {dropper::in-game::player::%player%::map} to {_map}
+					if {dropper::duel::player::%player%::opponent} is not set:
+						set {dropper::in-game::player::%player%::map-java} to {dropper::player::%player's uuid%::maps_order::%{dropper::in-game::player::%player%::count}+1%}
+					else:
+						set {dropper::in-game::player::%player%::map-java} to {dropper::player::%player's uuid%::maps_order-duel::%{dropper::in-game::player::%player%::count}+1%}
+					dropper_scoreboard(player)
+					wait 1.5 second
+					clear {dropper::in-game::player::%player%::enter}

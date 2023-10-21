@@ -1,0 +1,18 @@
+function triBulle():
+	set {_list::*} to 24, 13, 41, 243, 51 and 34
+	broadcast "avant - %{_list::*}%"
+	set {_n} to size of {_list::*}
+	loop {_n} times:
+		loop {_n} - loop-value times:
+			set {_nb_1} to {_list::%loop-value-2%}
+			set {_nb_2} to {_list::%loop-value-2 + 1%}
+			if {_nb_1} > {_nb_2}:
+				set {_list::%loop-value-2%} to {_nb_2}
+				set {_list::%loop-value-2 + 1%} to {_nb_1}
+	broadcast "apres - %{_list::*}%"	
+
+
+
+command /tri:
+	trigger:
+		triBulle()

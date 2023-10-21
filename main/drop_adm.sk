@@ -1,0 +1,279 @@
+# Dropper admin commands
+# Command available: create, delete, list, setspawn, setdifficulty, wand, tp, setmainloby, setnpc, delnpc, setlead or setleaderboard, dellead or delleaderboard, uplead or upleaderboard, clearallpb with confirmation
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+command /dropperadmin [<text=help>] [<text>] [<text>]:
+    permission: admin
+    permission message: §cYou do not have permission to run this command!
+    aliases: /dropadm, /dropperadm
+    trigger:
+        if arg 1 is not "help" or "create" or "del" or "delete" or "rem" or "remove" or "list" or "setname" or "addmapset" or "delmapset" or "setspawn" or "setdifficulty" or "wand" or "tp" or "setmainlobby" or "setnpc" or "setcage" or "delnpc" or "setlead" or "setleaderboard" or "dellead" or "delleaderboard" or "uplead" or "upleaderboard" or "clearallpb" or "delplayerig":
+            make player execute command "/dropadm help"
+            stop
+        if arg 1 is "help":
+            send "&a/dropperadmin create <map> &e- Create a map"
+            send "&a/dropperadmin delete <map> &e- Delete a map"
+            send "&a/dropperadmin list &e- Open gui with list of maps"
+            send "&a/dropperadmin setspawn <map> &e- Set the spawn of a map"
+            send "&a/dropperadmin addmapset <mapset> <map> &e- Add map to a mapset"
+            send "&a/dropperadmin delmapset <mapset> <map> &e- Remove map from a mapset"
+            send "&a/dropperadmin setdifficulty <difficulty> <map> &e- Set the difficulty of a map: &aEasy, &eMedium&a, &cHard"
+            send "&a/dropperadmin wand &e- Get stick to select cage pos"
+            send "&a/dropperadmin setcage <map> &e- Set the cage dropper of the map"
+            send "&a/dropperadmin tp <map> &e- Teleport to spawn point of the map"
+            send "&a/dropperadmin setmainlobby &e- Set the main lobby spawn"
+            send "&a/dropperadmin setnpc &e- Place the NPC"
+            send "&a/dropperadmin delnpc &e- Delete the NPC"
+            send "&a/dropperadmin setlead &e- Place the leaderboard"
+            send "&a/dropperadmin dellead &e- Delete the leaderboard"
+            send "&a/dropperadmin uplead &e- Update the leaderboard"
+            send "&a/dropperadmin clearallpb &e- Clear pb of everyone, with confirmation"
+            send "&a/dropperadmin delplayerig &e- Delete player currently playing, to avoid bugs."
+
+        # Check if map exist or not
+        if arg 2 is set:
+            set {_map} to arg 2
+            if arg 1 is not "create" or "setname" or "setdifficulty" or "list" or "addmapset" or "delmapset":
+                if {dropper::map::%{_map}%::name} is not set:
+                    send "&6%{_map}% &cdoes not exists."
+                    stop
+
+        # Create map
+        if arg 1 is "create":
+            if arg 2 is not set:
+                send "&cYou need an map name."
+                stop
+            if {dropper::map::%{_map}%::name} is set:
+                send "&6%{dropper::map::%{_map}%::name}% &calready exists."
+            else:
+                if {_map} contains "Legacy":
+                    add {_map} to {dropper::map-legacy::*}
+                else:
+                    add {_map} to {dropper::map::*}
+                set {dropper::map::%{_map}%::name} to {_map}
+                send "&aSuccessfully created the map &e%{_map}%"
+
+         # Delete map
+        else if arg 1 is "del" or "delete" or "remove" or "rem":
+            if arg 2 is not set:
+                send "&cYou need an map name."
+                stop
+            clear {dropper::map::%{_map}%::*} # Remove name, spawn point, difficulty and cage
+            if {_map} contains "Legacy":
+                remove {_map} from {dropper::map-legacy::*}
+            else:
+                remove {_map} from {dropper::map::*}
+            send "&aSuccessfully deleted the map &e%{_map}%"
+        
+        else if arg 1 is "list": # TODO: interactive gui
+            if arg 2 is "legacy":
+                loop {dropper::map-legacy::*}:
+                    send "&e- &a%{dropper::map::%loop-value%::name}% &e- &a%loop-value%"
+    
+            else:
+                loop {dropper::map::*}:
+                    send "&e- &a%{dropper::map::%loop-value%::name}% &e- &a%loop-value%"
+
+        else if arg 1 is "setname":
+            if arg 2 is not set:
+                send "&cYou need an map name."
+                stop
+            if arg 3 is not set:
+                send "&cYou need to put a new map name."
+                stop
+            set {dropper::map::%arg-2%::name} to arg 3
+            send "&aYou've changed the name of the map &6%arg-2% &ato &6%arg-3%&a."
+        
+        else if arg 1 is "addmapset":
+            if arg 2 is not "fantasy" or "abtract" or "landscape" or "futuristic":
+                send "&cYou need to choose only between &eFantasy&c, &eAbstract&c, &eLandscape &cand &eFuturistic"
+                stop
+            if arg 3 is not set:
+                send "&cYou need to to put a map"
+                stop
+            loop "fantasy", "abstract", "landscape" and "futuristic":
+                if {dropper::mapset::%loop-value%::*} contains arg 3:
+                    send "&e%{dropper::map::%arg 3%::name}% &cis already on &e%loop-value% &cmapset."
+                    stop
+            
+            if arg 2 is "fantasy":
+                add arg 3 to {dropper::mapset::fantasy::*}
+                set {_mapset} to "Fantasy"
+
+            else if arg 2 is "abstract":
+                add arg 3 to {dropper::mapset::abstract::*}
+                set {_mapset} to "Abstract"
+
+            else if arg 2 is "landscape":
+                add arg 3 to {dropper::mapset::landscape::*}
+                set {_mapset} to "Landscape"
+
+            else if arg 2 is "futuristic":
+                add arg 3 to {dropper::mapset::futuristic::*}
+                set {_mapset} to "Futuristic"
+
+            send "&e%{dropper::map::%arg 3%::name}% &ahas been added to the mapset &a%{_mapset}%"
+
+        else if arg 1 is "delmapset":
+            if arg 2 is not "fantasy" or "abtract" or "landscape" or "futuristic":
+                send "&cYou need to choose only between &eFantasy&c, &eAbstract&c, &eLandscape &cand &eFuturistic"
+                stop
+            if arg 3 is not set:
+                send "&cYou need to to put a map"
+                stop
+            
+            loop "fantasy", "abstract", "landscape" and "futuristic":
+                if {dropper::mapset::%loop-value%::*} don't contain arg 3:
+                    send "&e%{dropper::map::%arg 3%::name}% &ais not added on any mapset."
+                    stop
+                else:
+                    set {_mapset} to loop-value
+                    remove arg 3 from {dropper::mapset::%{_mapset}%::*}
+                    send "&e%{dropper::map::%arg 3%::name}% &chas been removed from the mapset &e%{_mapset}%"
+                    stop
+            
+
+
+        else if arg 1 is "setcage":
+            clear {dropper::map::%{_map}%::block-location::*}
+            loop blocks within {dropper::wand::%player%::pos1} and {dropper::wand::%player%::pos2}:
+                add location of loop-block to {dropper::map::%{_map}%::block-location::*}
+            send "&aCage set for %{dropper::map::%{_map}%::name}%"
+            clear {dropper::wand::%player%::pos1} 
+            clear {dropper::wand::%player%::pos2} 
+
+        else if arg 1 is "setspawn":
+            if arg 2 is not set:
+                send "&cYou need an map name."
+                stop
+            set {_spawn} to location of block under player
+            add 1 to y-coords of {_spawn}
+            set {_x} to x-coords of {_spawn}
+            set {_y} to y-coords of {_spawn}
+            set {_z} to z-coords of {_spawn}
+            set {_world} to player's world
+            set {_yaw} to yaw of player
+            if {_yaw} is between 175 and 185: # north
+                set {_yaw} to 180
+            
+            if {_yaw} is between 260 and 280: # east
+                set {_yaw} to 90
+
+            if {_yaw} is between 345 and 360: # south
+                set {_yaw} to 0
+            
+            if {_yaw} is between 0 and 30: # south
+                set {_yaw} to 0 
+            
+            if {_yaw} is between 70 and 100: # west
+                set {_yaw} to -90
+            set {dropper::map::%{_map}%::spawn} to location({_x}, {_y}, {_z}, {_world}, {_yaw}, 0)
+            send "&aSuccessfully set the spawn of &e%{dropper::map::%{_map}%::name}% &ato &e%{dropper::map::%{_map}%::spawn}%"
+
+        else if arg 1 is "setdifficulty":
+            if {dropper::map::%arg 2%::name} is not set:
+                send "&6%arg 2% &cdoes not exists."
+                stop
+            if arg 2 is not set:
+                send "&cYou need an map name."
+                stop
+            if arg 3 is not set:
+                send "&cYou need to put an difficulty. &aEasy&c, &eMedium &cor Hard"
+                stop
+            if arg 3 is "easy":
+                set {_result} to "&aEasy"
+            if arg 3 is "medium":
+                set {_result} to "&eMedium"
+            if arg 3 is "hard":
+                set {_result} to "&cHard"
+            set {dropper::map::%arg 2%::difficulty} to {_result}
+            send "&aThe map &e%{dropper::map::%arg 2%::name}% &ahas been set to difficulty %{_result}%"
+        
+        else if arg 1 is "wand":
+            give stick named "&a&lDROPPER &e&lWAND" to player
+
+        else if arg 1 is "tp":
+            teleport player to {dropper::map::%{_map}%::spawn}
+            send "&aTeleported to &e%{dropper::map::%{_map}%::name}%"
+
+        else if arg 1 is "setmainlobby":
+            set {dropper::mainlobby::spawn} to player's location
+            send "&aThe Mainlobby has been placed."
+
+        else if arg 1 is "setnpc":
+            make player execute command "/dropadm delnpc" if {dropper::mainlobby::npc::spawn} is set
+            create a citizen named "Dropper Prac NPC" at location of player
+            set {_loc} to location of player
+            add 2 to y-coordinate of {_loc}
+            set {dropper::mainlobby::npc::spawn} to player's location
+            set {dropper::mainlobby::npc::holo} to {_loc}
+            createholo({_loc}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1) 
+            send "&cNPC has been placed"
+            wait 5 ticks
+            make player execute command "/npc select"
+            make player execute command "/npc name"
+            make player execute command "/npc skin --url https://minesk.in/1071604227cd4d74bfd0ccc2b06f98b6"
+        
+        else if arg 1 is "delnpc":
+            if {dropper::mainlobby::npc::spawn} is not set:
+                send "&cYou must set an NPC first"
+                stop
+            deleteholo({dropper::mainlobby::npc::holo}, 2) 
+            loop all entities in radius 0.1 of {dropper::mainlobby::npc::spawn}:
+                make player execute command "/npc select %citizen id of loop-entity%"
+                make player execute command "/npc remove"
+            clear {dropper::mainlobby::npc::*}
+        
+        else if arg 1 is "setlead" or "setleaderboard":
+            make player execute command "/dropadm dellead" if {dropper::mainlobbby::leaderboard::no-meta} is set
+            set {dropper::mainlobbby::leaderboard::no-meta} to player's location
+            add 3 to y-coords of {dropper::mainlobbby::leaderboard::no-meta}
+            leaderboard({dropper::mainlobbby::leaderboard::no-meta}, "nometa")
+        
+        else if arg 1 is "dellead" or "delleaderboard":
+            if {dropper::mainlobbby::leaderboard::no-meta} is not set:
+                send "&cYou need to put the leaderboard first."
+                stop
+            deleteholo({dropper::mainlobbby::leaderboard::no-meta}, 12)
+            clear {dropper::mainlobbby::leaderboard::no-meta}
+            send "&aLeaderboard for no meta deleted with success!"
+        
+        else if arg 1 is "uplead" or "upleaderboard":
+            if {dropper::mainlobbby::leaderboard::no-meta} is set:
+                leaderboard({dropper::mainlobbby::leaderboard::no-meta}, "nometa")
+                send "&aThe meta leaderboard has been updated."
+            else:
+                send "&cYou need to put the leaderboard first."
+        
+        else if arg 1 is "clearallpb":
+            if {dropper::player::%player's uuid%::confirm-pb-clear::admin} is not set:
+                set {dropper::player::%player's uuid%::confirm-pb-clear::admin} to true
+                send "&cYou are about to remove all personal best! Are your sure? Redo the command to confirm."
+                wait 30 seconds
+                clear {dropper::player::%player's uuid%::confirm-pb-clear::admin}
+            else:
+                loop all offline players:
+                    clear {dropper::player::%uuid of loop-value%::stats::pb::normal}
+                    loop {dropper::map::*}:
+                        clear {dropper::player::%uuid of loop-value-1%::stats::pb::%loop-value-2%}
+                        clear {dropper::player::%uuid of loop-value-1%::level}
+                    if loop-value is online:
+                        mainlobby_join(loop-value, "%{dropper::player::%uuid of loop-value%::language}%")
+                    make console execute command "/nte player %loop-value% prefix &7"
+                    make console execute command "/nte player %loop-value% priority 12"
+                    make console execute command "/nte reload"
+                send "&aYou removed personal best of everyone, including map pb."
+                clear {dropper::player::%player's uuid%::confirm-pb-clear::admin}
+                leaderboard({dropper::mainlobbby::leaderboard::no-meta}, "nometa")
+
+        else if arg 1 is "delplayerig":
+            clear {dropper::mainlobby::in-game::*}
+            send "&aPlayers in game count cleared."

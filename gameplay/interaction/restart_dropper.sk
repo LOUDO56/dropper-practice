@@ -1,0 +1,25 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+on rightclick with rose red:
+	if colored name of player's held item is yaml value "gameplay.rose-red" from "%{dropper::player::%player's uuid%::language}%":
+		if {dropper::in-game::player::%player%::in-game} is true:
+			if {dropper::in-game::player::%{_p}%::practice-skip} is true:
+				set {_map} to {dropper::player::%player's uuid%::map-portal-skip::%{dropper::in-game::player::%player%::count}%}
+				teleport player to {dropper::map::%{_map}%::spawn}
+			else:
+				if {dropper::in-game::player::%player%::about_to_start} is not set:
+					set {dropper::in-game::player::%player%::no-damage} to true
+					dropper_play(player, {dropper::in-game::player::%player%::mode_playing})
+					wait 10 ticks
+					clear {dropper::in-game::player::%player%::no-damage}
+				else:
+					send yaml value "mainlobby.command.dropper.cant_restart" from "%{dropper::player::%player's uuid%::language}%"

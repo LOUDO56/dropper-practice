@@ -1,0 +1,22 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+on leftclick with stick:
+	if name of player's tool is "&a&lDROPPER &e&lWAND":
+		cancel event
+		set {dropper::wand::%player%::pos1} to location of targeted block
+		send "&aPos 1 set"
+
+
+on rightclick with stick:
+	if name of player's tool is "&a&lDROPPER &e&lWAND":
+		cancel event
+		set {dropper::wand::%player%::pos2} to location of targeted block
+		send "&aPos 2 set"

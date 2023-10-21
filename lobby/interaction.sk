@@ -1,0 +1,84 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+on right click with lime dye:
+	if name of player's tool is yaml value "mainlobby.item.player_visibility_on" from "%{dropper::player::%player's uuid%::language}%":
+		set slot 8 of player to gray dye named yaml value "mainlobby.item.player_visibility_off" from "%{dropper::player::%player's uuid%::language}%"
+		set {dropper::player::%player's uuid%::player-visibility} to "off"
+		hide all players from player
+		send yaml value "mainlobby.message.hub.player_off" from "%{dropper::player::%player's uuid%::language}%"
+	else if name of player's tool is yaml value "mainlobby.item.chat_in_game_on" from "%{dropper::player::%player's uuid%::language}%":
+		set slot 7 of player to gray dye named yaml value "mainlobby.item.chat_in_game_off" from "%{dropper::player::%player's uuid%::language}%"
+		send yaml value "mainlobby.message.hub.chat_in_game_off" from "%{dropper::player::%player's uuid%::language}%"
+		clear {dropper::player::%uuid of player%::chat-in-game}
+	else if name of player's tool is "&eOpponent: &aVisible":
+		set slot 0 of player to gray dye named "&eOpponent: &cHidden"
+		send "&cYour opponent is now hidden"
+		hide {dropper::duel::player::%player%::opponent} from player
+
+on right click with gray dye:
+	if name of player's tool is yaml value "mainlobby.item.player_visibility_off" from "%{dropper::player::%player's uuid%::language}%":
+		set slot 8 of player to lime dye named yaml value "mainlobby.item.player_visibility_on" from "%{dropper::player::%player's uuid%::language}%"
+		set {dropper::player::%player's uuid%::player-visibility} to "on"
+		loop all players:
+			if {dropper::in-game::player::%loop-value%::in-game} is not set:
+				reveal loop-value from player
+		send yaml value "mainlobby.message.hub.player_on" from "%{dropper::player::%player's uuid%::language}%"
+	else if name of player's tool is yaml value "mainlobby.item.chat_in_game_off" from "%{dropper::player::%player's uuid%::language}%":
+		set slot 7 of player to lime dye named yaml value "mainlobby.item.chat_in_game_on" from "%{dropper::player::%player's uuid%::language}%"
+		send yaml value "mainlobby.message.hub.chat_in_game_on" from "%{dropper::player::%player's uuid%::language}%"
+		set {dropper::player::%uuid of player%::chat-in-game} to true
+	else if name of player's tool is "&eOpponent: &cHidden":
+		set slot 0 of player to lime dye named "&eOpponent: &aVisible"
+		send "&aYour opponent is now visible"
+		reveal {dropper::duel::player::%player%::opponent} from player
+
+on rightclick with book:
+	if name of player's tool is yaml value "mainlobby.item.stats" from {dropper::player::%player's uuid%::language}:
+		set {_pb} to {dropper::player::%player's uuid%::stats::pb::normal}
+		if {_pb} is not set:
+			set {_pb} to "&e00:00.000"
+		create gui with virtual chest inventory named "Statistics" with 1 rows:
+			make gui slot 3 with paper named yaml value "mainlobby.gui.stats.paper_name" from {dropper::player::%player's uuid%::language} with lore "","&7Games Played: &a%{dropper::player::%player's uuid%::stats::game_played}%","&7Games Finished: &a%{dropper::player::%player's uuid%::stats::game_finished}%","&7Maps completed: &a%{dropper::player::%player's uuid%::stats::maps_completed}%","","&7Fails: &c%{dropper::player::%player's uuid%::stats::fails}%", "&7Fastest Game: &e%{_pb}%", "", "&cWARNING: Personal Best may be" and "&creset at any time!"
+			make gui slot 5 with slime ball named yaml value "mainlobby.gui.stats.any_name" from {dropper::player::%player's uuid%::language} with lore "" and yaml value "mainlobby.gui.stats.any_lore" from {dropper::player::%player's uuid%::language}:
+				dropper_gui_npc(player, "map_pb", {_page})
+		open last created gui to player
+
+on weather change to rain or thunder:
+	cancel event
+
+on hunger meter change:
+	cancel event
+
+on inventory click:
+	if player does not have permission "dropper.builder":
+		cancel event
+
+on drop:
+	if player does not have permission "dropper.builder":
+		cancel event
+
+
+on place:
+	if player does not have permission "dropper.builder":
+		cancel event
+
+
+on break:
+	if player does not have permission "dropper.builder":
+		cancel event
+		
+
+on npc right click:
+	dropper_gui_npc(player, "main_menu", 0)
+
+on npc left click:
+	dropper_gui_npc(player, "main_menu", 0)

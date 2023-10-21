@@ -1,0 +1,19 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+function dropper_actionbar_time(p: player):
+	while {dropper::in-game::player::%{_p}%::in-game} is true:
+		if {dropper::in-game::player::%{_p}%::about_to_start} is not set:
+			set {_total-time} to dropper_convert_date(System.currentTimeMillis(), {dropper::in-game::player::%{_p}%::timer-in-game})
+			set {_map-time} to dropper_convert_date(System.currentTimeMillis(), {dropper::in-game::player::%{_p}%::timer-map})
+			send action bar "Total Time: &a%{_total-time}% &8- &fMap Time: &a%{_map-time}%" to {_p}
+		else:
+			send action bar "" to {_p}
+		wait 1 tick

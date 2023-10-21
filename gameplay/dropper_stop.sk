@@ -1,0 +1,34 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+
+function dropper_stop(p: player):
+	clear {dropper::in-game::player::%{_p}%::*}
+	# TODO: Opponent leaving
+	set {dropper::in-game::player::%{_p}%::too-fast} to true
+	if {dropper::player::%uuid of {_p}%::maps_order.backup::*} is set:
+		set {dropper::player::%uuid of {_p}%::maps_order::*} to {dropper::player::%uuid of {_p}%::maps_order.backup::*}
+	clear {dropper::player::%uuid of {_p}%::maps_order.backup::*}
+	heal {_p}
+	clear {dropper::in-game::player::%{_p}%::map_completed::*}
+	remove {_p} from {dropper::mainlobby::in-game::*}
+	if {_p} is online:
+		teleport {_p} to {dropper::mainlobby::spawn}
+		mainlobby_join({_p}, {dropper::player::%uuid of {_p}%::language})
+		loop all players in world "%{dropper::mainlobby::world}%":
+			if {dropper::player::%uuid of loop-value%::player-visibility} is "on":
+				reveal {_p} from loop-value
+		loop all players where [{dropper::in-game::player::%input%::in-game} is true]:
+			hide loop-value from {_p}
+			hide {_p} from loop-value
+	wait 10 ticks
+	createholo({dropper::mainlobby::npc-leaderboard-pb-legit}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	wait 1 second
+	clear {dropper::in-game::player::%{_p}%::too-fast}

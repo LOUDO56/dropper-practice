@@ -1,0 +1,122 @@
+command /createlegacymap:
+    permission: op
+    trigger:
+
+        # Easy
+
+        make player execute command "/dropadm create Tangle-Legacy"
+        make player execute command "/dropadm create Upside-Legacy"
+        make player execute command "/dropadm create Well-Legacy"
+        make player execute command "/dropadm create BBQ-Legacy"
+        make player execute command "/dropadm create Time-Legacy"
+        make player execute command "/dropadm create Balloons-Legacy"
+        make player execute command "/dropadm create Distance-Legacy"
+        make player execute command "/dropadm create Lily-Legacy"
+        make player execute command "/dropadm create Mushroom-Legacy"
+        make player execute command "/dropadm create Drainage-Legacy"
+        make player execute command "/dropadm create Space-Legacy"
+        make player execute command "/dropadm create Warp-Legacy"
+        make player execute command "/dropadm create Toilet-Legacy"
+        make player execute command "/dropadm create Plughole-Legacy"
+
+        make player execute command "/dropadm setname Tangle-Legacy Tangle"
+        make player execute command "/dropadm setname Upside-Legacy Upside Down"
+        make player execute command "/dropadm setname Well-Legacy Well"
+        make player execute command "/dropadm setname BBQ-Legacy BBQ"
+        make player execute command "/dropadm setname Time-Legacy Time"
+        make player execute command "/dropadm setname Balloons-Legacy Balloons"
+        make player execute command "/dropadm setname Distance-Legacy Distance"
+        make player execute command "/dropadm setname Lily-Legacy Lily"
+        make player execute command "/dropadm setname Mushroom-Legacy Mushroom"
+        make player execute command "/dropadm setname Drainage-Legacy Drainage"
+        make player execute command "/dropadm setname Space-Legacy Space"
+        make player execute command "/dropadm setname Warp-Legacy Warp"
+        make player execute command "/dropadm setname Toilet-Legacy Toilet"
+        make player execute command "/dropadm setname Plughole-Legacy Plughole"
+
+        make player execute command "/dropadm setdifficulty Tangle-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Upside-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Well-Legacy Easy"
+        make player execute command "/dropadm setdifficulty BBQ-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Time-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Balloons-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Distance-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Lily-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Mushroom-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Drainage-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Space-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Warp-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Toilet-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Plughole-Legacy Easy"
+
+
+
+        # Medium
+
+
+
+
+
+        make player execute command "/dropadm create Castle-Legacy"
+        make player execute command "/dropadm create Floating-Legacy"
+        make player execute command "/dropadm create Mineshaft-Legacy"
+        make player execute command "/dropadm create Geometry-Legacy"
+        make player execute command "/dropadm create Retro-Legacy"
+        make player execute command "/dropadm create Cabin-Legacy"
+        make player execute command "/dropadm create Ravine-Legacy"
+        make player execute command "/dropadm create Western-Legacy"
+        make player execute command "/dropadm create City-Legacy"
+
+        make player execute command "/dropadm setname Castle-Legacy Castle"
+        make player execute command "/dropadm setname Floating-Legacy Floating Islands"
+        make player execute command "/dropadm setname Mineshaft-Legacy Mineshaft"
+        make player execute command "/dropadm setname Geometry-Legacy Geometry"
+        make player execute command "/dropadm setname Retro-Legacy Retro"
+        make player execute command "/dropadm setname Cabin-Legacy Cabin"
+        make player execute command "/dropadm setname Ravine-Legacy Ravine"
+        make player execute command "/dropadm setname Western-Legacy Western"
+        make player execute command "/dropadm setname City-Legacy City"
+
+        make player execute command "/dropadm setdifficulty Castle-Legacy medium"
+        make player execute command "/dropadm setdifficulty Floating-Legacy medium"
+        make player execute command "/dropadm setdifficulty Mineshaft-Legacy medium"
+        make player execute command "/dropadm setdifficulty Geometry-Legacy medium"
+        make player execute command "/dropadm setdifficulty Retro-Legacy medium"
+        make player execute command "/dropadm setdifficulty Cabin-Legacy medium"
+        make player execute command "/dropadm setdifficulty Ravine-Legacy medium"
+        make player execute command "/dropadm setdifficulty Western-Legacy medium"
+        make player execute command "/dropadm setdifficulty City-Legacy medium"
+
+
+        # Hard
+
+        make player execute command "/dropadm create Atlantis-Legacy"
+        make player execute command "/dropadm create Illusion-Legacy"
+        make player execute command "/dropadm create Iris-Legacy"
+        make player execute command "/dropadm create Ocean-Legacy"
+        make player execute command "/dropadm create Factory-Legacy"
+        make player execute command "/dropadm create Gears-Legacy"
+        make player execute command "/dropadm create Sandworm-Legacy"
+
+        make player execute command "/dropadm setname Atlantis-Legacy Atlantis"
+        make player execute command "/dropadm setname Illusion-Legacy Illusion"
+        make player execute command "/dropadm setname Iris-Legacy Iris"
+        make player execute command "/dropadm setname Ocean-Legacy Ocean"
+        make player execute command "/dropadm setname Factory-Legacy Factory"
+        make player execute command "/dropadm setname Gears-Legacy Gears"
+        make player execute command "/dropadm setname Sandworm-Legacy Sandworm"
+
+        make player execute command "/dropadm setdifficulty Atlantis-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Illusion-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Iris-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Ocean-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Factory-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Gears-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Sandworm-Legacy Hard"
+
+
+command /dellegacymap:
+    permission: op
+    trigger:
+        loop {dropper::map-legacy::*}:
+            make player execute command "/dropadm delete %loop-value%"

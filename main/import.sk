@@ -1,0 +1,5 @@
+on load:
+	load yaml "plugins/Dropper/francais.yml" as "fr"
+	load yaml "plugins/Dropper/anglais.yml" as "us"
+	load yaml "plugins/Dropper/espagnol.yml" as "es"
+	load yaml "plugins/Dropper/neerlandais.yml" as "ner"

@@ -1,0 +1,39 @@
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+on join:
+	send ""
+	loop 5 times:
+		send yaml value "mainlobby.message.hub.welcome.%loop-value%" from "us"
+	send ""
+	set tab header to "&a&lDROPPER PRACTICE\n" and footer to "\n&7Practice your skills!\n&7A server from the &9discord &e&nDropper Community!" for player
+	set join message to ""
+	teleport player to {dropper::mainlobby::spawn}
+	mainlobby_join(player, {dropper::player::%player's uuid%::language})
+	set {_loc} to {dropper::mainlobby::npc-leaderboard-pb-legit}
+	wait 5 ticks
+	createholo({_loc}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	apply night vision without particles to player for 999999 seconds
+	if {dropper::player::%player's uuid%::level} is not set:
+		make console execute command "/nte player %player% prefix &7"
+		make console execute command "/nte player %player% priority 12"
+		make console execute command "/nte reload"
+	loop all players where [{dropper::player::%uuid of input%::player-visibility} is "off"]:
+		hide player from loop-player
+	loop all players:
+		if {dropper::in-game::player::%loop-value%::in-game} is true:
+			hide player from loop-value
+			hide loop-value from player
+
+on quit:
+	set quit message to ""
+	clear {dropper::duel::player::%player%::setting-maps}
+	if {dropper::in-game::player::%player%::in-game} is true:
+		dropper_stop(player)

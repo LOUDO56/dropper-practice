@@ -1,0 +1,48 @@
+
+import:
+	java.util.Date
+	java.text.SimpleDateFormat
+	java.lang.System
+	org.bukkit.entity.Player
+	org.bukkit.Bukkit
+	org.bukkit.Location
+	org.bukkit.Material
+
+
+command /language [<text>]:
+	aliases: /lang
+	trigger:
+		if arg is not set:
+			send yaml value "mainlobby.message.lang_select" from "%{dropper::player::%player's uuid%::language}%"
+		if arg 1 is "fr" or "francais" or "français":
+			set {dropper::player::%player's uuid%::language} to "fr"
+			set {_arg-set} to true
+		if arg 1 is "us" or "english" or "america" or "en":
+			set {dropper::player::%player's uuid%::language} to "us"
+			set {_arg-set} to true
+		if arg 1 is "espagnol" or "es" or "español" or "espanol":
+			set {dropper::player::%player's uuid%::language} to "es"
+			set {_arg-set} to true
+		if arg 1 is "ner" or "nederlands":
+			set {dropper::player::%player's uuid%::language} to "ner"
+			set {_arg-set} to true
+		if arg 1 is set:
+			if {_arg-set} is true:
+				send yaml value "mainlobby.message.lang_selected" from "%{dropper::player::%player's uuid%::language}%"
+				play sound "note.pling" with pitch 15 to player
+				if {dropper::in-game::player::%player%::in-game} is not set:
+					mainlobby_join(player, {dropper::player::%player's uuid%::language})
+				else:
+					set slot 4 of player to redstone item named yaml value "gameplay.redstone" from "%{dropper::player::%player's uuid%::language}%"
+					set slot 8 of player to dark oak door named yaml value "gameplay.door" from "%{dropper::player::%player's uuid%::language}%"
+					if {dropper::in-game::player::%player%::practice-map} is set:
+						set slot 0 of player to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of player%::language}
+					else if {dropper::in-game::player::%player%::practice-skip} is true:
+						set slot 0 of player to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of player%::language}
+						set slot 1 of player to rose red named yaml value "gameplay.rose-red" from "%{dropper::player::%player's uuid%::language}%"
+					else:
+						set slot 0 of player to rose red named yaml value "gameplay.rose-red" from "%{dropper::player::%player's uuid%::language}%"
+					clear player's scoreboard
+					dropper_scoreboard(player)
+			else:
+				send yaml value "mainlobby.message.lang_select" from "%{dropper::player::%player's uuid%::language}%"
