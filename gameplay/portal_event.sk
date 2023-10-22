@@ -56,6 +56,7 @@ on portal enter:
 				set {_map.any} to {_maps_of_player::%{dropper::in-game::player::%player%::count}-1%}
 				heal player
 				set {_time} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-map})
+				add {_time} to {dropper::player::%player's uuid%::temp_splits::*}
 				send send_yaml("gameplay","finished-map","%%count%%|%%map%%|%%time%%","%({dropper::in-game::player::%player%::count}-1)%|%{_map.completed.name}%|%{_time}%", {dropper::player::%player's uuid%::language})
 				if {dropper::duel::player::%{dropper::duel::player::%player%::opponent}%::in-game} is true:
 					send "&a%player% &7finished Map %({dropper::in-game::player::%player%::count}-1)% (&b%{_map.completed.name}%&7) in &6%{_time}%&7!" to {dropper::duel::player::%player%::opponent}
@@ -84,11 +85,11 @@ on portal enter:
 					else if {dropper::mapset::futuristic::*} contains {_maps_of_player::*}:
 						set {_mapset} to "futuristic"
 					else:
-						set {_mapset} to "nometa"
-					if {dropper::player::%player's uuid%::legacy-state} is true:
-						set {_pb} to {dropper::player::%uuid of player%::stats::pb::legacy}
-					else:
-						set {_pb} to {dropper::player::%uuid of player%::stats::pb::%{_mapset}%}
+						if {dropper::player::%player's uuid%::legacy-state} is true:
+							set {_mapset} to "legacy"
+						else:
+							set {_mapset} to "nometa"
+					set {_pb} to {dropper::player::%uuid of player%::stats::pb::%{_mapset}%}
 					set {_pb} to convert_pb_to_number({_pb})
 					# loop {_maps_of_player::*}:
 					# 	loop "fantasy", "abstract", "landscape" and "futuristic":
@@ -97,7 +98,6 @@ on portal enter:
 					# loop "fantasy", "abstract", "landscape" and "futuristic":
 					# 	if {_map-in-mapset-%loop-value%} = 5:
 					# 		set {_mapset} to loop-value
-					send "Map provienne de %{_mapset}%"
 					if {_time-finished-allmaps} > {_pb-accepted}:
 						if {dropper::map::%{dropper::player::%uuid of player%::maps_order::1}%::difficulty} = "&aEasy":
 							if {dropper::map::%{dropper::player::%uuid of player%::maps_order::2}%::difficulty} = "&aEasy":
@@ -106,12 +106,10 @@ on portal enter:
 										if {dropper::map::%{dropper::player::%uuid of player%::maps_order::5}%::difficulty} = "&cHard":
 											if {dropper::player::%uuid of player%::stats::pb::%{_mapset}%} is not set:
 												set {_pb} to {_time-finished-allmaps}+1
-											send "%{_time-finished-allmaps}%, %{_pb}%"
 											if {_time-finished-allmaps} < {_pb}:
-												if {dropper::player::%player's uuid%::legacy-state} is true:
-													set {dropper::player::%uuid of player%::stats::pb::legacy} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
-												else:
-													set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
+												set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
+												set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%::mapset::*} to {_maps_of_player::*} 
+												set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%::splits::*} to {dropper::player::%player's uuid%::temp_splits::*} 
 												set {_legit_pb} to true
 										else:
 											send "&cYou need to follow this pattern to have a personal best: &aEasy Easy &eMedium Medium &cHard"
@@ -202,12 +200,13 @@ on portal enter:
 					dropper_stop(player)
 					send action bar "Total Time: &a%{_total-time}% &8-&f Map Time: &a%{_timer-map}%" to player
 					add 1 to {dropper::player::%uuid of player%::stats::game_finished}
+					clear {dropper::player::%player's uuid%::temp_splits::*}
 					if {_legit_pb} is true:
 						play sound "random.levelup" to player
 						send send_yaml("gameplay", "pb", "%%meta%%", {_mapset}, {dropper::player::%player's uuid%::language}) to player
 						send title yaml value "gameplay.pb_title" from "%{dropper::player::%player's uuid%::language}%" with subtitle "&7%{dropper::player::%uuid of player%::stats::pb::%{_mapset}%}%" for 3 seconds
 						wait 10 ticks
-						leaderboard({dropper::mainlobbby::leaderboard::%{_mapset}%}, {_mapset})
+						leaderboard({dropper::mainlobby::leaderboard::%{_mapset}%}, {_mapset})
 
 
 				else:

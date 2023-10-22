@@ -36,7 +36,7 @@ on join:
 	else:
 		teleport player to {dropper::mainlobby::spawn}
 	mainlobby_join(player, {dropper::player::%player's uuid%::language})
-	set {_loc} to {dropper::mainlobby::npc-leaderboard-pb-legit}
+	set {_loc} to {dropper::mainlobby-legacy::npc::holo}
 	wait 5 ticks
 	createholo({_loc}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	apply night vision without particles to player for 999999 seconds

@@ -1,0 +1,123 @@
+command /pbmanager [<text=help>] [<offline player>] [<text>]:
+    permission: mod
+    permission message: &cYou can't use that command!
+    trigger:
+        if arg 1 is not "clear" or "clearmap" or "getsplits" or "getsplits-legacy" or "getpbs" or "help":
+            make player execute command "/pbmanager help"
+            stop
+        if arg 1 is "help":
+            send "&a-----------------------------------------"
+            send "&e/pbmanager &aclear <player> <mapset> &e- Clear a mapset pb of a player"
+            send "&e/pbmanager &aclearmap <player> <map> &e- Clear a map pb of a player"
+            send "&e/pbmanager &agetsplits <player> (map) &e- Get split time of a player"
+            send "&e/pbmanager &agetsplits-legacy <player> &e- Get split time of legacy map of a player"
+            send "&e/pbmanager &agetpbs <player> (mapset) &e- Get personal best of a player"
+            send "&a-----------------------------------------"
+            stop
+        
+        else if arg 1 is "getpbs":
+            if arg 2 is not set:
+                send "&cYou must set a player"
+            else:
+                dropper_personal_best_gui(player, arg 2)
+        
+        else if arg 1 is "getsplits":
+
+            if arg 2 is not set:
+                send "&cYou must set a player"
+            else:
+                if arg 3 is not set:
+                    send "&aSplits of %arg 2%"
+                    loop {dropper::map::*}:
+                        if {dropper::map::%loop-value%::difficulty} is "&aEasy":
+                            add "&a%{dropper::player::%arg 2's uuid%::stats::pb::%loop-value%}% &e- &a%{dropper::map::%loop-value%::name}%" to {_easy::*} if {dropper::player::%arg 2's uuid%::stats::pb::%loop-value%} is set
+                        else if {dropper::map::%loop-value%::difficulty} is "&eMedium":
+                            add "&a%{dropper::player::%arg 2's uuid%::stats::pb::%loop-value%}% &e- &a%{dropper::map::%loop-value%::name}%" to {_med::*} if {dropper::player::%arg 2's uuid%::stats::pb::%loop-value%} is set
+                        else if {dropper::map::%loop-value%::difficulty} is "&cHard":
+                            add "&a%{dropper::player::%arg 2's uuid%::stats::pb::%loop-value%}% &e- &a%{dropper::map::%loop-value%::name}%" to {_hard::*} if {dropper::player::%arg 2's uuid%::stats::pb::%loop-value%} is set
+
+                        
+                    send " "
+                    send "&a&lEASY"
+                    send {_easy::*}
+
+                    send " "
+                    send "&e&lMEDIUM"
+                    send {_med::*}
+
+                    send " "
+                    send "&c&lHARD"
+                    send {_hard::*}
+                else:
+                    if {dropper::map::*} don't contain arg 3:
+                        if {dropper::map-legacy::*} don't contain arg 3:
+                            send "&cYou must set a valid map"
+                            stop
+
+                    send "&aSplits of %arg 2%"
+                    if {dropper::player::%arg 2's uuid%::stats::pb::%arg 3%} is set:
+                        send "&a%{dropper::player::%arg 2's uuid%::stats::pb::%arg 3%}% &e- &a%{dropper::map::%arg 3%::name}%"
+                    else:
+                        send "&cDidn't play"
+
+
+            
+        else if arg 1 is "getsplits-legacy":
+
+            if arg 2 is not set:
+                send "&cYou must set a player"
+            else:
+                if arg 3 is not set:
+                    send "&aSplits of %arg 2%"
+                    loop {dropper::map-legacy::*}:
+                        if {dropper::map::%loop-value%::difficulty} is "&aEasy":
+                            add "&a%{dropper::player::%arg 2's uuid%::stats::pb::%loop-value%}% &e- &a%{dropper::map::%loop-value%::name}%" to {_easy::*} if {dropper::player::%arg 2's uuid%::stats::pb::%loop-value%} is set
+                        else if {dropper::map::%loop-value%::difficulty} is "&eMedium":
+                            add "&a%{dropper::player::%arg 2's uuid%::stats::pb::%loop-value%}% &e- &a%{dropper::map::%loop-value%::name}%" to {_med::*} if {dropper::player::%arg 2's uuid%::stats::pb::%loop-value%} is set
+                        else if {dropper::map::%loop-value%::difficulty} is "&cHard":
+                            add "&a%{dropper::player::%arg 2's uuid%::stats::pb::%loop-value%}% &e- &a%{dropper::map::%loop-value%::name}%" to {_hard::*} if {dropper::player::%arg 2's uuid%::stats::pb::%loop-value%} is set
+
+                        
+                    send " "
+                    send "&a&lEASY"
+                    send {_easy::*}
+
+                    send " "
+                    send "&e&lMEDIUM"
+                    send {_med::*}
+
+                    send " "
+                    send "&c&lHARD"
+                    send {_hard::*}
+
+        
+        else if arg 1 is "clear":
+            if arg 2 is not set:
+                send "&cYou must set a player"
+            else if arg 3 is not set:
+                send "&cYou need to specify the type. &eNometa&c, &efantasy&c, &eabstract&c, &elandscape&c, &efuturistic&c and &elegacy"
+            else:
+                if arg 3 is set:
+                    clear {dropper::player::%uuid of arg 2%::stats::pb::%arg 3%::mapset::*}
+                    clear {dropper::player::%uuid of arg 2%::stats::pb::%arg 3%::splits::*}
+                    clear {dropper::player::%uuid of arg 2%::stats::pb::%arg 3%}
+                    send "&aYou deleted pb of &e%arg 2% &afrom the mapset &e%arg 3% &awith success."
+                    leaderboard({dropper::mainlobby::leaderboard::%arg 3%}, arg 3)
+
+
+        else if arg 1 is "clearmap":
+            if arg 2 is not set:
+                send "&cYou must set a player"
+                stop
+            else if arg 3 is not set:
+                send "&cYou must set a map"
+                stop
+            else if {dropper::map::*} don't contain arg 3:
+                if {dropper::map-legacy::*} don't contain arg 3:
+                    send "&cYou must set a valid map"
+                    stop
+            clear {dropper::player::%uuid of arg 2%::stats::pb::%arg 3%}
+            send "&aYou deleted pb of &e%arg 2% &afrom the map &e%arg 3% &awith success."
+
+
+            

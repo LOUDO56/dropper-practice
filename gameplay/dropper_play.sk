@@ -10,7 +10,10 @@ import:
 function dropper_play(p: player, mode: text):
 	{dropper::in-game::player::%{_p}%::about_to_start} is not set
 	add {_p} to {dropper::mainlobby::in-game::*} if {dropper::in-game::player::%{_p}%::in-game} is not set
-	createholo({dropper::mainlobby::npc::holo}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+		createholo({dropper::mainlobby-legacy::npc::holo}, "&a&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	else:
+		createholo({dropper::mainlobby::npc::holo}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	clear {_p}'s scoreboard
 	clear {_p}'s inventory
 	set {dropper::in-game::player::%{_p}%::in-game} to true

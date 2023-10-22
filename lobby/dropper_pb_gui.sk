@@ -1,0 +1,64 @@
+function dropper_confirm_action_pb(p: player, target: offline player, mapset: text, item: item):
+	create gui with virtual chest inventory named "Confirm" with 4 rows:
+		make gui slot 13 with {_item} named "&eDelete pb of &a%{_target}% &efrom &a%{_mapset}%" with lore "" and "&7Are your sure?"
+		make gui slot 21 with lime dye named "&aConfirm":
+			make {_p} execute command "/pbmanager clear %{_target}% %{_mapset}%"
+			dropper_personal_best_gui({_p}, {_target})
+		make gui slot 23 with red dye named "&cDeny":
+			dropper_personal_best_gui({_p}, {_target})
+	open last created gui to {_p}
+
+
+function dropper_personal_best_gui(p: player, target: offline player):
+	if {_target} is not {_p}:
+		set {_name-gui} to "Pb of %{_target}%."
+	else:
+		set {_name-gui} to "Personal Best Mapset"
+
+	create gui with virtual chest inventory named {_name-gui} with 1 rows:
+		set {_slot} to 2
+		loop "Fantasy", "Abstract", "Landscape", "Futuristic" and "Nometa":
+			set {_maps_pb::*} to {dropper::player::%uuid of {_target}%::stats::pb::%loop-value%::mapset::*}
+			set {_splits_pb::*} to {dropper::player::%uuid of {_target}%::stats::pb::%loop-value%::splits::*}
+			set {_mapset} to loop-value
+			if {dropper::player::%uuid of {_target}%::stats::pb::%loop-value%} is set:
+				set {_pb} to "&a- &b%{dropper::player::%uuid of {_target}%::stats::pb::%loop-value%}%"
+			else:
+				set {_pb} to "&cNone"
+			set {_i} to 1
+			loop {_maps_pb::*}:
+				add "&e- &a%{dropper::map::%loop-value-2%::name}% &e- &b%{_splits_pb::%{_i}%}%" to {_lore::*} 
+				add 1 to {_i}
+			if loop-value = "Fantasy":
+				set {_item} to light green glass block
+			else if loop-value = "Abstract":
+				set {_item} to red glass block
+			else if loop-value = "Landscape":
+				set {_item} to yellow glass block
+			else if loop-value = "Futuristic":
+				set {_item} to gray glass block
+			else if loop-value = "Nometa":
+				set {_item} to orange glass block
+			if {_target} is not {_p}:
+				if {_pb} is "&cNone":
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", "&cDidn't play"
+				else:
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&eDid with maps", {_lore::*}, "", "&cClick to remove his pb":
+						dropper_confirm_action_pb({_p}, {_target}, {_mapset}, {_item})
+						
+			else:
+				if {_pb} is "&cNone":
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&eYou need to play maps", "&7only from &a%{_mapset}% &emapset."
+				else:
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&eDid with maps", {_lore::*}
+			
+			
+			add 1 to {_slot}
+			clear {_lore::*} 
+		if {_target} is not {_p}:
+			make gui slot 8 with barrier named "&cClose":
+				close {_p}'s inventory
+		else:
+			make gui slot 8 with barrier named "&cReturn":
+				dropper_stat_menu({_p})
+	open last created gui to {_p}

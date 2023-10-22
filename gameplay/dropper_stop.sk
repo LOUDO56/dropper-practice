@@ -32,6 +32,9 @@ function dropper_stop(p: player):
 			hide loop-value from {_p}
 			hide {_p} from loop-value
 	wait 10 ticks
-	createholo({dropper::mainlobby::npc-leaderboard-pb-legit}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+		createholo({dropper::mainlobby-legacy::npc::holo}, "&a&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	else:
+		createholo({dropper::mainlobby::npc::holo}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	wait 1 second
 	clear {dropper::in-game::player::%{_p}%::too-fast}
