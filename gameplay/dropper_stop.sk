@@ -10,8 +10,10 @@ import:
 
 
 function dropper_stop(p: player):
+	set {_fly} to {dropper::in-game::player::%{_p}%::fly}
 	clear {dropper::in-game::player::%{_p}%::*}
-	# TODO: Opponent leaving
+	if {_fly} is true:
+		set {dropper::in-game::player::%{_p}%::fly} to true
 	set {dropper::in-game::player::%{_p}%::too-fast} to true
 	if {dropper::player::%uuid of {_p}%::maps_order.backup::*} is set:
 		set {dropper::player::%uuid of {_p}%::maps_order::*} to {dropper::player::%uuid of {_p}%::maps_order.backup::*}
@@ -19,6 +21,8 @@ function dropper_stop(p: player):
 	heal {_p}
 	clear {dropper::in-game::player::%{_p}%::map_completed::*}
 	remove {_p} from {dropper::mainlobby::in-game::*}
+	set flight mode of {_p} to false
+	set the flight speed of {_p} to 0.1
 	if {_p} is online:
 		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
 			teleport {_p} to {dropper::mainlobby-legacy::spawn}
@@ -33,7 +37,7 @@ function dropper_stop(p: player):
 			hide {_p} from loop-value
 	wait 10 ticks
 	if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
-		createholo({dropper::mainlobby-legacy::npc::holo}, "&a&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+		createholo({dropper::mainlobby-legacy::npc::holo}, "&b&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	else:
 		createholo({dropper::mainlobby::npc::holo}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	wait 1 second

@@ -265,7 +265,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             clear {dropper::mainlobby-legacy::npc::*}
         
         else if arg 1 is "setlead" or "setleaderboard":
-            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa":
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa" or "legacy":
                 send "&cYou need to specify the type of the leaderboard. &eNometa&c, &efantasy&c, &eabstract&c, &elandscape&c, &efuturistic&c and &elegacy"
                 stop
             make player execute command "/dropadm dellead %arg 2%" if {dropper::mainlobby::leaderboard::%arg 2%} is set
@@ -275,7 +275,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             send "&aLeaderboard for &e%arg 2% &aadded with success!"
         
         else if arg 1 is "dellead" or "delleaderboard":
-            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa":
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa" or "legacy":
                 send "&cYou need to specify the type of the leaderboard. &eNometa&c, &efantasy&c, &eabstract&c, &elandscape&c, &efuturistic&c and &elegacy"
                 stop
             if {dropper::mainlobby::leaderboard::%arg 2%} is not set:
@@ -286,7 +286,7 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             send "&aLeaderboard for &e%arg 2% &adeleted with success!"
         
         else if arg 1 is "uplead" or "upleaderboard":
-            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa":
+            if arg 2 is not "fantasy" or "abstract" or "landscape" or "futuristic" or "nometa" or "legacy":
                 send "&cYou need to specify the type of the leaderboard. &eNometa&c, &efantasy&c, &eabstract&c, &elandscape&c, &efuturistic&c and &elegacy"
                 stop
             if {dropper::mainlobby::leaderboard::%arg 2%} is set:

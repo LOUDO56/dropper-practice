@@ -19,7 +19,7 @@ function mainlobby_join(p: player, lang: string):
 			add "Space-Legacy", "Well-Legacy", "Floating-Legacy", "Sewer-Legacy" and "Iris-Legacy" to {dropper::player::%uuid of {_p}%::maps_order-legacy::*}
 		set {_maplist::*} to {dropper::player::%uuid of {_p}%::maps_order-legacy::*}
 		set {_pb} to {dropper::player::%{_uuid}%::stats::pb::legacy}
-		set {_title} to "&a&lDROPPER LEGACY"
+		set {_title} to "&b&lDROPPER LEGACY"
 		set {_level} to {dropper::player::%{_uuid}%::level-legacy}
 	else:
 		set {_maplist::*} to {dropper::player::%uuid of {_p}%::maps_order::*}

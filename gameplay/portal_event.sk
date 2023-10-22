@@ -215,5 +215,5 @@ on portal enter:
 					set {dropper::in-game::player::%player%::map} to {_map}
 					set {dropper::in-game::player::%player%::map-java} to {_maps_of_player::%{dropper::in-game::player::%player%::count}+1%}
 					dropper_scoreboard(player)
-					wait 1.5 second
+					wait 1 second
 					clear {dropper::in-game::player::%player%::enter}

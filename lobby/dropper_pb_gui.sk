@@ -48,7 +48,7 @@ function dropper_personal_best_gui(p: player, target: offline player):
 						
 			else:
 				if {_pb} is "&cNone":
-					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&eYou need to play maps", "&7only from &a%{_mapset}% &emapset."
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&7You need to play maps", "&7only from &a%{_mapset}% &7mapset."
 				else:
 					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&eDid with maps", {_lore::*}
 			

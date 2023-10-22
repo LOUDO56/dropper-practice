@@ -11,7 +11,10 @@ import:
 
 
 function dropper_scoreboard(p: player):
-	set title of {_p}'s scoreboard to "&a&lDROPPER PRACTICE"
+	if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+		set title of {_p}'s scoreboard to "&b&lDROPPER LEGACY"
+	else:
+		set title of {_p}'s scoreboard to "&a&lDROPPER PRACTICE"
 	set {_cur} to yaml value "gameplay.current-map" from "%{dropper::player::%uuid of {_p}%::language}%"
 	if {dropper::in-game::player::%{_p}%::mode_playing} is "skip_portal":
 		set line 8 of {_p}'s scoreboard to " "

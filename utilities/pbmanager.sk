@@ -11,7 +11,7 @@ command /pbmanager [<text=help>] [<offline player>] [<text>]:
             send "&e/pbmanager &aclearmap <player> <map> &e- Clear a map pb of a player"
             send "&e/pbmanager &agetsplits <player> (map) &e- Get split time of a player"
             send "&e/pbmanager &agetsplits-legacy <player> &e- Get split time of legacy map of a player"
-            send "&e/pbmanager &agetpbs <player> (mapset) &e- Get personal best of a player"
+            send "&e/pbmanager &agetpbs <player> &e- Get personal best of a player"
             send "&a-----------------------------------------"
             stop
         

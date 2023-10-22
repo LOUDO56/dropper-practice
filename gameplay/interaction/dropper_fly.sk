@@ -1,0 +1,29 @@
+on right click with gray dye:
+    if colored name of player's held item is "&aFly &7(Right-click)":
+        if {dropper::in-game::player::%player%::cooldown-fly} is not set:
+            set {dropper::in-game::player::%player%::fly} to true
+            set slot 7 of player to lime dye named "&aFly &7(Right-click)"
+            send "&aYou can now fly around the map!"
+            set flight mode of player to true
+            set the player's flight speed to 0.2
+            loop 10 times:
+                force player to fly
+            set {dropper::in-game::player::%player%::cooldown-fly} to true
+            wait 0.5 seconds
+            clear {dropper::in-game::player::%player%::cooldown-fly}
+        else:
+            send "&cWait a bit before using it again!"
+
+on right click with lime dye:
+    if colored name of player's held item is "&aFly &7(Right-click)":
+        if {dropper::in-game::player::%player%::cooldown-fly} is not set:
+            clear {dropper::in-game::player::%player%::fly}
+            set slot 7 of player to gray dye named "&aFly &7(Right-click)"
+            send "&cYou can't fly around the map anymore."
+            set flight mode of player to false
+            set the player's flight speed to 0.1
+            set {dropper::in-game::player::%player%::cooldown-fly} to true
+            wait 0.5 seconds
+            clear {dropper::in-game::player::%player%::cooldown-fly}
+        else:
+            send "&cWait a bit before using it again!"

@@ -11,7 +11,7 @@ function dropper_play(p: player, mode: text):
 	{dropper::in-game::player::%{_p}%::about_to_start} is not set
 	add {_p} to {dropper::mainlobby::in-game::*} if {dropper::in-game::player::%{_p}%::in-game} is not set
 	if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
-		createholo({dropper::mainlobby-legacy::npc::holo}, "&a&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+		createholo({dropper::mainlobby-legacy::npc::holo}, "&b&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	else:
 		createholo({dropper::mainlobby::npc::holo}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	clear {_p}'s scoreboard
@@ -31,6 +31,12 @@ function dropper_play(p: player, mode: text):
 		set {dropper::in-game::player::%{_p}%::about_to_start} to true
 	else if {_mode} = "practice":
 		set slot 1 of {_p} to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of {_p}%::language}
+		if {dropper::in-game::player::%{_p}%::fly} is not set:
+			set slot 7 of {_p} to gray dye named "&aFly &7(Right-click)"
+		else:
+			set slot 7 of {_p} to lime dye named "&aFly &7(Right-click)"
+			set flight mode of {_p} to true
+			set the flight speed of {_p} to 0.2
 		set {dropper::in-game::player::%{_p}%::map} to {dropper::in-game::player::%{_p}%::practice-map}
 		if {dropper::player::%uuid of {_p}%::timer-practice} is true:
 			set {dropper::in-game::player::%{_p}%::about_to_start} to true

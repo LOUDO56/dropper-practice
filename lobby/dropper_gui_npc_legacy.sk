@@ -145,6 +145,49 @@ function dropper_gui_npc_legacy(p: player, type: string, page: number):
 		create gui with virtual chest inventory named {_name} with 6 rows:
 			make gui slot 0, 2, 4, 6, 8, 26, 44, 46, 52, 48, 50, 52, 36 and 18 with yellow stained glass pane named " "
 			make gui slot 1, 3, 5, 7, 17, 35, 45, 53, 47, 49, 51, 27 and 9 with light green stained glass pane named " "
+			if {_type} = "map_pb":
+				make gui slot 0 with barrier named yaml value "mainlobby.gui.close" from {dropper::player::%uuid of {_p}%::language}:
+					close {_p}'s inventory
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} is not set:
+					set {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} to "both"
+				
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} is "both":
+					set {_item-filter} to lime dye
+					set {_lore-filter::*} to "&8=> &aBoth", "&6Uncompleted", "&eCompleted"
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} is "uncompleted":
+					set {_item-filter} to orange dye
+					set {_lore-filter::*} to "&aBoth", "&8=> &6Uncompleted", "&eCompleted"
+				if {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} is "completed":
+					set {_item-filter} to yellow dye
+					set {_lore-filter::*} to "&aBoth", "&6Uncompleted", "&8=> &eCompleted"
+
+
+				loop {_easy::*}, {_med::*} and {_hard::*}:
+					if {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} is "completed":
+						if {dropper::player::%uuid of {_p}%::stats::pb::%loop-value%} is not set:
+							broadcast {dropper::player::%uuid of {_p}%::stats::pb::%loop-value%} 
+							remove loop-value from {_easy::*}
+							remove loop-value from {_med::*}
+							remove loop-value from {_hard::*}
+					else if {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} is "uncompleted":
+						if {dropper::player::%uuid of {_p}%::stats::pb::%loop-value%} is set:
+							remove loop-value from {_easy::*}
+							remove loop-value from {_med::*}
+							remove loop-value from {_hard::*}
+					
+				set {_amount} to size of {_easy::*} + size of {_med::*} + size of {_hard::*}
+				
+				make gui slot 8 with {_item-filter} named "&6Filter" with lore "", {_lore-filter::*}, "" and "&7Click to change":
+					if {_item-filter} = lime dye:
+						set {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} to "uncompleted"
+					else if {_item-filter} = orange dye:
+						set {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} to "completed"
+					else if {_item-filter} = yellow dye:
+						set {dropper::player::%{_p}'s uuid%::filter_map_pb-legacy} to "both"
+					if {_amount} > 21:
+						set {_page} to 0
+					dropper_gui_npc_legacy({_p}, {_type}, {_page})
+
 			if {_type} = "practice":
 				if {dropper::player::%uuid of {_p}%::timer-practice} is not set:
 					set {_statue} to yaml value "mainlobby.gui.practice.statue_disabled" from {dropper::player::%uuid of {_p}%::language}
