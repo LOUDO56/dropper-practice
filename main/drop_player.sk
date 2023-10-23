@@ -38,10 +38,12 @@ command /dropper [<text=help>] [<text>]:
             if {dropper::map::%arg 2%::name} is not set:
                 send_yaml("mainlobby.message.help","wrong_maps","%%map%%",arg 2,{dropper::player::%player's uuid%::language})
                 stop
-
+            
+            set {dropper::player::%player's uuid%::do_not_tp_to_lobby} to true
             if {dropper::in-game::player::%player%::in-game} is true:
                 dropper_stop(player)
             set {dropper::in-game::player::%player%::practice-map} to arg 2
+            clear {dropper::player::%player's uuid%::do_not_tp_to_lobby}
             dropper_play(player, "practice")
 
         

@@ -21,6 +21,6 @@ on rightclick with blaze rod:
 					dropper_gui_npc(player, "skip_portal", 1)
 			else:
 				if {dropper::player::%player's uuid%::legacy-state} is true:
-					dropper_gui_npc_legacy(player, "practice", 0)
+					dropper_gui_npc_legacy(player, "practice", {dropper::in-game::player::%player%::page}-1)
 				else:
-					dropper_gui_npc(player, "practice", 1)
+					dropper_gui_npc(player, "practice", {dropper::in-game::player::%player%::page})

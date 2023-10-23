@@ -25,6 +25,7 @@ on first join:
 
 
 on join:
+	clear {dropper::player::%player's uuid%::do_not_tp_to_lobby}
 	send ""
 	loop 5 times:
 		send yaml value "mainlobby.message.hub.welcome.%loop-value%" from "us"
@@ -58,5 +59,6 @@ on join:
 on quit:
 	set quit message to ""
 	clear {dropper::duel::player::%player%::setting-maps}
+	clear {dropper::player::%player's uuid%::do_not_tp_to_lobby}
 	if {dropper::in-game::player::%player%::in-game} is true:
 		dropper_stop(player)

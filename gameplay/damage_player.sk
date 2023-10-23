@@ -16,7 +16,8 @@ on damage of player:
 				cancel event
 				wait 1 tick
 				if {dropper::player::%victim's uuid%::legacy-state} is not set:
-					set {_enter} to true
+					if {dropper::in-game::player::%victim%::enter} is true:
+						set {_enter} to true
 				if {_enter} is not set:
 					if {dropper::in-game::player::%victim%::no-damage} is not set:
 						if {dropper::in-game::player::%victim%::practicing} is not set:

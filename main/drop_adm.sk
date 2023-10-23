@@ -157,6 +157,8 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
                 stop
             set {_spawn} to location of block under player
             add 1 to y-coords of {_spawn}
+            if arg 2 is "Well":
+                add 0.5 to y-coords of {_spawn}
             set {_x} to x-coords of {_spawn}
             set {_y} to y-coords of {_spawn}
             set {_z} to z-coords of {_spawn}

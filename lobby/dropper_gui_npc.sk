@@ -249,6 +249,7 @@ function dropper_gui_npc(p: player, type: string, page: number):
 						if {dropper::in-game::player::%{_p}%::practice-map} is not {_map}:
 							close {_p}'s inventory
 							make player execute command "/dropper practice %{_map}%"
+							set {dropper::in-game::player::%{_p}%::page} to {_page}
 
 					else if {_type} = "skip_portal":
 						if {dropper::player::%uuid of {_p}%::map-portal-skip::*} don't contain {_map}:

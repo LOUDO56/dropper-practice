@@ -11,6 +11,7 @@ import:
 
 function dropper_stop(p: player):
 	set {_fly} to {dropper::in-game::player::%{_p}%::fly}
+	set {_map-prac} to {dropper::in-game::player::%{_p}%::practice-map}
 	clear {dropper::in-game::player::%{_p}%::*}
 	if {_fly} is true:
 		set {dropper::in-game::player::%{_p}%::fly} to true
@@ -24,17 +25,18 @@ function dropper_stop(p: player):
 	set flight mode of {_p} to false
 	set the flight speed of {_p} to 0.1
 	if {_p} is online:
-		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
-			teleport {_p} to {dropper::mainlobby-legacy::spawn}
-		else:
-			teleport {_p} to {dropper::mainlobby::spawn}
-		mainlobby_join({_p}, {dropper::player::%uuid of {_p}%::language})
-		loop all players in world "%{dropper::mainlobby::world}%":
-			if {dropper::player::%uuid of loop-value%::player-visibility} is "on":
-				reveal {_p} from loop-value
-		loop all players where [{dropper::in-game::player::%input%::in-game} is true]:
-			hide loop-value from {_p}
-			hide {_p} from loop-value
+		if {dropper::player::%{_p}'s uuid%::do_not_tp_to_lobby} is not set:
+			if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+				teleport {_p} to {dropper::mainlobby-legacy::spawn}
+			else:
+				teleport {_p} to {dropper::mainlobby::spawn}
+			mainlobby_join({_p}, {dropper::player::%uuid of {_p}%::language})
+			loop all players in world "%{dropper::mainlobby::world}%":
+				if {dropper::player::%uuid of loop-value%::player-visibility} is "on":
+					reveal {_p} from loop-value
+			loop all players where [{dropper::in-game::player::%input%::in-game} is true]:
+				hide loop-value from {_p}
+				hide {_p} from loop-value
 	wait 10 ticks
 	if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
 		createholo({dropper::mainlobby-legacy::npc::holo}, "&b&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
