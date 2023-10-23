@@ -23,11 +23,17 @@ on portal enter:
 				if {dropper::in-game::player::%player%::count} > 2:
 					set {dropper::in-game::player::%player%::count} to 1
 					play sound "note.pling" with volume 0.7 and pitch 15 to player
-				set {_map} to {dropper::player::%uuid of player%::map-portal-skip::%{dropper::in-game::player::%player%::count}%}
+				if {dropper::player::%player's uuid%::legacy-state} is true:
+					set {_map} to {dropper::player::%uuid of player%::map-portal-skip-legacy::%{dropper::in-game::player::%player%::count}%}
+				else:
+					set {_map} to {dropper::player::%uuid of player%::map-portal-skip::%{dropper::in-game::player::%player%::count}%}
 				set {dropper::in-game::player::%player%::map} to {_map}
 				if {_count} >= 2:
 					set {_count} to 1
-				set {dropper::in-game::player::%player%::map-java} to {dropper::player::%uuid of player%::map-portal-skip::%{_count}%}
+				if {dropper::player::%player's uuid%::legacy-state} is true:
+					set {dropper::in-game::player::%player%::map-java} to {dropper::player::%uuid of player%::map-portal-skip-legacy::%{_count}%}
+				else:
+					set {dropper::in-game::player::%player%::map-java} to {dropper::player::%uuid of player%::map-portal-skip::%{_count}%}
 				teleport player to {dropper::map::%{_map}%::spawn}
 				wait 1 second
 				clear {dropper::in-game::player::%player%::enter}

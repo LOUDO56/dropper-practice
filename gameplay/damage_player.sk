@@ -15,7 +15,9 @@ on damage of player:
 			if final damage >= victim's health:
 				cancel event
 				wait 1 tick
-				if {dropper::in-game::player::%victim%::enter} is not set:
+				if {dropper::player::%victim's uuid%::legacy-state} is not set:
+					set {_enter} to true
+				if {_enter} is not set:
 					if {dropper::in-game::player::%victim%::no-damage} is not set:
 						if {dropper::in-game::player::%victim%::practicing} is not set:
 							add 1 to {dropper::player::%uuid of victim%::stats::fails}
@@ -26,7 +28,8 @@ on damage of player:
 			if {dropper::in-game::player::%victim%::no-damage} is true:
 				cancel event
 			if {dropper::in-game::player::%victim%::enter} is true:
-				cancel event
+				if {dropper::player::%victim's uuid%::legacy-state} is not set:
+					cancel event
 		else:
 			cancel event
 	else:

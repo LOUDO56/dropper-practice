@@ -18,6 +18,7 @@ function dropper_play(p: player, mode: text):
 	clear {_p}'s inventory
 	set {dropper::in-game::player::%{_p}%::in-game} to true
 	set {dropper::in-game::player::%{_p}%::count} to 1
+	clear {dropper::in-game::player::%{_p}%::map_completed::*}
 
 	
 	add 1 to {dropper::player::%uuid of {_p}%::stats::game_played}
@@ -44,9 +45,10 @@ function dropper_play(p: player, mode: text):
 		set slot 1 of {_p} to blaze rod named yaml value "gameplay.change_map_practice" from {dropper::player::%uuid of {_p}%::language}
 		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
 			set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::map-portal-skip-legacy::1}
+			set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::map-portal-skip-legacy::2}
 		else:
 			set {dropper::in-game::player::%{_p}%::map} to {dropper::player::%uuid of {_p}%::map-portal-skip::1}
-		set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::map-portal-skip::2}
+			set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::map-portal-skip::2}
 	
 	set {dropper::in-game::player::%{_p}%::mode_playing} to {_mode}
 	set {_map} to {dropper::in-game::player::%{_p}%::map} 
@@ -96,7 +98,10 @@ function dropper_play(p: player, mode: text):
 						loop {dropper::map::%{dropper::in-game::player::%{_p}%::map}%::block-location::*}:
 							{_p}.sendBlockChange(loop-value, Material.AIR, 0)
 						# TODO: Duel maps being set
-						set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::maps_order::2}
+						if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+							set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::maps_order-legacy::2}
+						else:
+							set {dropper::in-game::player::%{_p}%::map-java} to {dropper::player::%uuid of {_p}%::maps_order::2}
 						clear {dropper::in-game::player::%{_p}%::timer-countdown}
 						clear {dropper::in-game::player::%{_p}%::about_to_start}
 						play sound "note.harp" with volume 1 and pitch 15 to {_p}

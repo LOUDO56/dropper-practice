@@ -4,7 +4,7 @@ function dropper_gui_npc_legacy(p: player, type: string, page: number):
 	if {_type} = "main_menu":
 		set {_lore_1::*} to split yaml value "mainlobby.gui.main_menu.change_map_1" from {dropper::player::%uuid of {_p}%::language} at "||"
 		set {_lore_2::*} to split yaml value "mainlobby.gui.main_menu.change_map_2" from {dropper::player::%uuid of {_p}%::language} at "||"
-		loop {dropper::player::%uuid of {_p}%::maps_order::*}:
+		loop {dropper::player::%uuid of {_p}%::maps_order-legacy::*}:
 			add "&a- &e%{dropper::map::%loop-value%::name}%" to {_map_p::*}
 		create gui with virtual chest inventory named "Dropper Practice" with 6 rows:
 			make gui slot 11 to book named yaml value "mainlobby.gui.main_menu.change_map_name" from {dropper::player::%uuid of {_p}%::language} with lore {_lore_1::*}, {_map_p::*} and {_lore_2::*}:

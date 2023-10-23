@@ -21,8 +21,12 @@ function dropper_scoreboard(p: player):
 		set line 7 of {_p}'s scoreboard to yaml value "gameplay.skip_portal.1" from {dropper::player::%uuid of {_p}%::language}
 		set line 6 of {_p}'s scoreboard to yaml value "gameplay.skip_portal.2" from {dropper::player::%uuid of {_p}%::language}
 		set line 5 of {_p}'s scoreboard to yaml value "gameplay.skip_portal.3" from {dropper::player::%uuid of {_p}%::language}
-		set line 4 of {_p}'s scoreboard to send_yaml("gameplay","skip_portal.4","%%map-1%%","%{dropper::map::%{dropper::player::%uuid of {_p}%::map-portal-skip::1}%::name}%", {dropper::player::%uuid of {_p}%::language})
-		set line 3 of {_p}'s scoreboard to send_yaml("gameplay","skip_portal.5","%%map-2%%","%{dropper::map::%{dropper::player::%uuid of {_p}%::map-portal-skip::2}%::name}%", {dropper::player::%uuid of {_p}%::language})
+		if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+			set {_maps-skip::*} to {dropper::player::%uuid of {_p}%::map-portal-skip-legacy::*}
+		else:
+			set {_maps-skip::*} to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+		set line 4 of {_p}'s scoreboard to send_yaml("gameplay","skip_portal.4","%%map-1%%","%{dropper::map::%{_maps-skip::1}%::name}%", {dropper::player::%uuid of {_p}%::language})
+		set line 3 of {_p}'s scoreboard to send_yaml("gameplay","skip_portal.5","%%map-2%%","%{dropper::map::%{_maps-skip::2}%::name}%", {dropper::player::%uuid of {_p}%::language})
 	else if {dropper::in-game::player::%{_p}%::mode_playing} is "practice":
 		set {_map} to {dropper::map::%{dropper::in-game::player::%{_p}%::practice-map}%::name}
 		if {dropper::player::%uuid of {_p}%::language} = "fr" or "es":

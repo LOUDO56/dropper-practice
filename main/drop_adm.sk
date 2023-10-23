@@ -162,7 +162,6 @@ command /dropperadmin [<text=help>] [<text>] [<text>]:
             set {_z} to z-coords of {_spawn}
             set {_world} to player's world
             set {_yaw} to yaw of player
-            send {_yaw}
             if {_yaw} is between 175 and 185: # north
                 set {_yaw} to 180
             

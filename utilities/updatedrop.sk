@@ -18,6 +18,7 @@ command /createlegacymap:
         make player execute command "/dropadm create Warp-Legacy"
         make player execute command "/dropadm create Toilet-Legacy"
         make player execute command "/dropadm create Plughole-Legacy"
+        make player execute command "/dropadm create Distortion-Legacy"
 
         make player execute command "/dropadm setname Tangle-Legacy Tangle"
         make player execute command "/dropadm setname Upside-Legacy Upside Down"
@@ -33,6 +34,7 @@ command /createlegacymap:
         make player execute command "/dropadm setname Warp-Legacy Warp"
         make player execute command "/dropadm setname Toilet-Legacy Toilet"
         make player execute command "/dropadm setname Plughole-Legacy Plughole"
+        make player execute command "/dropadm setname Distortion-Legacy Distortion"
 
         make player execute command "/dropadm setdifficulty Tangle-Legacy Easy"
         make player execute command "/dropadm setdifficulty Upside-Legacy Easy"
@@ -48,6 +50,7 @@ command /createlegacymap:
         make player execute command "/dropadm setdifficulty Warp-Legacy Easy"
         make player execute command "/dropadm setdifficulty Toilet-Legacy Easy"
         make player execute command "/dropadm setdifficulty Plughole-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Distortion-Legacy Easy"
 
 
 
@@ -66,6 +69,8 @@ command /createlegacymap:
         make player execute command "/dropadm create Ravine-Legacy"
         make player execute command "/dropadm create Western-Legacy"
         make player execute command "/dropadm create City-Legacy"
+        make player execute command "/dropadm create Sewer-Legacy"
+
 
         make player execute command "/dropadm setname Castle-Legacy Castle"
         make player execute command "/dropadm setname Floating-Legacy Floating Islands"
@@ -76,6 +81,7 @@ command /createlegacymap:
         make player execute command "/dropadm setname Ravine-Legacy Ravine"
         make player execute command "/dropadm setname Western-Legacy Western"
         make player execute command "/dropadm setname City-Legacy City"
+        make player execute command "/dropadm setname Sewer-Legacy Sewer"
 
         make player execute command "/dropadm setdifficulty Castle-Legacy medium"
         make player execute command "/dropadm setdifficulty Floating-Legacy medium"
@@ -86,6 +92,7 @@ command /createlegacymap:
         make player execute command "/dropadm setdifficulty Ravine-Legacy medium"
         make player execute command "/dropadm setdifficulty Western-Legacy medium"
         make player execute command "/dropadm setdifficulty City-Legacy medium"
+        make player execute command "/dropadm setdifficulty Sewer-Legacy medium"
 
 
         # Hard
