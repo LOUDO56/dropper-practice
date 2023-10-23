@@ -43,14 +43,14 @@ function dropper_personal_best_gui(p: player, target: offline player):
 				if {_pb} is "&cNone":
 					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", "&cDidn't play"
 				else:
-					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&eDid with maps", {_lore::*}, "", "&cClick to remove his pb":
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "", "&eDid with maps", {_lore::*}, "", "&cClick to remove his pb":
 						dropper_confirm_action_pb({_p}, {_target}, {_mapset}, {_item})
 						
 			else:
 				if {_pb} is "&cNone":
-					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&7You need to play maps", "&7only from &a%{_mapset}% &7mapset."
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "", "&7You need to play maps", "&7only from &a%{_mapset}% &7mapset."
 				else:
-					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "&eDid with maps", {_lore::*}
+					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", {_pb}, "", "&eDid with maps", {_lore::*}
 			
 			
 			add 1 to {_slot}

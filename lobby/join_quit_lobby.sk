@@ -33,12 +33,16 @@ on join:
 	set join message to ""
 	if {dropper::player::%player's uuid%::legacy-state} is true:
 		teleport player to {dropper::mainlobby-legacy::spawn}
+		set {_loc} to {dropper::mainlobby-legacy::npc::holo}
 	else:
 		teleport player to {dropper::mainlobby::spawn}
+		set {_loc} to {dropper::mainlobby::npc::holo}
 	mainlobby_join(player, {dropper::player::%player's uuid%::language})
-	set {_loc} to {dropper::mainlobby-legacy::npc::holo}
 	wait 5 ticks
-	createholo({_loc}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	if {dropper::player::%player's uuid%::legacy-state} is true:
+		createholo({_loc}, "&b&lDROPPER LEGACY;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
+	else:
+		createholo({_loc}, "&a&lDROPPER PRACTICE;&7%size of {dropper::mainlobby::in-game::*}% currently playing", -1)
 	apply night vision without particles to player for 999999 seconds
 	if {dropper::player::%player's uuid%::level} is not set:
 		make console execute command "/nte player %player% prefix &7"

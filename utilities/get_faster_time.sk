@@ -1,0 +1,20 @@
+function get_fastest_time(p: player) :: string:
+	loop "fantasy", "abstract", "landscape", "futuristic" and "nometa":
+		add {dropper::player::%{_p}'s uuid%::stats::pb::%loop-value%} to {_results-normal::*}
+		add convert_pb_to_number({dropper::player::%{_p}'s uuid%::stats::pb::%loop-value%}) to {_results::*}
+	set {_n} to size of {_results::*}
+	loop {_n} times:
+		loop {_n} - loop-value times:
+			set {_nb_1} to {_results::%loop-value-2%}
+			set {_nb_2} to {_results::%loop-value-2 + 1%}
+
+			set {_nb_3} to {_results-normal::%loop-value-2%}
+			set {_nb_4} to {_results-normal::%loop-value-2 + 1%}
+
+			if {_nb_1} > {_nb_2}:
+				set {_results::%loop-value-2%} to {_nb_2}
+				set {_results::%loop-value-2 + 1%} to {_nb_1}
+
+				set {_results-normal::%loop-value-2%} to {_nb_4}
+				set {_results-normal::%loop-value-2 + 1%} to {_nb_3}
+	return {_results-normal::1}

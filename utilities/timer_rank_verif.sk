@@ -1,0 +1,75 @@
+function dropper_rank_time_verif(p: player, time-finished-allmaps: number):
+    if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+        set {_level} to {dropper::player::%{_p}'s uuid%::level-legacy}
+    else:
+        set {_level} to {dropper::player::%{_p}'s uuid%::level}
+    if {_time-finished-allmaps} is between 35999 and 35000:
+        if {_level} is not "§1[Rookie]" or "§4[Starter]" or "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank rookie-legacy %{_p}%"
+            else:
+                make console execute command "/rank rookie %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&9Rookie", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+
+    else if {_time-finished-allmaps} is between 34999 and 34000:
+        if {_level} is not "§4[Starter]" or "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank starter-legacy %{_p}%"
+            else:
+                make console execute command "/rank starter %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&4Starter", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+
+    else if {_time-finished-allmaps} is between 33999 and 33000:
+        if {_level} is not "§b[Experienced]" or "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank experienced-legacy %{_p}%"
+            else:
+                make console execute command "/rank experienced %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&bExperienced", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+
+    else if {_time-finished-allmaps} is between 32999 and 32000:
+        if {_level} is not "§a[Elite]" or "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank elite-legacy %{_p}%"
+            else:
+                make console execute command "/rank elite %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&aElite", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+
+    else if {_time-finished-allmaps} is between 31999 and 31000:
+        if {_level} is not "§3[Supernatural]" or "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank supernatural-legacy %{_p}%"
+            else:
+                make console execute command "/rank supernatural %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&4Supernatural", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+
+    else if {_time-finished-allmaps} is between 30999 and 30000:
+        if {_level} is not "§2[Elemental]" or "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank elemental-legacy %{_p}%"
+            else:
+                make console execute command "/rank elemental %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&2Elemental", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+
+    else if {_time-finished-allmaps} is between 29999 and 29000:
+        if {_level} is not "§c[God]" or "§5[Mystic]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank god-legacy %{_p}%"
+            else:
+                make console execute command "/rank god %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&cGod", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+
+    else if {_time-finished-allmaps} is between 28999 and 28000:
+        if {_level} is not "§5[Mystic+]" or "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank mystic-legacy %{_p}%"
+            else:
+                make console execute command "/rank mystic %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&5Mystic", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}
+    else if {_time-finished-allmaps} < 27999:
+        if {_level} is not "§5[Mystic+]":
+            if {dropper::player::%{_p}'s uuid%::legacy-state} is true:
+                make console execute command "/rank mystic+-legacy %{_p}%"
+            else:
+                make console execute command "/rank mystic+ %{_p}%"
+            send send_yaml("gameplay","rank","%%rank%%","&5Mystic+", "%{dropper::player::%{_p}'s uuid%::language}%") to {_p}

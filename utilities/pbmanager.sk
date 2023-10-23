@@ -103,6 +103,19 @@ command /pbmanager [<text=help>] [<offline player>] [<text>]:
                     clear {dropper::player::%uuid of arg 2%::stats::pb::%arg 3%}
                     send "&aYou deleted pb of &e%arg 2% &afrom the mapset &e%arg 3% &awith success."
                     leaderboard({dropper::mainlobby::leaderboard::%arg 3%}, arg 3)
+                    set {_best-time} to get_fastest_time(arg 2)
+                    if {_best-time} is set:
+                        set {_best-time} to convert_pb_to_number({_best-time})
+                    else:
+                        set {_best-time} to 45000
+                    if {_best-time} > 44999:
+                        clear {dropper::player::%player's uuid%::level}
+                        make console execute command "/nte player %arg 2% prefix &7"
+                        make console execute command "/nte player %arg 2% priority 12"
+                        make console execute command "/nte reload"
+                    else:
+                        clear {dropper::player::%arg 2's uuid%::level}
+                        dropper_rank_time_verif(arg 2, {_best-time})
 
 
         else if arg 1 is "clearmap":

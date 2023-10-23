@@ -116,19 +116,88 @@ command /dropper [<text=help>] [<text>]:
         
         else if arg 1 is "resetpb":
             if {dropper::in-game::player::%player%::in-game} is not set:
-                if {dropper::player::%player's uuid%::stats::pb::normal} is set:
-                    send yaml value "mainlobby.command.dropper.pbreset" from "%{dropper::player::%player's uuid%::language}%"
-                    clear {dropper::player::%player's uuid%::stats::pb::normal}
-                    clear {dropper::player::%player's uuid%::level}
-                    make console execute command "/nte player %arg 2% prefix &7"
-                    make console execute command "/nte player %arg 2% priority 12"
-                    leaderboard({dropper::mainlobby::leaderboard-pb-legit})
-                    mainlobby_join(player, "%{dropper::player::%player's uuid%::language}%")
+                if arg 2 is not set:
+                    send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
+                else if arg 2 is not "Fantasy" or "Abstract" or "Landscape" or "Futuristic" or "Nometa" or "legacy":
+                    send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
                 else:
-                    send yaml value "mainlobby.command.dropper.no_pbreset" from "%{dropper::player::%player's uuid%::language}%"
+                    if {dropper::player::%player's uuid%::stats::pb::%arg 2%} is set:
+                        send yaml value "mainlobby.command.dropper.pbreset" from "%{dropper::player::%player's uuid%::language}%"
+                        clear {dropper::player::%player's uuid%::stats::pb::%arg 2%}
+                        if {dropper::player::%player's uuid%::legacy-state} is not set:
+                            set {_best-time} to get_fastest_time(player)
+                            if {_best-time} is set:
+                                set {_best-time} to convert_pb_to_number({_best-time})
+                            else:
+                                set {_best-time} to 36000
+                            if {_best-time} > 35999:
+                                clear {dropper::player::%player's uuid%::level}
+                                make console execute command "/nte player %arg 2% prefix &7"
+                                make console execute command "/nte player %arg 2% priority 12"
+                                make console execute command "/nte reload"
+                            else:
+                                clear {dropper::player::%player's uuid%::level}
+                                dropper_rank_time_verif(player, {_best-time})
+                        else:
+                            clear {dropper::player::%player's uuid%::level-legacy}
+                            make console execute command "/nte player %arg 2% prefix &7"
+                            make console execute command "/nte player %arg 2% priority 12"
+                            make console execute command "/nte reload"
+                        leaderboard({dropper::mainlobby::leaderboard::%arg 2%}, arg 2)
+                        mainlobby_join(player, "%{dropper::player::%player's uuid%::language}%")
+                    else:
+                        send yaml value "mainlobby.command.dropper.no_pbreset" from "%{dropper::player::%player's uuid%::language}%"
             else:
                 send yaml value "mainlobby.command.autorequeue_cant_ig" from "%{dropper::player::%player's uuid%::language}%"
 
+        else if arg 1 is "leaddetail":
+            if arg 2 is not set:
+                send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
+            else if arg 2 is not "Fantasy" or "Abstract" or "Landscape" or "Futuristic" or "Nometa" or "legacy":
+                send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
+            else:
+                if arg 2 is "fantasy":
+                    set {_mapset} to "Fantasy"
+                    set {_item} to light green glass block
+                else if arg 2 is "Abstract":
+                    set {_mapset} to "Abstract"
+                    set {_item} to red glass block
+
+                else if arg 2 is "Landscape":
+                    set {_mapset} to "Landscape"
+                    set {_item} to yellow glass block
+
+                else if arg 2 is "Futuristic":
+                    set {_mapset} to "Futuristic"
+                    set {_item} to gray glass block
+
+                else if arg 2 is "Nometa":
+                    set {_mapset} to "Nometa"
+                    set {_item} to orange glass block
+
+                else if arg 2 is "Legacy":
+                    set {_mapset} to "Legacy"
+                    set {_item} to light blue glass block
+
+                set {_slot} to 0
+                create gui with virtual chest inventory named "%{_mapset}% leaderboard" with 2 rows:
+                    loop {dropper::mainlobby::leaderboard::%{_mapset}%::players::*}:
+                        set {_maps_pb::*} to {dropper::player::%uuid of loop-value%::stats::pb::%{_mapset}%::mapset::*}
+                        set {_splits_pb::*} to {dropper::player::%uuid of loop-value%::stats::pb::%{_mapset}%::splits::*}
+                        set {_i} to 1
+                        set {_pb} to {dropper::player::%uuid of loop-value%::stats::pb::%{_mapset}%}
+                        if {_splits_pb::*} is set:
+                            set {_begin-lore} to "&eDid with maps"
+                            loop {_maps_pb::*}:
+                                add "&e- &a%{dropper::map::%loop-value-2%::name}% &e- &b%{_splits_pb::%{_i}%}%" to {_lore::*} 
+                                add 1 to {_i}
+                        else:
+                            set {_begin-lore} to "&cUnknown maps"
+                        make gui slot {_slot} with {_item} named "&e##%loop-index% &a%loop-value%" with lore "", "&e- &b%{_pb}%", "", {_begin-lore} and {_lore::*}
+                        add 1 to {_slot}
+                    make gui slot 17 with barrier named "&cClose":
+                        close player's inventory
+            open last created gui to player
         
 
         # TODO: accept and refuse duel args

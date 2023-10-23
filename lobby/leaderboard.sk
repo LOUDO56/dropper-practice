@@ -43,6 +43,10 @@ function leaderboard(loc: location, type: string) :: string:
 					add loop-value-2 to {_players::*}
 					set {_added::%uuid of loop-value-2%} to true
 					set {_results::%loop-index%} to {dropper::player::%uuid of loop-value-2%::stats::pb::%{_type}%}
+					set {dropper::mainlobby::leaderboard::%{_type}%::players::*} to {_players::*}
+	clear {dropper::mainlobby::leaderboard::%{_type}%::players::*}
+	loop 10 times:
+		add {_players::%loop-value%} to {dropper::mainlobby::leaderboard::%{_type}%::players::*}
 	createholo({_loc}, {_title}, -1)
 	if {_type} != "legacy":
 		remove 0.6 from y-coordinate of {_loc}

@@ -23,7 +23,7 @@ function mainlobby_join(p: player, lang: string):
 		set {_level} to {dropper::player::%{_uuid}%::level-legacy}
 	else:
 		set {_maplist::*} to {dropper::player::%uuid of {_p}%::maps_order::*}
-		set {_pb} to {dropper::player::%{_uuid}%::stats::pb::normal}
+		set {_pb} to get_fastest_time({_p})
 		set {_title} to "&a&lDROPPER PRACTICE"
 		set {_level} to {dropper::player::%{_uuid}%::level}
 	clear {_p}'s inventory
