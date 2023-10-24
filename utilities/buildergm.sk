@@ -1,0 +1,17 @@
+command /buildergm:
+	permission: dropper.builder
+	permission message: §cYou can't do that!
+	trigger:
+		if {dropper::in-game::player::%player%::in-game} is not set:
+			if {dropper::player::%player's uuid%::builder_mode} is not set:
+				set player's gamemode to creative
+				send "§aBuilder mode activated!"
+				set {dropper::player::%player's uuid%::builder_mode} to true
+				stop
+			if {dropper::player::%player's uuid%::builder_mode} is true:
+				set player's gamemode to adventure
+				send "§cBuilder mode desactivated!"
+				clear {dropper::player::%player's uuid%::builder_mode}
+				stop
+		else:
+			send "§cYou are in game"

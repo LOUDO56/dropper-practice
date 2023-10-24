@@ -10,7 +10,7 @@ import:
 
 
 function dropper_stat_menu(p: player):
-	set {_pb} to {dropper::player::%{_p}'s uuid%::stats::pb::normal}
+	set {_pb} to get_fastest_time({_p})
 	if {_pb} is not set:
 		set {_pb} to "&e00:00.000"
 	create gui with virtual chest inventory named "Statistics" with 1 rows:

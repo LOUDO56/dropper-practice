@@ -1,0 +1,3 @@
+command /ping:
+    trigger:
+        send "&7[&bPing&7] &rYour ping is &b%ping of player%ms"

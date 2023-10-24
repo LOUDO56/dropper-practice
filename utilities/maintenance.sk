@@ -1,0 +1,18 @@
+on connect:
+	if {maintenance} is true:
+		if player is not "LOUDO_" or "SKRRRTT" or "YourNotAlone":
+			kick the player due to "&cIn Maintenance! Come back later"
+
+
+
+
+command /maintenance:
+	permission: op
+	permission message: &cYou can't use this command!
+	trigger:
+		if {maintenance} is not set:
+			set {maintenance} to true
+			send "&aMaintenance activé."
+		else if {maintenance} is true:
+			clear {maintenance}
+			send "&cMaintenance désactivé"

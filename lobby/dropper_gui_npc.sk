@@ -235,7 +235,12 @@ function dropper_gui_npc(p: player, type: string, page: number):
 					if {_type} = "change_map":
 						if {dropper::player::%uuid of {_p}%::temp_map_order::*} don't contain {_map}:
 							if size of {dropper::player::%uuid of {_p}%::temp_map_order::*} < 5:
-								add {_map} to {dropper::player::%uuid of {_p}%::temp_map_order::*}
+								if size of {dropper::player::%uuid of {_p}%::temp_map_order::*} = 0:
+									set {dropper::player::%uuid of {_p}%::current_page_map} to {_page}
+								if {dropper::player::%uuid of {_p}%::current_page_map} = {_page}:
+									add {_map} to {dropper::player::%uuid of {_p}%::temp_map_order::*}
+								else:
+									send "&cYou can't have map from different mapset anymore." to {_p}
 								set {dropper::player::%uuid of {_p}%::temp_map_order.map_set::%{_map}%} to {_mapset}
 						else:
 							remove {_map} from {dropper::player::%uuid of {_p}%::temp_map_order::*}
@@ -243,6 +248,8 @@ function dropper_gui_npc(p: player, type: string, page: number):
 							clear {dropper::player::%uuid of {_p}%::temp_map_order::*}
 							loop {_currentMap::*}:
 								add loop-value to {dropper::player::%uuid of {_p}%::temp_map_order::*}
+							if size of {dropper::player::%uuid of {_p}%::temp_map_order::*} = 0:
+								clear {dropper::player::%uuid of {_p}%::current_page_map}
 						dropper_gui_npc({_p}, "change_map", {_page})
 						
 					else if {_type} = "practice": 
@@ -254,12 +261,18 @@ function dropper_gui_npc(p: player, type: string, page: number):
 					else if {_type} = "skip_portal":
 						if {dropper::player::%uuid of {_p}%::map-portal-skip::*} don't contain {_map}:
 							if size of {dropper::player::%uuid of {_p}%::map-portal-skip::*} = 2:
-								remove last element of {dropper::player::%uuid of {_p}%::map-portal-skip::*} from {dropper::player::%uuid of {_p}%::map-portal-skip::*}
-								set {_currentMap::*} to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
-								clear {dropper::player::%uuid of {_p}%::map-portal-skip::*}
-								loop {_currentMap::*}:
-									add loop-value to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
-							add {_map} to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+								if {dropper::player::%uuid of {_p}%::current_page_map} = {_page}:
+									remove last element of {dropper::player::%uuid of {_p}%::map-portal-skip::*} from {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+									set {_currentMap::*} to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+									clear {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+									loop {_currentMap::*}:
+										add loop-value to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+							if size of {dropper::player::%uuid of {_p}%::map-portal-skip::*} = 0:
+								set {dropper::player::%uuid of {_p}%::current_page_map} to {_page}
+							if {dropper::player::%uuid of {_p}%::current_page_map} = {_page}:
+								add {_map} to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+							else:
+								send "&cYou can't have map from different mapset anymore." to {_p}
 								
 						else:
 							remove {_map} from {dropper::player::%uuid of {_p}%::map-portal-skip::*}
@@ -267,6 +280,8 @@ function dropper_gui_npc(p: player, type: string, page: number):
 							clear {dropper::player::%uuid of {_p}%::map-portal-skip::*}
 							loop {_currentMap::*}:
 								add loop-value to {dropper::player::%uuid of {_p}%::map-portal-skip::*}
+							if size of {dropper::player::%uuid of {_p}%::map-portal-skip::*} = 0:
+								clear {dropper::player::%uuid of {_p}%::current_page_map}
 						dropper_gui_npc({_p}, "skip_portal", {_page})
 
 				add 1 to {_slot}

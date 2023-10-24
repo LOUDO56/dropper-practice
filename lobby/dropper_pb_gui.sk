@@ -17,7 +17,7 @@ function dropper_personal_best_gui(p: player, target: offline player):
 
 	create gui with virtual chest inventory named {_name-gui} with 1 rows:
 		set {_slot} to 2
-		loop "Fantasy", "Abstract", "Landscape", "Futuristic" and "Nometa":
+		loop "Fantasy", "Abstract", "Landscape", "Futuristic":
 			set {_maps_pb::*} to {dropper::player::%uuid of {_target}%::stats::pb::%loop-value%::mapset::*}
 			set {_splits_pb::*} to {dropper::player::%uuid of {_target}%::stats::pb::%loop-value%::splits::*}
 			set {_mapset} to loop-value
@@ -37,8 +37,6 @@ function dropper_personal_best_gui(p: player, target: offline player):
 				set {_item} to yellow glass block
 			else if loop-value = "Futuristic":
 				set {_item} to gray glass block
-			else if loop-value = "Nometa":
-				set {_item} to orange glass block
 			if {_target} is not {_p}:
 				if {_pb} is "&cNone":
 					make gui slot {_slot} with {_item} named "&a%{_mapset}%" with lore "", "&cDidn't play"

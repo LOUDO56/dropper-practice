@@ -13,7 +13,7 @@ command /dropper [<text=help>] [<text>]:
     aliases: /drop
     trigger:
         if arg 1 is "help":
-            loop 8 times:
+            loop 9 times:
                 send yaml value "mainlobby.message.help.%loop-value%" from "%{dropper::player::%player's uuid%::language}%"
         else if arg 1 is "play":
             if {dropper::in-game::player::%player%::about_to_start} is set:
@@ -73,22 +73,36 @@ command /dropper [<text=help>] [<text>]:
             if arg 2 is set:
                 if {dropper::in-game::player::%player%::in-game} is not set:
                     set {_maps::*} to arg 2 split at ","
+                    if {dropper::player::%player's uuid%::legacy-state} is true:
+                        if {dropper::map-legacy::*} contains {_maps::*}:
+                            set {_legit-map} to true
+                    else:
+                        loop "fantasy", "abstract", "landscape", "futuristic":
+                            if {dropper::mapset::%loop-value%::*} contains {_maps::*}:
+                                set {_legit-map} to true
                     loop {_maps::*}:
                         add 1 to {_twice.%loop-value%}
                         if {_twice.%loop-value%} < 2:
                             if {dropper::map::%loop-value%::name} is set:
-                                set {dropper::player::%player's uuid%::maps_order::%loop-index%} to loop-value
                                 add 1 to {_twice.%loop-value%}
                             else:
-                                send_yaml("mainlobby.message.help","wrong_maps","%%map%%","%loop-value%",{dropper::player::%player's uuid%::language})
+                                send send_yaml("mainlobby.message.help","wrong_maps","%%map%%","%loop-value%",{dropper::player::%player's uuid%::language})
                                 stop
                         else:
-                            send_yaml("mainlobby.message.help","twice-maps","%%map%%","%loop-value%",{dropper::player::%player's uuid%::language})
+                            send send_yaml("mainlobby.message.help","twice-maps","%%map%%","%loop-value%",{dropper::player::%player's uuid%::language})
                             stop
-                    if size of {dropper::player::%player's uuid%::maps_order::*} = 5:
-                        loop {dropper::player::%player's uuid%::maps_order::*}:
-                            send "&e%loop-index%. &a%{dropper::map::%loop-value%::name}%"
-                        send yaml value "mainlobby.message.help.your_maps_order" from "%{dropper::player::%player's uuid%::language}%"
+                    if size of {_maps::*} = 5:
+                        if {_legit-map} is not set:
+                            send "&cYou can't have map from different mapset anymore."
+                        else:
+                            loop {_maps::*}:
+                                send "&e%loop-index%. &a%{dropper::map::%loop-value%::name}%"
+                            if {dropper::player::%player's uuid%::legacy-state} is true:
+                                set {dropper::player::%player's uuid%::maps_order-legacy::*} to {_maps::*}
+                            else:
+                                set {dropper::player::%player's uuid%::maps_order::*} to {_maps::*}
+                            send yaml value "mainlobby.message.help.your_maps_order" from "%{dropper::player::%player's uuid%::language}%"
+                            mainlobby_join(player, {dropper::player::%player's uuid%::language})
                     else:
                         send yaml value "mainlobby.message.help.more_than_5" from "%{dropper::player::%player's uuid%::language}%"
                 else:
@@ -119,9 +133,9 @@ command /dropper [<text=help>] [<text>]:
         else if arg 1 is "resetpb":
             if {dropper::in-game::player::%player%::in-game} is not set:
                 if arg 2 is not set:
-                    send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
+                    send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c &cand &eLegacy"
                 else if arg 2 is not "Fantasy" or "Abstract" or "Landscape" or "Futuristic" or "Nometa" or "legacy":
-                    send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
+                    send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic &cand &eLegacy"
                 else:
                     if {dropper::player::%player's uuid%::stats::pb::%arg 2%} is set:
                         send yaml value "mainlobby.command.dropper.pbreset" from "%{dropper::player::%player's uuid%::language}%"
@@ -134,16 +148,16 @@ command /dropper [<text=help>] [<text>]:
                                 set {_best-time} to 36000
                             if {_best-time} > 35999:
                                 clear {dropper::player::%player's uuid%::level}
-                                make console execute command "/nte player %arg 2% prefix &7"
-                                make console execute command "/nte player %arg 2% priority 12"
+                                make console execute command "/nte player %player% prefix &7"
+                                make console execute command "/nte player %player% priority 12"
                                 make console execute command "/nte reload"
                             else:
                                 clear {dropper::player::%player's uuid%::level}
                                 dropper_rank_time_verif(player, {_best-time})
                         else:
                             clear {dropper::player::%player's uuid%::level-legacy}
-                            make console execute command "/nte player %arg 2% prefix &7"
-                            make console execute command "/nte player %arg 2% priority 12"
+                            make console execute command "/nte player %player% prefix &7"
+                            make console execute command "/nte player %player% priority 12"
                             make console execute command "/nte reload"
                         leaderboard({dropper::mainlobby::leaderboard::%arg 2%}, arg 2)
                         mainlobby_join(player, "%{dropper::player::%player's uuid%::language}%")
@@ -154,9 +168,9 @@ command /dropper [<text=help>] [<text>]:
 
         else if arg 1 is "leaddetail":
             if arg 2 is not set:
-                send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
+                send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic &cand &eLegacy"
             else if arg 2 is not "Fantasy" or "Abstract" or "Landscape" or "Futuristic" or "Nometa" or "legacy":
-                send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic&c, &eNometa &cand &eLegacy"
+                send "&cYou must set the category. &eFantasy&c, &eAbstract&c, &eLandscape&c, &eFuturistic &cand &eLegacy"
             else:
                 if arg 2 is "fantasy":
                     set {_mapset} to "Fantasy"
@@ -172,10 +186,6 @@ command /dropper [<text=help>] [<text>]:
                 else if arg 2 is "Futuristic":
                     set {_mapset} to "Futuristic"
                     set {_item} to gray glass block
-
-                else if arg 2 is "Nometa":
-                    set {_mapset} to "Nometa"
-                    set {_item} to orange glass block
 
                 else if arg 2 is "Legacy":
                     set {_mapset} to "Legacy"
@@ -195,8 +205,11 @@ command /dropper [<text=help>] [<text>]:
                                 add 1 to {_i}
                         else:
                             set {_begin-lore} to "&cUnknown maps"
-                        make gui slot {_slot} with {_item} named "&e##%loop-index% &a%loop-value%" with lore "", "&e- &b%{_pb}%", "", {_begin-lore} and {_lore::*}
+                        make gui slot {_slot} with {_item} named "&e##%loop-index% &a%loop-value%" with lore "", "&e- &b%{_pb}%", "", {_begin-lore}, {_lore::*}, "" and "&7Splits are approximative", "&7and may not be like", "&7the pb with splits", "&7additioned together."
                         add 1 to {_slot}
+                        clear {_splits_pb::*}
+                        clear {_maps_pb::*}
+                        clear {_lore::*} 
                     make gui slot 17 with barrier named "&cClose":
                         close player's inventory
             open last created gui to player

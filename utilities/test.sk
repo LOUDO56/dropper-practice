@@ -1,14 +1,10 @@
-command /fakepb: 
+command /gingibug <player> <text>:
 	trigger:
-		set {dropper::player::%uuid of player%::stats::pb::fantasy::mapset::*} to "king", "kingdom", "floating", "maelstrom" and "hell"
-		set {dropper::player::%uuid of player%::stats::pb::fantasy::splits::*} to "00:05.645", "00:07.645", "00:04.254", "00:02.145" and "00:10.542"
-		set {dropper::player::%uuid of player%::stats::pb::fantasy} to "00:33.141"
-
-		set {dropper::player::%uuid of player%::stats::pb::abstract::mapset::*} to "bbq", "board", "painted", "sweets" and "illusion"
-		set {dropper::player::%uuid of player%::stats::pb::abstract::splits::*} to "00:05.645", "00:07.645", "00:04.254", "00:02.145" and "00:10.542"
-		set {dropper::player::%uuid of player%::stats::pb::abstract} to "00:32.141"
-
-command /clearpb2 <text>:
-	trigger:
-		clear {dropper::player::%uuid of player%::stats::pb::%arg%::*}
-		clear {dropper::player::%uuid of player%::stats::pb::%arg%}
+		clear {dropper::player::%uuid of arg 1%::stats::pb::%arg 2%::splits::*}
+		set {dropper::player::%uuid of arg 1%::stats::pb::%arg 2%::splits::1} to "00:05.065"
+		set {dropper::player::%uuid of arg 1%::stats::pb::%arg 2%::splits::2} to "00:05.698"
+		set {dropper::player::%uuid of arg 1%::stats::pb::%arg 2%::splits::3} to "00:05.015"
+		set {dropper::player::%uuid of arg 1%::stats::pb::%arg 2%::splits::4} to "00:05.700"
+		set {dropper::player::%uuid of arg 1%::stats::pb::%arg 2%::splits::5} to "00:05.017"
+# 	make player execute command "/gamerule doFireTick false"
+# 	make player execute command "/gamerule randomTickSpeed 0"

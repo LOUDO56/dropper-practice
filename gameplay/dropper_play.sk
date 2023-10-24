@@ -7,6 +7,12 @@ import:
 	org.bukkit.Location
 	org.bukkit.Material
 
+
+function set_adventure_gm(p: player):
+	if {dropper::mapset::fantasy::*} don't contain {dropper::player::%uuid of {_p}%::maps_order::1}:
+		wait 0.7 seconds
+	set {_p}'s gamemode to adventure
+
 function dropper_play(p: player, mode: text):
 	{dropper::in-game::player::%{_p}%::about_to_start} is not set
 	add {_p} to {dropper::mainlobby::in-game::*} if {dropper::in-game::player::%{_p}%::in-game} is not set
@@ -58,8 +64,7 @@ function dropper_play(p: player, mode: text):
 	set {_p}'s health to 20
 	
 	# TODO: Impltement Oppononent system
-
-	set {_p}'s gamemode to adventure
+	set_adventure_gm({_p})
 	set slot 0 of {_p} to rose red named yaml value "gameplay.rose-red" from "%{dropper::player::%uuid of {_p}%::language}%"
 	set slot 4 of {_p} to redstone item named yaml value "gameplay.redstone" from "%{dropper::player::%uuid of {_p}%::language}%"
 	set slot 8 of {_p} to dark oak door named yaml value "gameplay.door" from "%{dropper::player::%uuid of {_p}%::language}%"

@@ -366,7 +366,1199 @@ command /givelegacyrank:
             else if {_time-finished-allmaps} < 27999:
                 make player execute command "/rank mystic+-legacy %loop-value%"
 
-command /transferpb:
+
+
+command /createupdatecord:
     trigger:
-        loop all offline players where [{dropper::player::%uuid of input%::stats::pb::normal} is set]:
-            set {dropper::player::%uuid of loop-value%::stats::pb::nometa} to {dropper::player::%uuid of loop-value%::stats::pb::normal}
+        loop {dropper::map-legacy::*}:
+            set {_x} to x-coords of {dropper::map::%loop-value%::spawn}
+            set {_y} to y-coords of {dropper::map::%loop-value%::spawn}
+            set {_z} to z-coords of {dropper::map::%loop-value%::spawn}
+            set {_yaw} to yaw of {dropper::map::%loop-value%::spawn}
+            set {_world} to world of {dropper::map::%loop-value%::spawn}
+            write "set {dropper::map::%loop-value%::spawn} to location(%{_x}%, %{_y}%, %{_z}%, world(""%{_world}%""), %{_yaw}%, 0)" at line (file "plugins/Skript/scripts/coordsspawn.txt"'s line count + 1) to file "plugins/Skript/scripts/coordsspawn.txt"
+    
+    
+command /createupdatecordcage:
+    trigger:
+        loop {dropper::map-legacy::*}:
+            loop {dropper::map::%loop-value%::block-location::*}:
+                set {_x} to x-coords of loop-value-2
+                set {_y} to y-coords of loop-value-2
+                set {_z} to z-coords of loop-value-2
+                set {_yaw} to yaw of loop-value-2
+                set {_pitch} to yaw of loop-value-2
+                set {_world} to world of loop-value-2
+                write "set {dropper::map::%loop-value-1%::block-location::%loop-index-2%} to location(%{_x}%, %{_y}%, %{_z}%, world(""%{_world}%""), %{_yaw}%, %{_pitch}%)" at line (file "plugins/Skript/scripts/coordcage.txt"'s line count + 1) to file "plugins/Skript/scripts/coordcage.txt"
+
+
+
+command /updatedropper:
+    trigger:
+        make player execute command "/dropadm create Tangle-Legacy"
+        make player execute command "/dropadm create Upside-Legacy"
+        make player execute command "/dropadm create Well-Legacy"
+        make player execute command "/dropadm create BBQ-Legacy"
+        make player execute command "/dropadm create Time-Legacy"
+        make player execute command "/dropadm create Balloons-Legacy"
+        make player execute command "/dropadm create Distance-Legacy"
+        make player execute command "/dropadm create Lily-Legacy"
+        make player execute command "/dropadm create Mushroom-Legacy"
+        make player execute command "/dropadm create Drainage-Legacy"
+        make player execute command "/dropadm create Space-Legacy"
+        make player execute command "/dropadm create Warp-Legacy"
+        make player execute command "/dropadm create Toilet-Legacy"
+        make player execute command "/dropadm create Plughole-Legacy"
+        make player execute command "/dropadm create Distortion-Legacy"
+
+        make player execute command "/dropadm setname Tangle-Legacy Tangle"
+        make player execute command "/dropadm setname Upside-Legacy Upside Down"
+        make player execute command "/dropadm setname Well-Legacy Well"
+        make player execute command "/dropadm setname BBQ-Legacy BBQ"
+        make player execute command "/dropadm setname Time-Legacy Time"
+        make player execute command "/dropadm setname Balloons-Legacy Balloons"
+        make player execute command "/dropadm setname Distance-Legacy Distance"
+        make player execute command "/dropadm setname Lily-Legacy Lily"
+        make player execute command "/dropadm setname Mushroom-Legacy Mushroom"
+        make player execute command "/dropadm setname Drainage-Legacy Drainage"
+        make player execute command "/dropadm setname Space-Legacy Space"
+        make player execute command "/dropadm setname Warp-Legacy Warp"
+        make player execute command "/dropadm setname Toilet-Legacy Toilet"
+        make player execute command "/dropadm setname Plughole-Legacy Plughole"
+        make player execute command "/dropadm setname Distortion-Legacy Distortion"
+
+        make player execute command "/dropadm setdifficulty Tangle-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Upside-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Well-Legacy Easy"
+        make player execute command "/dropadm setdifficulty BBQ-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Time-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Balloons-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Distance-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Lily-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Mushroom-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Drainage-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Space-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Warp-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Toilet-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Plughole-Legacy Easy"
+        make player execute command "/dropadm setdifficulty Distortion-Legacy Easy"
+
+
+
+        # Medium
+
+
+
+
+
+        make player execute command "/dropadm create Castle-Legacy"
+        make player execute command "/dropadm create Floating-Legacy"
+        make player execute command "/dropadm create Mineshaft-Legacy"
+        make player execute command "/dropadm create Geometry-Legacy"
+        make player execute command "/dropadm create Retro-Legacy"
+        make player execute command "/dropadm create Cabin-Legacy"
+        make player execute command "/dropadm create Ravine-Legacy"
+        make player execute command "/dropadm create Western-Legacy"
+        make player execute command "/dropadm create City-Legacy"
+        make player execute command "/dropadm create Sewer-Legacy"
+
+
+        make player execute command "/dropadm setname Castle-Legacy Castle"
+        make player execute command "/dropadm setname Floating-Legacy Floating Islands"
+        make player execute command "/dropadm setname Mineshaft-Legacy Mineshaft"
+        make player execute command "/dropadm setname Geometry-Legacy Geometry"
+        make player execute command "/dropadm setname Retro-Legacy Retro"
+        make player execute command "/dropadm setname Cabin-Legacy Cabin"
+        make player execute command "/dropadm setname Ravine-Legacy Ravine"
+        make player execute command "/dropadm setname Western-Legacy Western"
+        make player execute command "/dropadm setname City-Legacy City"
+        make player execute command "/dropadm setname Sewer-Legacy Sewer"
+
+        make player execute command "/dropadm setdifficulty Castle-Legacy medium"
+        make player execute command "/dropadm setdifficulty Floating-Legacy medium"
+        make player execute command "/dropadm setdifficulty Mineshaft-Legacy medium"
+        make player execute command "/dropadm setdifficulty Geometry-Legacy medium"
+        make player execute command "/dropadm setdifficulty Retro-Legacy medium"
+        make player execute command "/dropadm setdifficulty Cabin-Legacy medium"
+        make player execute command "/dropadm setdifficulty Ravine-Legacy medium"
+        make player execute command "/dropadm setdifficulty Western-Legacy medium"
+        make player execute command "/dropadm setdifficulty City-Legacy medium"
+        make player execute command "/dropadm setdifficulty Sewer-Legacy medium"
+
+
+        # Hard
+
+        make player execute command "/dropadm create Atlantis-Legacy"
+        make player execute command "/dropadm create Illusion-Legacy"
+        make player execute command "/dropadm create Iris-Legacy"
+        make player execute command "/dropadm create Ocean-Legacy"
+        make player execute command "/dropadm create Factory-Legacy"
+        make player execute command "/dropadm create Gears-Legacy"
+        make player execute command "/dropadm create Sandworm-Legacy"
+
+        make player execute command "/dropadm setname Atlantis-Legacy Atlantis"
+        make player execute command "/dropadm setname Illusion-Legacy Illusion"
+        make player execute command "/dropadm setname Iris-Legacy Iris"
+        make player execute command "/dropadm setname Ocean-Legacy Ocean"
+        make player execute command "/dropadm setname Factory-Legacy Factory"
+        make player execute command "/dropadm setname Gears-Legacy Gears"
+        make player execute command "/dropadm setname Sandworm-Legacy Sandworm"
+
+        make player execute command "/dropadm setdifficulty Atlantis-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Illusion-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Iris-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Ocean-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Factory-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Gears-Legacy Hard"
+        make player execute command "/dropadm setdifficulty Sandworm-Legacy Hard"
+
+
+        make player execute command "/dropadm addmapset fantasy king"
+        make player execute command "/dropadm addmapset fantasy Kingdom"
+        make player execute command "/dropadm addmapset fantasy Raindrops"
+        make player execute command "/dropadm addmapset fantasy Tangle"
+        make player execute command "/dropadm addmapset fantasy Upside"
+        make player execute command "/dropadm addmapset fantasy Well"
+    
+        # Fantasy Medium
+
+        make player execute command "/dropadm addmapset fantasy Beanstalk"
+        make player execute command "/dropadm addmapset fantasy Castle"
+        make player execute command "/dropadm addmapset fantasy Floating"
+        make player execute command "/dropadm addmapset fantasy Maelstrom"
+        make player execute command "/dropadm addmapset fantasy Mineshaft"
+        make player execute command "/dropadm addmapset fantasy Warportal"
+
+        # Fantasy Hard
+
+        make player execute command "/dropadm addmapset fantasy Atlantis"
+        make player execute command "/dropadm addmapset fantasy Hell"
+        make player execute command "/dropadm addmapset fantasy Vortex"
+
+
+        # Anstract Easy
+
+        make player execute command "/dropadm addmapset abstract BBQ"
+        make player execute command "/dropadm addmapset abstract Board"
+        make player execute command "/dropadm addmapset abstract Distortion"
+        make player execute command "/dropadm addmapset abstract Revolve"
+        make player execute command "/dropadm addmapset abstract Time"
+        make player execute command "/dropadm addmapset abstract Vintage"
+    
+        # Anstract Medium
+
+        make player execute command "/dropadm addmapset abstract Butterflies"
+        make player execute command "/dropadm addmapset abstract Emoji"
+        make player execute command "/dropadm addmapset abstract Geometry"
+        make player execute command "/dropadm addmapset abstract Painted"
+        make player execute command "/dropadm addmapset abstract Retro"
+        make player execute command "/dropadm addmapset abstract Sweets"
+
+        # Anstract Hard
+
+        make player execute command "/dropadm addmapset abstract Bird"
+        make player execute command "/dropadm addmapset abstract Illusion"
+        make player execute command "/dropadm addmapset abstract Iris"
+
+
+        # Landscape Easy
+
+        make player execute command "/dropadm addmapset landscape Balloons"
+        make player execute command "/dropadm addmapset landscape Bridges"
+        make player execute command "/dropadm addmapset landscape Distance"
+        make player execute command "/dropadm addmapset landscape Kraken"
+        make player execute command "/dropadm addmapset landscape Lily"
+        make player execute command "/dropadm addmapset landscape Mushroom"
+    
+        # Landscape Medium
+
+        make player execute command "/dropadm addmapset landscape Cabin"
+        make player execute command "/dropadm addmapset landscape Glacier"
+        make player execute command "/dropadm addmapset landscape Lavafall"
+        make player execute command "/dropadm addmapset landscape Overgrown"
+        make player execute command "/dropadm addmapset landscape Ravine"
+        make player execute command "/dropadm addmapset landscape Western"
+
+        # Landscape Hard
+
+        make player execute command "/dropadm addmapset landscape Fly"
+        make player execute command "/dropadm addmapset landscape Frogspawn"
+        make player execute command "/dropadm addmapset landscape Ocean"
+
+
+        # Futuristic Easy
+
+        make player execute command "/dropadm addmapset futuristic Drainage"
+        make player execute command "/dropadm addmapset futuristic Mainframe"
+        make player execute command "/dropadm addmapset futuristic Microscope"
+        make player execute command "/dropadm addmapset futuristic Sewer"
+        make player execute command "/dropadm addmapset futuristic Space"
+        make player execute command "/dropadm addmapset futuristic Warp"
+    
+        # Futuristic Medium
+
+        make player execute command "/dropadm addmapset futuristic Stratocumulus"
+        make player execute command "/dropadm addmapset futuristic UFO"
+        make player execute command "/dropadm addmapset futuristic Nightlife"
+        make player execute command "/dropadm addmapset futuristic Launch"
+        make player execute command "/dropadm addmapset futuristic City"
+        make player execute command "/dropadm addmapset futuristic Paradigm"
+
+        # Futuristic Hard
+
+        make player execute command "/dropadm addmapset futuristic Factory"
+        make player execute command "/dropadm addmapset futuristic Gears"
+        make player execute command "/dropadm addmapset futuristic Sandworm"
+
+        set {dropper::map::Well::spawn} to location(45.5, 211, -358.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Time::spawn} to location(45.5, 249.5, 67.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::floating::spawn} to location(191.5, 249.5, -212.5, world("dropper_fantasy"), 90, 0)
+        set {dropper::map::Sewer::spawn} to location(41.5, 249.5, -212.5, world("dropper_futuristic"), 270, 0)
+        set {dropper::map::Factory::spawn} to location(329.5, 249.5, -3.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Ravine::spawn} to location(183.5, 249.5, -212.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Lily::spawn} to location(42.5, 249.5, -212.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Western::spawn} to location(182.5, 250.5, -70.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Ocean::spawn} to location(329.5, 249.5, 4.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Balloons::spawn} to location(49.5, 250.5, -70.5, world("dropper_landscape"), 90, 0)
+        set {dropper::map::Drainage::spawn} to location(50.5, 249.5, 71.5, world("dropper_futuristic"), 90, 0)
+        set {dropper::map::Mineshaft::spawn} to location(191.5, 249.5, 71.5, world("dropper_fantasy"), 90, 0)
+        set {dropper::map::Stratocumulus::spawn} to location(191.5, 251.5, 355.5, world("dropper_futuristic"), 90, 0)
+        set {dropper::map::City::spawn} to location(183.5, 249.5, -212.5, world("dropper_futuristic"), 270, 0)
+        set {dropper::map::Illusion::spawn} to location(329.5, 249.5, 4.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Iris::spawn} to location(341.5, 250.5, -141.5, world("dropper_abstract"), 90, 0)
+        set {dropper::map::Space::spawn} to location(45.5, 247.5, -359.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Castle::spawn} to location(195.5, 249.5, -65.5, world("dropper_fantasy"), 180, 0)
+        set {dropper::map::Gears::spawn} to location(329.5, 249.5, 138.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::BBQ::spawn} to location(45.5, 250.5, -208.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Geometry::spawn} to location(187.5, 250.5, -208.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Cabin::spawn} to location(183.5, 250.5, -353.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Tangle::spawn} to location(49.5, 250.5, 71.5, world("dropper_fantasy"), 90, 0)
+        set {dropper::map::Warp::spawn} to location(45.5, 250.5, -74.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Vortex::spawn} to location(325.5, 250.5, 0.5, world("dropper_fantasy"), 270, 0)
+        set {dropper::map::Atlantis::spawn} to location(333.5, 250.5, 142.5, world("dropper_fantasy"), 90, 0)
+        set {dropper::map::Retro::spawn} to location(187.5, 250.5, -350.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Sandworm::spawn} to location(329.5, 249.5, -145.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mushroom::spawn} to location(41.5, 249.5, -354.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Distortion::spawn} to location(45.5, 250.5, -350.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::king::spawn} to location(41.5, 250.5, 213.5, world("dropper_fantasy"), 270, 0)
+        set {dropper::map::kingdom::spawn} to location(45.5, 250.5, 351.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::spawn} to location(41.5, 250.5, -70.5, world("dropper_fantasy"), 270, 0)
+        set {dropper::map::board::spawn} to location(41.5, 250.5, 355.5, world("dropper_abstract"), 270, 0)
+        set {dropper::map::Revolve::spawn} to location(45.5, 249.5, -68.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Vintage::spawn} to location(45.5, 250.5, 217.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Bridges::spawn} to location(41.5, 250.5, 355.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Distance::spawn} to location(41.5, 249.5, 71.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Kraken::spawn} to location(45.5, 250.5, 217.5, world("dropper_landscape"), 180, 0)
+        set {dropper::map::Mainframe::spawn} to location(41.5, 250.5, 213.5, world("dropper_futuristic"), 270, 0)
+        set {dropper::map::Microscope::spawn} to location(41.5, 250.5, 355.5, world("dropper_futuristic"), 270, 0)
+        set {dropper::map::Beanstalk::spawn} to location(187.5, 250.5, -350.5, world("dropper_fantasy"), 180, 0)
+        set {dropper::map::Maelstrom::spawn} to location(184.5, 247.5, 213.5, world("dropper_fantasy"), 270, 0)
+        set {dropper::map::Warportal::spawn} to location(187.5, 250.5, 351.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Butterflies::spawn} to location(189.5, 248.5, -66.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Emoji::spawn} to location(189.5, 243.5, 67.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::spawn} to location(183.5, 246.5, 355.5, world("dropper_abstract"), 270, 0)
+        set {dropper::map::Sweets::spawn} to location(187.5, 245.5, 217.5, world("dropper_abstract"), 180, 0)
+        set {dropper::map::Glacier::spawn} to location(183.5, 250.5, 213.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Lavafall::spawn} to location(183.5, 250.5, 355.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::Overgrown::spawn} to location(191.5, 250.5, 68.5, world("dropper_landscape"), 90, 0)
+        set {dropper::map::UFO::spawn} to location(183.5, 239.5, 71.5, world("dropper_futuristic"), 270, 0)
+        set {dropper::map::launch::spawn} to location(190.5, 249.5, 213.5, world("dropper_futuristic"), 90, 0)
+        set {dropper::map::Paradigm::spawn} to location(187.5, 250.5, -75.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::bird::spawn} to location(324.5, 250.5, 142.5, world("dropper_abstract"), 270, 0)
+        set {dropper::map::fly::spawn} to location(326.5, 247.5, -141.5, world("dropper_landscape"), 270, 0)
+        set {dropper::map::hell::spawn} to location(333.5, 250.5, -141.5, world("dropper_fantasy"), 90, 0)
+        set {dropper::map::Frogspawn::spawn} to location(329.5, 250.5, 146.5, world("dropper_landscape"), 180, 0)
+        set {dropper::map::Nightlife::spawn} to location(183.5, 250.5, -357.5, world("dropper_futuristic"), 270, 0)
+        set {dropper::map::upside::spawn} to location(45.5, 249.5, -208.5, world("dropper_fantasy"), 180, 0)
+        set {dropper::map::Tangle-Legacy::spawn} to location(686.5, 250.5, 813.5, world("ul_droppermap"), 90, 0)
+        # set {dropper::map::Upside-Legacy::spawn} to location(<none>, <none>, <none>, world("<none>"), <none>, 0)
+        set {dropper::map::Well-Legacy::spawn} to location(236.5, 210.5, 345.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::spawn} to location(581.5, 250.5, 809.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::spawn} to location(116.5, 249.5, 317.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::spawn} to location(240.5, 250.5, 451.5, world("ul_droppermap"), 90, 0)
+        # set {dropper::map::Distance-Legacy::spawn} to location(<none>, <none>, <none>, world("<none>"), <none>, 0)
+        set {dropper::map::Lily-Legacy::spawn} to location(232.5, 249.5, 249.5, world("ul_droppermap"), 270, 0)
+        set {dropper::map::Mushroom-Legacy::spawn} to location(868.5, 249.5, 812.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Drainage-Legacy::spawn} to location(231.5, 249.5, 754.5, world("ul_droppermap"), 270, 0)
+        set {dropper::map::Space-Legacy::spawn} to location(236.5, 247.5, -48.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Warp-Legacy::spawn} to location(682.5, 250.5, 717.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Toilet-Legacy::spawn} to location(226.5, 239.5, 937.5, world("ul_droppermap"), 90, 0)
+        set {dropper::map::Plughole-Legacy::spawn} to location(581.5, 249.5, 616.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Castle-Legacy::spawn} to location(341.5, 249.5, 658.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Floating-Legacy::spawn} to location(13.5, 249.5, 339.5, world("ul_droppermap"), 90, 0)
+        set {dropper::map::Mineshaft-Legacy::spawn} to location(337.5, 249.5, 758.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Geometry-Legacy::spawn} to location(581.5, 250.5, 918.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Retro-Legacy::spawn} to location(783.5, 250.5, 716.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Cabin-Legacy::spawn} to location(682.5, 250.5, 919.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Ravine-Legacy::spawn} to location(341.5, 249.5, 47.5, world("ul_droppermap"), 90, 0)
+        set {dropper::map::Western-Legacy::spawn} to location(332.5, 250.5, 350.5, world("ul_droppermap"), 270, 0)
+        set {dropper::map::City-Legacy::spawn} to location(334.5, 249.5, 148.5, world("ul_droppermap"), 270, 0)
+        set {dropper::map::Atlantis-Legacy::spawn} to location(585.5, 250.5, 712.5, world("ul_droppermap"), 90, 0)
+        set {dropper::map::Illusion-Legacy::spawn} to location(438.5, 249.5, 253.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Iris-Legacy::spawn} to location(-242.5, 250.5, 624.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Ocean-Legacy::spawn} to location(438.5, 249.5, 354.5, world("ul_droppermap"), 180, 0)
+        set {dropper::map::Factory-Legacy::spawn} to location(438.5, 249.5, -57.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::spawn} to location(434.5, 249.5, 754.5, world("ul_droppermap"), 270, 0)
+        set {dropper::map::Sandworm-Legacy::spawn} to location(866.5, 249.5, 705.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::spawn} to location(783.5, 250.5, 808.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::spawn} to location(112.5, 249.5, 436.5, world("ul_droppermap"), 270, 0)
+
+        set {dropper::map::Well::block-location::1} to location(44.5, 208.5, -355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::2} to location(45.5, 208.5, -355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::3} to location(46.5, 208.5, -355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::4} to location(44.5, 208.5, -354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::5} to location(45.5, 208.5, -354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::6} to location(46.5, 208.5, -354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::7} to location(44.5, 208.5, -353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::8} to location(45.5, 208.5, -353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Well::block-location::9} to location(46.5, 208.5, -353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Time::block-location::1} to location(44.5, 247.5, 70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::2} to location(45.5, 247.5, 70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::3} to location(46.5, 247.5, 70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::4} to location(44.5, 247.5, 71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::5} to location(45.5, 247.5, 71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::6} to location(46.5, 247.5, 71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::7} to location(44.5, 247.5, 72.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::8} to location(45.5, 247.5, 72.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Time::block-location::9} to location(46.5, 247.5, 72.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::floating::block-location::1} to location(186.5, 247.5, -213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::2} to location(187.5, 247.5, -213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::3} to location(188.5, 247.5, -213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::4} to location(186.5, 247.5, -212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::5} to location(187.5, 247.5, -212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::6} to location(188.5, 247.5, -212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::7} to location(186.5, 247.5, -211.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::8} to location(187.5, 247.5, -211.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::floating::block-location::9} to location(188.5, 247.5, -211.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Sewer::block-location::1} to location(44.5, 247.5, -213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::2} to location(45.5, 247.5, -213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::3} to location(46.5, 247.5, -213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::4} to location(44.5, 247.5, -212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::5} to location(45.5, 247.5, -212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::6} to location(46.5, 247.5, -212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::7} to location(44.5, 247.5, -211.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::8} to location(45.5, 247.5, -211.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sewer::block-location::9} to location(46.5, 247.5, -211.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::1} to location(328.5, 247.5, -0.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::2} to location(329.5, 247.5, -0.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::3} to location(330.5, 247.5, -0.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::4} to location(328.5, 247.5, 0.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::5} to location(329.5, 247.5, 0.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::6} to location(330.5, 247.5, 0.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::7} to location(328.5, 247.5, 1.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::8} to location(329.5, 247.5, 1.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Factory::block-location::9} to location(330.5, 247.5, 1.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Ravine::block-location::1} to location(186.5, 247.5, -213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::2} to location(187.5, 247.5, -213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::3} to location(188.5, 247.5, -213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::4} to location(186.5, 247.5, -212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::5} to location(187.5, 247.5, -212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::6} to location(188.5, 247.5, -212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::7} to location(186.5, 247.5, -211.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::8} to location(187.5, 247.5, -211.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ravine::block-location::9} to location(188.5, 247.5, -211.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::1} to location(45.5, 247.5, -213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::2} to location(46.5, 247.5, -213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::3} to location(47.5, 247.5, -213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::4} to location(45.5, 247.5, -212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::5} to location(46.5, 247.5, -212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::6} to location(47.5, 247.5, -212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::7} to location(45.5, 247.5, -211.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::8} to location(46.5, 247.5, -211.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lily::block-location::9} to location(47.5, 247.5, -211.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::1} to location(186.5, 248.5, -71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::2} to location(187.5, 248.5, -71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::3} to location(188.5, 248.5, -71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::4} to location(186.5, 248.5, -70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::5} to location(187.5, 248.5, -70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::6} to location(188.5, 248.5, -70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::7} to location(186.5, 248.5, -69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::8} to location(187.5, 248.5, -69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Western::block-location::9} to location(188.5, 248.5, -69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::1} to location(328.5, 247.5, -0.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::2} to location(329.5, 247.5, -0.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::3} to location(330.5, 247.5, -0.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::4} to location(328.5, 247.5, 0.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::5} to location(329.5, 247.5, 0.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::6} to location(330.5, 247.5, 0.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::7} to location(328.5, 247.5, 1.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::8} to location(329.5, 247.5, 1.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Ocean::block-location::9} to location(330.5, 247.5, 1.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::1} to location(44.5, 248.5, -71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::2} to location(45.5, 248.5, -71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::3} to location(46.5, 248.5, -71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::4} to location(44.5, 248.5, -70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::5} to location(45.5, 248.5, -70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::6} to location(46.5, 248.5, -70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::7} to location(44.5, 248.5, -69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::8} to location(45.5, 248.5, -69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Balloons::block-location::9} to location(46.5, 248.5, -69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Drainage::block-location::1} to location(44.5, 247.5, 70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::2} to location(45.5, 247.5, 70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::3} to location(46.5, 247.5, 70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::4} to location(44.5, 247.5, 71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::5} to location(45.5, 247.5, 71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::6} to location(46.5, 247.5, 71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::7} to location(44.5, 247.5, 72.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::8} to location(45.5, 247.5, 72.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Drainage::block-location::9} to location(46.5, 247.5, 72.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::1} to location(186.5, 247.5, 70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::2} to location(187.5, 247.5, 70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::3} to location(188.5, 247.5, 70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::4} to location(186.5, 247.5, 71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::5} to location(187.5, 247.5, 71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::6} to location(188.5, 247.5, 71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::7} to location(186.5, 247.5, 72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::8} to location(187.5, 247.5, 72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Mineshaft::block-location::9} to location(188.5, 247.5, 72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::1} to location(186.5, 249.5, 354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::2} to location(187.5, 249.5, 354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::3} to location(188.5, 249.5, 354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::4} to location(186.5, 249.5, 355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::5} to location(187.5, 249.5, 355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::6} to location(188.5, 249.5, 355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::7} to location(186.5, 249.5, 356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::8} to location(187.5, 249.5, 356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Stratocumulus::block-location::9} to location(188.5, 249.5, 356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::1} to location(186.5, 247.5, -213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::2} to location(187.5, 247.5, -213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::3} to location(188.5, 247.5, -213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::4} to location(186.5, 247.5, -212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::5} to location(187.5, 247.5, -212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::6} to location(188.5, 247.5, -212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::7} to location(186.5, 247.5, -211.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::8} to location(187.5, 247.5, -211.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::City::block-location::9} to location(188.5, 247.5, -211.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Illusion::block-location::1} to location(328.5, 247.5, -0.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::2} to location(329.5, 247.5, -0.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::3} to location(330.5, 247.5, -0.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::4} to location(328.5, 247.5, 0.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::5} to location(329.5, 247.5, 0.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::6} to location(330.5, 247.5, 0.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::7} to location(328.5, 247.5, 1.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::8} to location(329.5, 247.5, 1.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Illusion::block-location::9} to location(330.5, 247.5, 1.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::1} to location(336.5, 248.5, -142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::2} to location(337.5, 248.5, -142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::3} to location(338.5, 248.5, -142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::4} to location(336.5, 248.5, -141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::5} to location(337.5, 248.5, -141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::6} to location(338.5, 248.5, -141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::7} to location(336.5, 248.5, -140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::8} to location(337.5, 248.5, -140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Iris::block-location::9} to location(338.5, 248.5, -140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Space::block-location::1} to location(44.5, 245.5, -355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::2} to location(45.5, 245.5, -355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::3} to location(46.5, 245.5, -355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::4} to location(44.5, 245.5, -354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::5} to location(45.5, 245.5, -354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::6} to location(46.5, 245.5, -354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::7} to location(44.5, 245.5, -353.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::8} to location(45.5, 245.5, -353.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Space::block-location::9} to location(46.5, 245.5, -353.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Castle::block-location::1} to location(191.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::2} to location(192.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::3} to location(193.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::4} to location(194.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::5} to location(195.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::6} to location(196.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::7} to location(197.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::8} to location(198.5, 248.5, -72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::9} to location(191.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::10} to location(192.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::11} to location(193.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::12} to location(194.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::13} to location(195.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::14} to location(196.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::15} to location(197.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::16} to location(198.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::17} to location(191.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::18} to location(192.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::19} to location(193.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::20} to location(194.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::21} to location(195.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::22} to location(196.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::23} to location(197.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::24} to location(198.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::25} to location(191.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::26} to location(192.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::27} to location(193.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::28} to location(194.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::29} to location(195.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::30} to location(196.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::31} to location(197.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::32} to location(198.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::33} to location(191.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::34} to location(192.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::35} to location(193.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::36} to location(194.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::37} to location(195.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::38} to location(196.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::39} to location(197.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Castle::block-location::40} to location(198.5, 248.5, -68.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Gears::block-location::1} to location(328.5, 247.5, 141.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::2} to location(329.5, 247.5, 141.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::3} to location(330.5, 247.5, 141.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::4} to location(328.5, 247.5, 142.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::5} to location(329.5, 247.5, 142.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::6} to location(330.5, 247.5, 142.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::7} to location(328.5, 247.5, 143.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::8} to location(329.5, 247.5, 143.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Gears::block-location::9} to location(330.5, 247.5, 143.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::BBQ::block-location::1} to location(44.5, 248.5, -213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::2} to location(45.5, 248.5, -213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::3} to location(46.5, 248.5, -213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::4} to location(44.5, 248.5, -212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::5} to location(45.5, 248.5, -212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::6} to location(46.5, 248.5, -212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::7} to location(44.5, 248.5, -211.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::8} to location(45.5, 248.5, -211.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::BBQ::block-location::9} to location(46.5, 248.5, -211.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::1} to location(186.5, 248.5, -213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::2} to location(187.5, 248.5, -213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::3} to location(188.5, 248.5, -213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::4} to location(186.5, 248.5, -212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::5} to location(187.5, 248.5, -212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::6} to location(188.5, 248.5, -212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::7} to location(186.5, 248.5, -211.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::8} to location(187.5, 248.5, -211.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Geometry::block-location::9} to location(188.5, 248.5, -211.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Cabin::block-location::1} to location(186.5, 248.5, -354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::2} to location(187.5, 248.5, -354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::3} to location(188.5, 248.5, -354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::4} to location(186.5, 248.5, -353.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::5} to location(187.5, 248.5, -353.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::6} to location(188.5, 248.5, -353.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::7} to location(186.5, 248.5, -352.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::8} to location(187.5, 248.5, -352.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Cabin::block-location::9} to location(188.5, 248.5, -352.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Tangle::block-location::1} to location(44.5, 248.5, 70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::2} to location(45.5, 248.5, 70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::3} to location(46.5, 248.5, 70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::4} to location(44.5, 248.5, 71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::5} to location(45.5, 248.5, 71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::6} to location(46.5, 248.5, 71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::7} to location(44.5, 248.5, 72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::8} to location(45.5, 248.5, 72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle::block-location::9} to location(46.5, 248.5, 72.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warp::block-location::1} to location(44.5, 248.5, -71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::2} to location(45.5, 248.5, -71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::3} to location(46.5, 248.5, -71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::4} to location(44.5, 248.5, -70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::5} to location(45.5, 248.5, -70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::6} to location(46.5, 248.5, -70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::7} to location(44.5, 248.5, -69.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::8} to location(45.5, 248.5, -69.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Warp::block-location::9} to location(46.5, 248.5, -69.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Vortex::block-location::1} to location(328.5, 248.5, -0.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::2} to location(329.5, 248.5, -0.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::3} to location(330.5, 248.5, -0.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::4} to location(328.5, 248.5, 0.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::5} to location(329.5, 248.5, 0.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::6} to location(330.5, 248.5, 0.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::7} to location(328.5, 248.5, 1.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::8} to location(329.5, 248.5, 1.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Vortex::block-location::9} to location(330.5, 248.5, 1.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::1} to location(328.5, 248.5, 141.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::2} to location(329.5, 248.5, 141.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::3} to location(330.5, 248.5, 141.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::4} to location(328.5, 248.5, 142.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::5} to location(329.5, 248.5, 142.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::6} to location(330.5, 248.5, 142.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::7} to location(328.5, 248.5, 143.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::8} to location(329.5, 248.5, 143.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Atlantis::block-location::9} to location(330.5, 248.5, 143.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Retro::block-location::1} to location(186.5, 248.5, -355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::2} to location(187.5, 248.5, -355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::3} to location(188.5, 248.5, -355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::4} to location(186.5, 248.5, -354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::5} to location(187.5, 248.5, -354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::6} to location(188.5, 248.5, -354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::7} to location(186.5, 248.5, -353.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::8} to location(187.5, 248.5, -353.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Retro::block-location::9} to location(188.5, 248.5, -353.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sandworm::block-location::1} to location(328.5, 247.5, -142.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::2} to location(329.5, 247.5, -142.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::3} to location(330.5, 247.5, -142.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::4} to location(328.5, 247.5, -141.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::5} to location(329.5, 247.5, -141.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::6} to location(330.5, 247.5, -141.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::7} to location(328.5, 247.5, -140.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::8} to location(329.5, 247.5, -140.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Sandworm::block-location::9} to location(330.5, 247.5, -140.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mushroom::block-location::1} to location(44.5, 247.5, -355.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::2} to location(45.5, 247.5, -355.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::3} to location(46.5, 247.5, -355.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::4} to location(44.5, 247.5, -354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::5} to location(45.5, 247.5, -354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::6} to location(46.5, 247.5, -354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::7} to location(44.5, 247.5, -353.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::8} to location(45.5, 247.5, -353.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mushroom::block-location::9} to location(46.5, 247.5, -353.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distortion::block-location::1} to location(44.5, 248.5, -355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::2} to location(45.5, 248.5, -355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::3} to location(46.5, 248.5, -355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::4} to location(44.5, 248.5, -354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::5} to location(45.5, 248.5, -354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::6} to location(46.5, 248.5, -354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::7} to location(44.5, 248.5, -353.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::8} to location(45.5, 248.5, -353.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distortion::block-location::9} to location(46.5, 248.5, -353.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::king::block-location::1} to location(44.5, 248.5, 212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::2} to location(45.5, 248.5, 212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::3} to location(46.5, 248.5, 212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::4} to location(44.5, 248.5, 213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::5} to location(45.5, 248.5, 213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::6} to location(46.5, 248.5, 213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::7} to location(44.5, 248.5, 214.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::8} to location(45.5, 248.5, 214.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::king::block-location::9} to location(46.5, 248.5, 214.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::kingdom::block-location::1} to location(1278.5, 248.5, 828.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::2} to location(1279.5, 248.5, 828.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::3} to location(1280.5, 248.5, 828.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::4} to location(1278.5, 248.5, 829.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::5} to location(1279.5, 248.5, 829.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::6} to location(1280.5, 248.5, 829.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::7} to location(1278.5, 248.5, 830.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::8} to location(1279.5, 248.5, 830.5, world("dropmaps"), 0, 0)
+        set {dropper::map::kingdom::block-location::9} to location(1280.5, 248.5, 830.5, world("dropmaps"), 0, 0)
+        set {dropper::map::Raindrops::block-location::1} to location(44.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::2} to location(45.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::3} to location(46.5, 248.5, -71.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::4} to location(44.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::5} to location(45.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::6} to location(46.5, 248.5, -70.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::7} to location(44.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::8} to location(45.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Raindrops::block-location::9} to location(46.5, 248.5, -69.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::board::block-location::1} to location(44.5, 248.5, 354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::2} to location(45.5, 248.5, 354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::3} to location(46.5, 248.5, 354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::4} to location(44.5, 248.5, 355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::5} to location(45.5, 248.5, 355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::6} to location(46.5, 248.5, 355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::7} to location(44.5, 248.5, 356.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::8} to location(45.5, 248.5, 356.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::board::block-location::9} to location(46.5, 248.5, 356.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::1} to location(44.5, 248.5, -71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::2} to location(45.5, 248.5, -71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::3} to location(46.5, 248.5, -71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::4} to location(44.5, 248.5, -70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::5} to location(45.5, 248.5, -70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::6} to location(46.5, 248.5, -70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::7} to location(44.5, 248.5, -69.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::8} to location(45.5, 248.5, -69.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Revolve::block-location::9} to location(46.5, 248.5, -69.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::1} to location(44.5, 248.5, 212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::2} to location(45.5, 248.5, 212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::3} to location(46.5, 248.5, 212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::4} to location(44.5, 248.5, 213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::5} to location(45.5, 248.5, 213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::6} to location(46.5, 248.5, 213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::7} to location(44.5, 248.5, 214.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::8} to location(45.5, 248.5, 214.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Vintage::block-location::9} to location(46.5, 248.5, 214.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Distance::block-location::1} to location(44.5, 247.5, 70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::2} to location(45.5, 247.5, 70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::3} to location(46.5, 247.5, 70.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::4} to location(44.5, 247.5, 71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::5} to location(45.5, 247.5, 71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::6} to location(46.5, 247.5, 71.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::7} to location(44.5, 247.5, 72.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::8} to location(45.5, 247.5, 72.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Distance::block-location::9} to location(46.5, 247.5, 72.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::1} to location(44.5, 248.5, 212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::2} to location(45.5, 248.5, 212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::3} to location(46.5, 248.5, 212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::4} to location(44.5, 248.5, 213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::5} to location(45.5, 248.5, 213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::6} to location(46.5, 248.5, 213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::7} to location(44.5, 248.5, 214.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::8} to location(45.5, 248.5, 214.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Kraken::block-location::9} to location(46.5, 248.5, 214.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Mainframe::block-location::1} to location(44.5, 248.5, 212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::2} to location(45.5, 248.5, 212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::3} to location(46.5, 248.5, 212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::4} to location(44.5, 248.5, 213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::5} to location(45.5, 248.5, 213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::6} to location(46.5, 248.5, 213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::7} to location(44.5, 248.5, 214.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::8} to location(45.5, 248.5, 214.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Mainframe::block-location::9} to location(46.5, 248.5, 214.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::1} to location(44.5, 248.5, 354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::2} to location(45.5, 248.5, 354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::3} to location(46.5, 248.5, 354.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::4} to location(44.5, 248.5, 355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::5} to location(45.5, 248.5, 355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::6} to location(46.5, 248.5, 355.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::7} to location(44.5, 248.5, 356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::8} to location(45.5, 248.5, 356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Microscope::block-location::9} to location(46.5, 248.5, 356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::1} to location(186.5, 248.5, -355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::2} to location(187.5, 248.5, -355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::3} to location(188.5, 248.5, -355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::4} to location(186.5, 248.5, -354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::5} to location(187.5, 248.5, -354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::6} to location(188.5, 248.5, -354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::7} to location(186.5, 248.5, -353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::8} to location(187.5, 248.5, -353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Beanstalk::block-location::9} to location(188.5, 248.5, -353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::1} to location(187.5, 245.5, 212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::2} to location(188.5, 245.5, 212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::3} to location(189.5, 245.5, 212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::4} to location(187.5, 245.5, 213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::5} to location(188.5, 245.5, 213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::6} to location(189.5, 245.5, 213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::7} to location(187.5, 245.5, 214.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::8} to location(188.5, 245.5, 214.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Maelstrom::block-location::9} to location(189.5, 245.5, 214.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::1} to location(185.5, 248.5, 353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::2} to location(186.5, 248.5, 353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::3} to location(187.5, 248.5, 353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::4} to location(188.5, 248.5, 353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::5} to location(189.5, 248.5, 353.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::6} to location(185.5, 248.5, 354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::7} to location(186.5, 248.5, 354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::8} to location(187.5, 248.5, 354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::9} to location(188.5, 248.5, 354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::10} to location(189.5, 248.5, 354.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::11} to location(185.5, 248.5, 355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::12} to location(186.5, 248.5, 355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::13} to location(187.5, 248.5, 355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::14} to location(188.5, 248.5, 355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::15} to location(189.5, 248.5, 355.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::16} to location(185.5, 248.5, 356.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::17} to location(186.5, 248.5, 356.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::18} to location(187.5, 248.5, 356.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::19} to location(188.5, 248.5, 356.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::20} to location(189.5, 248.5, 356.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::21} to location(185.5, 248.5, 357.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::22} to location(186.5, 248.5, 357.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::23} to location(187.5, 248.5, 357.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::24} to location(188.5, 248.5, 357.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Warportal::block-location::25} to location(189.5, 248.5, 357.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Butterflies::block-location::1} to location(188.5, 246.5, -71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::2} to location(189.5, 246.5, -71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::3} to location(190.5, 246.5, -71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::4} to location(188.5, 246.5, -70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::5} to location(189.5, 246.5, -70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::6} to location(190.5, 246.5, -70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::7} to location(188.5, 246.5, -69.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::8} to location(189.5, 246.5, -69.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Butterflies::block-location::9} to location(190.5, 246.5, -69.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::1} to location(188.5, 241.5, 70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::2} to location(189.5, 241.5, 70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::3} to location(190.5, 241.5, 70.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::4} to location(188.5, 241.5, 71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::5} to location(189.5, 241.5, 71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::6} to location(190.5, 241.5, 71.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::7} to location(188.5, 241.5, 72.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::8} to location(189.5, 241.5, 72.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Emoji::block-location::9} to location(190.5, 241.5, 72.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::1} to location(186.5, 244.5, 354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::2} to location(187.5, 244.5, 354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::3} to location(188.5, 244.5, 354.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::4} to location(186.5, 244.5, 355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::5} to location(187.5, 244.5, 355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::6} to location(188.5, 244.5, 355.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::7} to location(186.5, 244.5, 356.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::8} to location(187.5, 244.5, 356.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Painted::block-location::9} to location(188.5, 244.5, 356.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::1} to location(186.5, 243.5, 212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::2} to location(187.5, 243.5, 212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::3} to location(188.5, 243.5, 212.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::4} to location(186.5, 243.5, 213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::5} to location(187.5, 243.5, 213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::6} to location(188.5, 243.5, 213.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::7} to location(186.5, 243.5, 214.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::8} to location(187.5, 243.5, 214.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Sweets::block-location::9} to location(188.5, 243.5, 214.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::Glacier::block-location::1} to location(186.5, 248.5, 212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::2} to location(187.5, 248.5, 212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::3} to location(188.5, 248.5, 212.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::4} to location(186.5, 248.5, 213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::5} to location(187.5, 248.5, 213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::6} to location(188.5, 248.5, 213.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::7} to location(186.5, 248.5, 214.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::8} to location(187.5, 248.5, 214.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Glacier::block-location::9} to location(188.5, 248.5, 214.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::1} to location(186.5, 248.5, 354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::2} to location(187.5, 248.5, 354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::3} to location(188.5, 248.5, 354.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::4} to location(186.5, 248.5, 355.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::5} to location(187.5, 248.5, 355.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::6} to location(188.5, 248.5, 355.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::7} to location(186.5, 248.5, 356.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::8} to location(187.5, 248.5, 356.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Lavafall::block-location::9} to location(188.5, 248.5, 356.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::1} to location(186.5, 248.5, 67.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::2} to location(187.5, 248.5, 67.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::3} to location(188.5, 248.5, 67.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::4} to location(186.5, 248.5, 68.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::5} to location(187.5, 248.5, 68.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::6} to location(188.5, 248.5, 68.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::7} to location(186.5, 248.5, 69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::8} to location(187.5, 248.5, 69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Overgrown::block-location::9} to location(188.5, 248.5, 69.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::UFO::block-location::1} to location(186.5, 237.5, 70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::2} to location(187.5, 237.5, 70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::3} to location(188.5, 237.5, 70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::4} to location(186.5, 237.5, 71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::5} to location(187.5, 237.5, 71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::6} to location(188.5, 237.5, 71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::7} to location(186.5, 237.5, 72.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::8} to location(187.5, 237.5, 72.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::UFO::block-location::9} to location(188.5, 237.5, 72.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::1} to location(186.5, 247.5, 212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::2} to location(187.5, 247.5, 212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::3} to location(188.5, 247.5, 212.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::4} to location(186.5, 247.5, 213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::5} to location(187.5, 247.5, 213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::6} to location(188.5, 247.5, 213.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::7} to location(186.5, 247.5, 214.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::8} to location(187.5, 247.5, 214.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::launch::block-location::9} to location(188.5, 247.5, 214.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::1} to location(186.5, 248.5, -71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::2} to location(187.5, 248.5, -71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::3} to location(188.5, 248.5, -71.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::4} to location(186.5, 248.5, -70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::5} to location(187.5, 248.5, -70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::6} to location(188.5, 248.5, -70.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::7} to location(186.5, 248.5, -69.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::8} to location(187.5, 248.5, -69.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Paradigm::block-location::9} to location(188.5, 248.5, -69.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::bird::block-location::1} to location(327.5, 248.5, 140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::2} to location(328.5, 248.5, 140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::3} to location(329.5, 248.5, 140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::4} to location(330.5, 248.5, 140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::5} to location(331.5, 248.5, 140.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::6} to location(327.5, 248.5, 141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::7} to location(328.5, 248.5, 141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::8} to location(329.5, 248.5, 141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::9} to location(330.5, 248.5, 141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::10} to location(331.5, 248.5, 141.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::11} to location(327.5, 248.5, 142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::12} to location(328.5, 248.5, 142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::13} to location(329.5, 248.5, 142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::14} to location(330.5, 248.5, 142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::15} to location(331.5, 248.5, 142.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::16} to location(327.5, 248.5, 143.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::17} to location(328.5, 248.5, 143.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::18} to location(329.5, 248.5, 143.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::19} to location(330.5, 248.5, 143.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::20} to location(331.5, 248.5, 143.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::21} to location(327.5, 248.5, 144.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::22} to location(328.5, 248.5, 144.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::23} to location(329.5, 248.5, 144.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::24} to location(330.5, 248.5, 144.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::bird::block-location::25} to location(331.5, 248.5, 144.5, world("dropper_abstract"), 0, 0)
+        set {dropper::map::fly::block-location::1} to location(330.5, 245.5, -142.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::2} to location(331.5, 245.5, -142.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::3} to location(332.5, 245.5, -142.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::4} to location(330.5, 245.5, -141.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::5} to location(331.5, 245.5, -141.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::6} to location(332.5, 245.5, -141.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::7} to location(330.5, 245.5, -140.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::8} to location(331.5, 245.5, -140.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::fly::block-location::9} to location(332.5, 245.5, -140.5, world("dropper_landscape"), 0, 0)
+        set {dropper::map::Nightlife::block-location::1} to location(186.5, 248.5, -358.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::2} to location(187.5, 248.5, -358.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::3} to location(188.5, 248.5, -358.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::4} to location(186.5, 248.5, -357.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::5} to location(187.5, 248.5, -357.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::6} to location(188.5, 248.5, -357.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::7} to location(186.5, 248.5, -356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::8} to location(187.5, 248.5, -356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::Nightlife::block-location::9} to location(188.5, 248.5, -356.5, world("dropper_futuristic"), 0, 0)
+        set {dropper::map::upside::block-location::1} to location(44.5, 247.5, -213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::2} to location(45.5, 247.5, -213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::3} to location(46.5, 247.5, -213.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::4} to location(44.5, 247.5, -212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::5} to location(45.5, 247.5, -212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::6} to location(46.5, 247.5, -212.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::7} to location(44.5, 247.5, -211.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::8} to location(45.5, 247.5, -211.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::upside::block-location::9} to location(46.5, 247.5, -211.5, world("dropper_fantasy"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::1} to location(681.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::2} to location(682.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::3} to location(683.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::4} to location(681.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::5} to location(682.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::6} to location(683.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::7} to location(681.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::8} to location(682.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Tangle-Legacy::block-location::9} to location(683.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::1} to location(235.5, 208.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::2} to location(236.5, 208.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::3} to location(237.5, 208.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::4} to location(235.5, 208.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::5} to location(236.5, 208.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::6} to location(237.5, 208.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::7} to location(235.5, 208.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::8} to location(236.5, 208.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Well-Legacy::block-location::9} to location(237.5, 208.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::1} to location(580.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::2} to location(581.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::3} to location(582.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::4} to location(580.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::5} to location(581.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::6} to location(582.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::7} to location(580.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::8} to location(581.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::BBQ-Legacy::block-location::9} to location(582.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::1} to location(115.5, 247.5, 320.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::2} to location(116.5, 247.5, 320.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::3} to location(117.5, 247.5, 320.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::4} to location(115.5, 247.5, 321.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::5} to location(116.5, 247.5, 321.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::6} to location(117.5, 247.5, 321.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::7} to location(115.5, 247.5, 322.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::8} to location(116.5, 247.5, 322.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Time-Legacy::block-location::9} to location(117.5, 247.5, 322.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::1} to location(235.5, 248.5, 450.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::2} to location(236.5, 248.5, 450.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::3} to location(237.5, 248.5, 450.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::4} to location(235.5, 248.5, 451.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::5} to location(236.5, 248.5, 451.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::6} to location(237.5, 248.5, 451.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::7} to location(235.5, 248.5, 452.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::8} to location(236.5, 248.5, 452.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Balloons-Legacy::block-location::9} to location(237.5, 248.5, 452.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::1} to location(235.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::2} to location(236.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::3} to location(237.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::4} to location(235.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::5} to location(236.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::6} to location(237.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::7} to location(235.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::8} to location(236.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Distance-Legacy::block-location::9} to location(237.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::1} to location(235.5, 247.5, 248.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::2} to location(236.5, 247.5, 248.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::3} to location(237.5, 247.5, 248.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::4} to location(235.5, 247.5, 249.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::5} to location(236.5, 247.5, 249.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::6} to location(237.5, 247.5, 249.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::7} to location(235.5, 247.5, 250.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::8} to location(236.5, 247.5, 250.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Lily-Legacy::block-location::9} to location(237.5, 247.5, 250.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::1} to location(867.5, 247.5, 806.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::2} to location(868.5, 247.5, 806.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::3} to location(869.5, 247.5, 806.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::4} to location(867.5, 247.5, 807.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::5} to location(868.5, 247.5, 807.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::6} to location(869.5, 247.5, 807.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::7} to location(867.5, 247.5, 808.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::8} to location(868.5, 247.5, 808.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mushroom-Legacy::block-location::9} to location(869.5, 247.5, 808.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::1} to location(235.5, 245.5, -54.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::2} to location(236.5, 245.5, -54.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::3} to location(237.5, 245.5, -54.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::4} to location(235.5, 245.5, -53.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::5} to location(236.5, 245.5, -53.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::6} to location(237.5, 245.5, -53.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::7} to location(235.5, 245.5, -52.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::8} to location(236.5, 245.5, -52.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Space-Legacy::block-location::9} to location(237.5, 245.5, -52.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::1} to location(681.5, 248.5, 711.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::2} to location(682.5, 248.5, 711.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::3} to location(683.5, 248.5, 711.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::4} to location(681.5, 248.5, 712.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::5} to location(682.5, 248.5, 712.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::6} to location(683.5, 248.5, 712.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::7} to location(681.5, 248.5, 713.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::8} to location(682.5, 248.5, 713.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Warp-Legacy::block-location::9} to location(683.5, 248.5, 713.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::1} to location(220.5, 237.5, 936.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::2} to location(221.5, 237.5, 936.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::3} to location(222.5, 237.5, 936.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::4} to location(220.5, 237.5, 937.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::5} to location(221.5, 237.5, 937.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::6} to location(222.5, 237.5, 937.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::7} to location(220.5, 237.5, 938.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::8} to location(221.5, 237.5, 938.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Toilet-Legacy::block-location::9} to location(222.5, 237.5, 938.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::1} to location(580.5, 247.5, 610.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::2} to location(581.5, 247.5, 610.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::3} to location(582.5, 247.5, 610.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::4} to location(580.5, 247.5, 611.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::5} to location(581.5, 247.5, 611.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::6} to location(582.5, 247.5, 611.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::7} to location(580.5, 247.5, 612.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::8} to location(581.5, 247.5, 612.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Plughole-Legacy::block-location::9} to location(582.5, 247.5, 612.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::1} to location(337.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::2} to location(338.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::3} to location(339.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::4} to location(340.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::5} to location(341.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::6} to location(342.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::7} to location(343.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::8} to location(344.5, 248.5, 651.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::9} to location(337.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::10} to location(338.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::11} to location(339.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::12} to location(340.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::13} to location(341.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::14} to location(342.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::15} to location(343.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::16} to location(344.5, 248.5, 652.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::17} to location(337.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::18} to location(338.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::19} to location(339.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::20} to location(340.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::21} to location(341.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::22} to location(342.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::23} to location(343.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::24} to location(344.5, 248.5, 653.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::25} to location(337.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::26} to location(338.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::27} to location(339.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::28} to location(340.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::29} to location(341.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::30} to location(342.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::31} to location(343.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::32} to location(344.5, 248.5, 654.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::33} to location(337.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::34} to location(338.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::35} to location(339.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::36} to location(340.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::37} to location(341.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::38} to location(342.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::39} to location(343.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Castle-Legacy::block-location::40} to location(344.5, 248.5, 655.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::1} to location(8.5, 247.5, 338.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::2} to location(9.5, 247.5, 338.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::3} to location(10.5, 247.5, 338.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::4} to location(8.5, 247.5, 339.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::5} to location(9.5, 247.5, 339.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::6} to location(10.5, 247.5, 339.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::7} to location(8.5, 247.5, 340.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::8} to location(9.5, 247.5, 340.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Floating-Legacy::block-location::9} to location(10.5, 247.5, 340.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::1} to location(336.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::2} to location(337.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::3} to location(338.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::4} to location(336.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::5} to location(337.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::6} to location(338.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::7} to location(336.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::8} to location(337.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Mineshaft-Legacy::block-location::9} to location(338.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::1} to location(580.5, 248.5, 913.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::2} to location(581.5, 248.5, 913.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::3} to location(582.5, 248.5, 913.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::4} to location(580.5, 248.5, 914.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::5} to location(581.5, 248.5, 914.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::6} to location(582.5, 248.5, 914.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::7} to location(580.5, 248.5, 915.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::8} to location(581.5, 248.5, 915.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Geometry-Legacy::block-location::9} to location(582.5, 248.5, 915.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::1} to location(782.5, 248.5, 711.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::2} to location(783.5, 248.5, 711.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::3} to location(784.5, 248.5, 711.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::4} to location(782.5, 248.5, 712.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::5} to location(783.5, 248.5, 712.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::6} to location(784.5, 248.5, 712.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::7} to location(782.5, 248.5, 713.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::8} to location(783.5, 248.5, 713.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Retro-Legacy::block-location::9} to location(784.5, 248.5, 713.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::1} to location(681.5, 248.5, 913.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::2} to location(682.5, 248.5, 913.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::3} to location(683.5, 248.5, 913.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::4} to location(681.5, 248.5, 914.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::5} to location(682.5, 248.5, 914.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::6} to location(683.5, 248.5, 914.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::7} to location(681.5, 248.5, 915.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::8} to location(682.5, 248.5, 915.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Cabin-Legacy::block-location::9} to location(683.5, 248.5, 915.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::1} to location(336.5, 247.5, 46.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::2} to location(337.5, 247.5, 46.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::3} to location(338.5, 247.5, 46.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::4} to location(336.5, 247.5, 47.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::5} to location(337.5, 247.5, 47.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::6} to location(338.5, 247.5, 47.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::7} to location(336.5, 247.5, 48.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::8} to location(337.5, 247.5, 48.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ravine-Legacy::block-location::9} to location(338.5, 247.5, 48.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::1} to location(336.5, 248.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::2} to location(337.5, 248.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::3} to location(338.5, 248.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::4} to location(336.5, 248.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::5} to location(337.5, 248.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::6} to location(338.5, 248.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::7} to location(336.5, 248.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::8} to location(337.5, 248.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Western-Legacy::block-location::9} to location(338.5, 248.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::1} to location(437.5, 247.5, 248.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::2} to location(438.5, 247.5, 248.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::3} to location(439.5, 247.5, 248.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::4} to location(437.5, 247.5, 249.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::5} to location(438.5, 247.5, 249.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::6} to location(439.5, 247.5, 249.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::7} to location(437.5, 247.5, 250.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::8} to location(438.5, 247.5, 250.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Illusion-Legacy::block-location::9} to location(439.5, 247.5, 250.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::1} to location(-243.5, 248.5, 618.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::2} to location(-242.5, 248.5, 618.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::3} to location(-241.5, 248.5, 618.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::4} to location(-243.5, 248.5, 619.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::5} to location(-242.5, 248.5, 619.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::6} to location(-241.5, 248.5, 619.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::7} to location(-243.5, 248.5, 620.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::8} to location(-242.5, 248.5, 620.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Iris-Legacy::block-location::9} to location(-241.5, 248.5, 620.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::1} to location(437.5, 247.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::2} to location(438.5, 247.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::3} to location(439.5, 247.5, 349.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::4} to location(437.5, 247.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::5} to location(438.5, 247.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::6} to location(439.5, 247.5, 350.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::7} to location(437.5, 247.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::8} to location(438.5, 247.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Ocean-Legacy::block-location::9} to location(439.5, 247.5, 351.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::1} to location(437.5, 247.5, -54.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::2} to location(438.5, 247.5, -54.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::3} to location(439.5, 247.5, -54.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::4} to location(437.5, 247.5, -53.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::5} to location(438.5, 247.5, -53.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::6} to location(439.5, 247.5, -53.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::7} to location(437.5, 247.5, -52.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::8} to location(438.5, 247.5, -52.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Factory-Legacy::block-location::9} to location(439.5, 247.5, -52.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::1} to location(437.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::2} to location(438.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::3} to location(439.5, 247.5, 753.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::4} to location(437.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::5} to location(438.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::6} to location(439.5, 247.5, 754.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::7} to location(437.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::8} to location(438.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Gears-Legacy::block-location::9} to location(439.5, 247.5, 755.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::1} to location(865.5, 247.5, 708.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::2} to location(866.5, 247.5, 708.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::3} to location(867.5, 247.5, 708.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::4} to location(865.5, 247.5, 709.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::5} to location(866.5, 247.5, 709.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::6} to location(867.5, 247.5, 709.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::7} to location(865.5, 247.5, 710.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::8} to location(866.5, 247.5, 710.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::Sandworm-Legacy::block-location::9} to location(867.5, 247.5, 710.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::1} to location(782.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::2} to location(783.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::3} to location(784.5, 248.5, 812.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::4} to location(782.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::5} to location(783.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::6} to location(784.5, 248.5, 813.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::7} to location(782.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::8} to location(783.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::distortion-legacy::block-location::9} to location(784.5, 248.5, 814.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::1} to location(115.5, 247.5, 435.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::2} to location(116.5, 247.5, 435.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::3} to location(117.5, 247.5, 435.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::4} to location(115.5, 247.5, 436.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::5} to location(116.5, 247.5, 436.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::6} to location(117.5, 247.5, 436.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::7} to location(115.5, 247.5, 437.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::8} to location(116.5, 247.5, 437.5, world("ul_droppermap"), 0, 0)
+        set {dropper::map::sewer-legacy::block-location::9} to location(117.5, 247.5, 437.5, world("ul_droppermap"), 0, 0)

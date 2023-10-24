@@ -113,9 +113,11 @@ on portal enter:
 											if {dropper::player::%uuid of player%::stats::pb::%{_mapset}%} is not set:
 												set {_pb} to {_time-finished-allmaps}+1
 											if {_time-finished-allmaps} < {_pb}:
+												clear {dropper::player::%uuid of player%::stats::pb::%{_mapset}%::splits::*}
+												clear {dropper::player::%uuid of player%::stats::pb::%{_mapset}%::mapset::*}
 												set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%} to dropper_convert_date({_time-finished-map}, {dropper::in-game::player::%player%::timer-in-game})
 												set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%::mapset::*} to {_maps_of_player::*} 
-												set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%::splits::*} to {dropper::player::%player's uuid%::temp_splits::*} 
+												set {dropper::player::%uuid of player%::stats::pb::%{_mapset}%::splits::*} to {dropper::player::%player's uuid%::temp_splits::*}
 												set {_legit_pb} to true
 										else:
 											send "&cYou need to follow this pattern to have a personal best: &aEasy Easy &eMedium Medium &cHard"

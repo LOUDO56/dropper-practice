@@ -59,7 +59,7 @@ function mainlobby_join(p: player, lang: string):
 	else:
 		set line 3 of {_p}'s scoreboard to yaml value "mainlobby.scoreboard.line3.no_data" from {_lang}
 	set line 2 of {_p}'s scoreboard to ""
-	set line 1 of {_p}'s scoreboard to "&bdiscord.gg/X8vGRVuv"
+	set line 1 of {_p}'s scoreboard to "&bdsc.gg/dropper-community"
 
 	if {dropper::player::%{_uuid}%::player-visibility} is "on":
 		set slot 8 of {_p} to lime dye named yaml value "mainlobby.item.player_visibility_on" from {_lang}
